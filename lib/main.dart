@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layouts/app_layout/cubit/app_cubit.dart';
+import 'package:graduation_project/layouts/app_layout/cubit/states.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
@@ -21,11 +25,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      //darkTheme: darkTheme,
-      home: const OnBoardingScreen(),
+    return  MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context)=>AppCubit()),
+        BlocProvider(create: (context)=>PatientCubit())
+      ],
+      child: BlocConsumer<AppCubit,AppStates>(
+        listener: (context,state){},
+        builder: (context,state)=>MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          //darkTheme: darkTheme,
+          home: const OnBoardingScreen(),
+        ),
+      )
     );
   }
 }
