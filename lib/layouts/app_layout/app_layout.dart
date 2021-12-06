@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
+import 'package:graduation_project/shared/components/components.dart';
 
 class AppLayout extends StatelessWidget {
   const AppLayout({Key? key}) : super(key: key);
@@ -69,7 +70,9 @@ class AppLayout extends StatelessWidget {
                   height: 10.0,
                 ),
                 InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    navigateTo(context, PatientLayout());
+                  },
                   child: Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     elevation: 10.0,
