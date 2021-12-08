@@ -11,6 +11,9 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.bold
     ),
     color: Colors.white,
+    iconTheme: IconThemeData(
+      color: Colors.black
+    ) ,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor:Colors.white,
       //HexColor('#F4433600'),
@@ -45,6 +48,9 @@ ThemeData darkTheme = ThemeData(
       fontSize: 20.0,
       fontFamily:'Georama',
       fontWeight: FontWeight.bold
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.white
     ),
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.black54,

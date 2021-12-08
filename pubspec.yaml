@@ -126,6 +126,7 @@ flutter:
     - family: SocialIcons
       fonts:
         - asset: assets/fonts/icons/Social Icons.ttf
+        - asset: assets/fonts/icons/Broken icon.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
