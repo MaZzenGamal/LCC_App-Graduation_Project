@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
 import 'package:graduation_project/layouts/patient_layout/states.dart';
+import 'package:graduation_project/modules/Patient/chat_screen/chat_screen.dart';
+import 'package:graduation_project/shared/components/components.dart';
 
 class PatientLayout extends StatelessWidget {
   const PatientLayout({Key? key}) : super(key: key);
@@ -17,7 +19,18 @@ class PatientLayout extends StatelessWidget {
             title:Text(
                 'home'
             ),
+            titleSpacing: 0,
+            actions: [
+              IconButton(
+                  onPressed: (){
+                    navigateTo(context, ChatScreen());
+                  },
+                  icon: Icon(
+                    Icons.chat_outlined
+                  ))
+            ],
           ),
+          body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             items: cubit.bottomItems,
             currentIndex: cubit.currentIndex,

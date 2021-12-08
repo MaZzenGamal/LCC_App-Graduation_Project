@@ -7,7 +7,6 @@ import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
-
 import 'modules/on_boarding/on_boarding_screen.dart';
 
 void main() async {
