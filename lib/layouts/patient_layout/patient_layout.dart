@@ -17,7 +17,7 @@ class PatientLayout extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title:Text(
-                'home'
+              cubit.titles[cubit.currentIndex],
             ),
             titleSpacing: 0,
             actions: [
