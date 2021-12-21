@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
     return Scaffold(
+      appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Form(
@@ -55,6 +56,7 @@ class LoginScreen extends StatelessWidget {
                   {
                     print(emailController.text);
                     print(passwordController.text);
+                    navigateTo(context,const RegisterScreen());
                   }
                 },
                     text: 'login'),
