@@ -59,14 +59,16 @@ Widget defaultFormField({
         onChanged: onChange,
         obscureText: isPassword,
         onTap: onTap,
+
         cursorColor: HexColor('4E51BF'),
         decoration: InputDecoration(
+
           labelText: label,
           alignLabelWithHint: true,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           floatingLabelStyle: TextStyle(color:HexColor('4E51BF')),
           labelStyle: TextStyle(
-            color: Colors.grey[400]
+            color: Colors.grey[400],
           ),
           hintText: hint,
           hintStyle: TextStyle(
