@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 Widget defaultButton({
   double width = double.infinity,
-  Color background = Colors.blue,
   bool isUpperCase = true,
+  //required Color color,
   required Function() function,
   required String text,
 }) =>
     Container(
-      height: 40.0,
+      height: 50.0,
       width: width,
       child: MaterialButton(
         onPressed: function,
-        color: background,
+        color: HexColor('4E51BF'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0)
+        ),
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style:const TextStyle(
@@ -33,15 +37,15 @@ Widget defaultTextButton({
 Widget defaultFormField({
   required TextEditingController controller,
   required TextInputType type,
+  required FormFieldValidator validate,
+  required String label,
+  required IconData prefix,
   Function(String)? onSubmit,
   Function(String)? onChange,
   GestureTapCallback? onTap,
   bool isClickable = true,
   // required FormFieldValidator validate,
-  required FormFieldValidator validate,
-  required String label,
   String? hint,
-  required IconData prefix,
   IconData? suffix,
   Function()? suffixPressed,
   bool isPassword = false,
@@ -55,11 +59,38 @@ Widget defaultFormField({
         onChanged: onChange,
         obscureText: isPassword,
         onTap: onTap,
+        cursorColor: HexColor('4E51BF'),
         decoration: InputDecoration(
           labelText: label,
+          alignLabelWithHint: true,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          floatingLabelStyle: TextStyle(color:HexColor('4E51BF')),
+          labelStyle: TextStyle(
+            color: Colors.grey[400]
+          ),
           hintText: hint,
-          border:const OutlineInputBorder(),
-          prefixIcon: Icon(prefix),
+          hintStyle: TextStyle(
+              color: Colors.grey[400]
+          ) ,
+          fillColor: Colors.grey[200],
+          filled: true,
+          errorBorder: OutlineInputBorder(
+            borderSide:  BorderSide(color: Colors.red, width: 2.0),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide:  BorderSide(color: HexColor('4E51BF'), width: 2.0),
+              borderRadius: BorderRadius.circular(50.0),),
+          border:const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(90.0)),
+              borderSide: BorderSide.none
+          ),
+          focusedBorder:OutlineInputBorder(
+            borderSide:  BorderSide(color: HexColor('4E51BF'), width: 2.0),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          prefixIcon: Icon(prefix,
+            color: HexColor('4E51BF'),),
           suffixIcon: IconButton(
             onPressed: suffixPressed,
             icon: Icon(
