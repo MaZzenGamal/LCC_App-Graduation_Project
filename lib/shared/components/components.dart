@@ -59,10 +59,8 @@ Widget defaultFormField({
         onChanged: onChange,
         obscureText: isPassword,
         onTap: onTap,
-
         cursorColor: HexColor('4E51BF'),
         decoration: InputDecoration(
-
           labelText: label,
           alignLabelWithHint: true,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -77,7 +75,7 @@ Widget defaultFormField({
           fillColor: Colors.grey[200],
           filled: true,
           errorBorder: OutlineInputBorder(
-            borderSide:  BorderSide(color: Colors.red, width: 2.0),
+            borderSide:const  BorderSide(color: Colors.red, width: 2.0),
             borderRadius: BorderRadius.circular(50.0),
           ),
             focusedErrorBorder: OutlineInputBorder(
