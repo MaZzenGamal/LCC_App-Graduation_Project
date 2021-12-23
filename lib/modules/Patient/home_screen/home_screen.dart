@@ -1,11 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/shared/components/components.dart';
-import 'package:hexcolor/hexcolor.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+enum condition { patient, doctor }
+
+class _HomeScreenState extends State<HomeScreen> {
+  condition? val = condition.patient;
+  condition? val2 = condition.doctor;
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Home Screen'));
+    return Row(
+      children: [
+        Expanded(
+          child: ListTile(
+            title:const Text('Patient'),
+            leading: Radio<condition>(
+              value: condition.patient,
+              groupValue: val2,
+              onChanged: (condition? value) {
+                setState(() {
+                  val2 = value;
+                });
+              },
+              activeColor: Colors.green,
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListTile(
+            title:const Text('Doctor'),
+            leading: Radio<condition>(
+              value: condition.doctor,
+              groupValue: val2,
+              onChanged: (condition? value) {
+                setState(() {
+                  val2 = value;
+                });
+              },
+              activeColor: Colors.green,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

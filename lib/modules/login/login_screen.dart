@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/register_scrreen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -56,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                   {
                     print(emailController.text);
                     print(passwordController.text);
-                    navigateTo(context,const RegisterScreen());
+                    navigateTo(context,const PatientLayout());
                   }
                 },
                     text: 'login'),

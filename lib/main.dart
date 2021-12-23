@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/cubit/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/cubit/states.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
+import 'package:graduation_project/modules/Patient/home_screen/home_screen.dart';
+import 'package:graduation_project/modules/register/register_scrreen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'modules/on_boarding/on_boarding_screen.dart';
+import 'modules/register/cubit/register_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +31,8 @@ class MyApp extends StatelessWidget {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context)=>AppCubit()),
-        BlocProvider(create: (context)=>PatientCubit())
+        BlocProvider(create: (context)=>PatientCubit()),
+        BlocProvider(create: (context)=>RegisterCubit(),)
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home: const OnBoardingScreen(),
+          home: const RegisterScreen(),
         ),
       )
     );
