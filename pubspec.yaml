@@ -49,6 +49,8 @@ dependencies:
   carousel_slider: ^4.0.0
   image_picker: ^0.8.4+2
   eva_icons_flutter: ^3.0.2
+  flutter_material_pickers: ^3.1.2
+  numberpicker: ^2.1.1
 
 
   #Firebase
