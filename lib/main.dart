@@ -6,6 +6,8 @@ import 'package:graduation_project/layouts/app_layout/cubit/states.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/Patient/home_screen/home_screen.dart';
+import 'package:graduation_project/modules/language/languages_screen.dart';
+import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/register/register_scrreen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home: const RegisterScreen(),
+          home: const LoginScreen(),
         ),
       )
     );
