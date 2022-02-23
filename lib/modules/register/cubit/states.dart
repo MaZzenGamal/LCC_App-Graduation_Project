@@ -13,3 +13,15 @@ class RegisterPasswordVisibilityState extends RegisterStates{}
 class RegisterConfPasswordVisibilityState extends RegisterStates{}
 
 class LoginPasswordVisibilityState extends RegisterStates{}
+
+class ExpansionTitleMaleState extends RegisterStates{}
+
+class ExpansionTitleFemaleState extends RegisterStates{}
+
+class ExpansionTitleMarriedState extends RegisterStates{}
+
+class ExpansionTitleSingleState extends RegisterStates{}
+
+class ExpansionTitleWidowedState extends RegisterStates{}
+
+class ExpansionTitleDivorcedState extends RegisterStates{}

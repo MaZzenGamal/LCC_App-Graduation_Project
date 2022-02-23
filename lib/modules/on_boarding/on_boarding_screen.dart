@@ -111,9 +111,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SmoothPageIndicator(controller: boardController,
+                      SmoothPageIndicator(
+                        controller: boardController,
                         effect:const SwapEffect(
                           radius: 10,
+                          
                           activeDotColor: Colors.tealAccent,
                           dotColor: Colors.blue,
                         ),

@@ -5,4 +5,6 @@ import 'package:graduation_project/layouts/app_layout/cubit/states.dart';
 class AppCubit extends Cubit<AppStates>{
   AppCubit(): super(AppInitialState());
   static AppCubit get(context)=>BlocProvider.of(context);
+
+
 }

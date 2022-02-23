@@ -63,4 +63,43 @@ class RegisterCubit extends Cubit<RegisterStates>
     emit(LoginPasswordVisibilityState());
   }
 
+  String gender ='Male';
+  bool chosenGender = false;
+  void changeExpansionToMale(){
+    gender = 'Male';
+    chosenGender = true;
+    emit(ExpansionTitleMaleState());
+  }
+
+  void changeExpansionToFemale(){
+    gender = 'Female';
+    chosenGender = true;
+    emit(ExpansionTitleFemaleState());
+  }
+
+  String status = 'Single';
+  bool chosenStatus = false;
+  void changeExpansionToSingle(){
+    status = 'Single';
+    chosenStatus = true;
+    emit(ExpansionTitleSingleState());
+  }
+
+  void changeExpansionToMarried(){
+    status = 'Married';
+    chosenStatus = true;
+    emit(ExpansionTitleMarriedState());
+  }
+
+  void changeExpansionToWidowed(){
+    status = 'Widowed';
+    chosenStatus = true;
+    emit(ExpansionTitleWidowedState());
+  }
+
+  void changeExpansionToDivorced(){
+    status = 'Divorced';
+    chosenStatus = true;
+    emit(ExpansionTitleDivorcedState());
+  }
 }
