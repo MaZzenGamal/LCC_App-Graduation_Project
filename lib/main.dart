@@ -8,12 +8,16 @@ import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/Patient/home_screen/home_screen.dart';
 import 'package:graduation_project/modules/language/languages_screen.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
+import 'package:graduation_project/modules/register/register_screen2.dart';
 import 'package:graduation_project/modules/register/register_scrreen.dart';
+import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'modules/on_boarding/on_boarding_screen.dart';
 import 'modules/register/cubit/register_cubit.dart';
+import 'modules/register/register_screen1.dart';
+import 'myTest/test_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home: const LoginScreen(),
+          home: const RegisterScreen2(),
         ),
       )
     );

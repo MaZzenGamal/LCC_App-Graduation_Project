@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
+import 'package:graduation_project/modules/register/register_screen2.dart';
 import 'package:graduation_project/modules/register/register_scrreen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -27,7 +28,7 @@ class SelectAgeScreen extends StatelessWidget {
                 }),
             actions: [
               TextButton(onPressed: (){
-                navigateTo(context, RegisterScreen());
+                navigateTo(context, RegisterScreen2());
               },
                   child: Text('Ok')),
             ],

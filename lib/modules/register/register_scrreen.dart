@@ -29,22 +29,6 @@ class RegisterScreen extends StatelessWidget {
       var universityController = TextEditingController();
       var specialController = TextEditingController();
 
-      createAlertDialog(BuildContext context){
-        return showDialog(
-            context: context,
-            builder: (context){
-              return AlertDialog(
-                title: Text('select your age'),
-                content: NumberPicker(
-                    minValue: 10,
-                    maxValue: 100,
-                    value: cubit.age ,
-                    onChanged: (value){
-                      cubit.selectAge(value);
-                    }),
-              );
-            });
-      }
 
       return BlocConsumer<RegisterCubit,RegisterStates>(
         listener: (context,state){},
