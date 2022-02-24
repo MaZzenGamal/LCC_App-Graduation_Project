@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
+import 'package:image_picker/image_picker.dart';
 
 enum condition {patient , doctor}
 
@@ -14,7 +17,6 @@ class RegisterCubit extends Cubit<RegisterStates>
   condition? val = condition.patient;
   bool flag = false;
   int age = 25;
-
   void radioPatient(value){
     val = value;
     flag = false;
@@ -55,7 +57,6 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   IconData suffixLogin = Icons.visibility;
   bool isPasswordLogin = true;
-
   void changeLoginPasswordVisibility()
   {
     isPasswordLogin = !isPasswordLogin;
@@ -102,4 +103,19 @@ class RegisterCubit extends Cubit<RegisterStates>
     chosenStatus = true;
     emit(ExpansionTitleDivorcedState());
   }
+
+  File? profileImage;
+  var picker = ImagePicker();
+  Future<void> getProfileImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      print('image picked');
+      // profileImage = File(pickedFile.path);
+      emit(ProfileImagePickerSuccessState());
+    } else {
+      print('No image selected');
+      emit(ProfileImagePickerErrorState());
+    }
+  }
+
 }

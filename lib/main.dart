@@ -17,6 +17,7 @@ import 'package:graduation_project/shared/styles/themes.dart';
 import 'modules/on_boarding/on_boarding_screen.dart';
 import 'modules/register/cubit/register_cubit.dart';
 import 'modules/register/register_screen1.dart';
+import 'modules/register/register_screen3.dart';
 import 'myTest/test_screen.dart';
 
 void main() async {
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home: const RegisterScreen2(),
+          home: const RegisterScreen1(),
         ),
       )
     );

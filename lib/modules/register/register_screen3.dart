@@ -1,18 +1,374 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
+import 'package:graduation_project/shared/components/components.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class RegisterScreen3 extends StatelessWidget {
   const RegisterScreen3({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    var cubit = RegisterCubit.get(context);
+    var formKey = GlobalKey<FormState>();
+    var registrationNuController = TextEditingController();
+    var specialtyController = TextEditingController();
+    var universityController = TextEditingController();
+
     return BlocConsumer<RegisterCubit,RegisterStates>(
+
       listener: (context,state){},
       builder: (context,state){
         return Scaffold(
+          appBar: AppBar(
+            title:const Text(
+                'Register'
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+            ),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    // PAGE INDICATOR //
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 10,
+                          width: 10,
+                          decoration:const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.green,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Container(
+                          height: 1,
+                          width: 30,
+                          color: Colors.green,
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Container(
+                          height: 10,
+                          width: 10,
+                          decoration:const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.green,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Container(
+                          height: 1,
+                          width: 30,
+                          color: Colors.green,
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
+                        Container(
+                          height: 10,
+                          width: 10,
+                          decoration:const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 130.0,
+                    ),
+                    Card(
+                      elevation: 20.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ListTile(
+                                    title: const Text('Patient'),
+                                    leading: Radio<condition>(
+                                      value: condition.patient,
+                                      groupValue: cubit.val,
+                                      onChanged: (condition? value) {
+                                        cubit.radioPatient(value);
+                                      },
+                                      activeColor: HexColor('4E51BF'),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    title: const Text('Doctor'),
+                                    leading: Radio<condition>(
+                                      value: condition.doctor,
+                                      groupValue: cubit.val,
+                                      onChanged: (condition? value) {
+                                        cubit.radioDoctor(value);
+                                      },
+                                      activeColor: HexColor('4E51BF'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextFormField(
+                                controller: registrationNuController,
+                                keyboardType: TextInputType.number,
+                                enabled: cubit.flag ? true : false,
+                                cursorColor: HexColor('4E51BF'),
+                                validator:cubit.flag? (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your Registration number';
+                                  }
+                                }:null,
+                                style: TextStyle(
+                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Registration number',
+                                  alignLabelWithHint: true,
+                                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                  floatingLabelStyle: TextStyle(
+                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                  labelStyle: TextStyle(
+                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                  ),
+                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  filled: true,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.red,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),),
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(
+                                          90.0)),
+                                      borderSide: BorderSide.none
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  prefixIcon: Icon(Icons.credit_card,
+                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
 
+                                )),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            TextFormField(
+                                controller: universityController,
+                                keyboardType: TextInputType.text,
+                                enabled: cubit.flag ? true : false,
+                                cursorColor: HexColor('4E51BF'),
+                                validator:cubit.flag? (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your the university';
+                                  }
+                                }:null,
+                                style: TextStyle(
+                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'University',
+                                  alignLabelWithHint: true,
+                                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                  floatingLabelStyle: TextStyle(
+                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                  labelStyle: TextStyle(
+                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                  ),
+                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  filled: true,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.red,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),),
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(
+                                          90.0)),
+                                      borderSide: BorderSide.none
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  prefixIcon: Icon(Icons.school_outlined,
+                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+
+                                )),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            TextFormField(
+                                controller: specialtyController,
+                                keyboardType: TextInputType.text,
+                                enabled: cubit.flag ? true : false,
+                                cursorColor: HexColor('4E51BF'),
+                                validator:cubit.flag? (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your your specialization';
+                                  }
+                                }:null,
+                                style: TextStyle(
+                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Specialization',
+                                  alignLabelWithHint: true,
+                                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                  floatingLabelStyle: TextStyle(
+                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                  labelStyle: TextStyle(
+                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                  ),
+                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  filled: true,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.red,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),),
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(
+                                          90.0)),
+                                      borderSide: BorderSide.none
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  prefixIcon: Icon(Icons.medical_services_outlined,
+                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+
+                                )),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            TextFormField(
+                                controller: specialtyController,
+                                keyboardType: TextInputType.text,
+                                enabled: cubit.flag ? true : false,
+                                cursorColor: HexColor('4E51BF'),
+                                validator:cubit.flag? (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your Certificates';
+                                  }
+                                }:null,
+                                style: TextStyle(
+                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                ),
+                                decoration: InputDecoration(
+                                  labelText: 'Certificates',
+                                  alignLabelWithHint: true,
+                                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                                  floatingLabelStyle: TextStyle(
+                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                  labelStyle: TextStyle(
+                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                  ),
+                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  filled: true,
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.red,
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),),
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(
+                                          90.0)),
+                                      borderSide: BorderSide.none
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: HexColor('4E51BF'),
+                                        width: 2.0),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  prefixIcon: Icon(Icons.filter_frames_outlined,
+                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+
+                                )),
+                            const SizedBox(
+                              height: 20.0,
+                            ),
+                            MaterialButton(onPressed: ()
+                            {
+                              if(cubit.flag==true) {
+                                cubit.getProfileImage();
+                              }
+                              null;
+                            },
+                              height: 50,
+                              color:cubit.flag?Colors.grey[200]:Colors.grey[100],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),),
+                              child: Text('Upload your personal image',
+                                style: TextStyle(
+                                    color:cubit.flag? HexColor('4E51BF') : Colors.grey
+                                ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: defaultButton(
+                          width: 100.0,
+                          function: ()
+                          {
+                            if (formKey.currentState!.validate()) {
+                              navigateTo(context, const PatientLayout());
+                            }
+                          },
+                          text: 'Next'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
