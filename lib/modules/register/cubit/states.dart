@@ -25,3 +25,7 @@ class ExpansionTitleSingleState extends RegisterStates{}
 class ExpansionTitleWidowedState extends RegisterStates{}
 
 class ExpansionTitleDivorcedState extends RegisterStates{}
+
+class ProfileImagePickerSuccessState extends RegisterStates{}
+
+class ProfileImagePickerErrorState extends RegisterStates{}

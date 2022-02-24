@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/modules/register/register_screen2.dart';
-import 'package:graduation_project/modules/select_age/select_age_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
-import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:graduation_project/shared/network/local/cash_helper.dart';
 
 class RegisterScreen1 extends StatelessWidget {
   const RegisterScreen1({Key? key}) : super(key: key);
@@ -22,16 +19,21 @@ class RegisterScreen1 extends StatelessWidget {
 
 
     return BlocConsumer<RegisterCubit,RegisterStates>(
-      listener: (context,state){},
+      listener: (context,state)
+      {
+      },
       builder: (context,state){
         return Scaffold(
           appBar: AppBar(
-            title: Text(
+            title:const Text(
                 'Register'
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+            ),
             child: SingleChildScrollView(
               child: Form(
                 key: formKey,
@@ -45,12 +47,12 @@ class RegisterScreen1 extends StatelessWidget {
                         Container(
                           height: 10,
                           width: 10,
-                          decoration: BoxDecoration(
+                          decoration:const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.grey[300],
+                            color:Colors.green,
                           ),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 3.0,
                         ),
                         Container(
@@ -58,7 +60,7 @@ class RegisterScreen1 extends StatelessWidget {
                           width: 30,
                           color: Colors.grey[300],
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 3.0,
                         ),
                         Container(
@@ -69,7 +71,7 @@ class RegisterScreen1 extends StatelessWidget {
                             color: Colors.grey[300],
                           ),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 3.0,
                         ),
                         Container(
@@ -77,7 +79,7 @@ class RegisterScreen1 extends StatelessWidget {
                           width: 30,
                           color: Colors.grey[300],
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 3.0,
                         ),
                         Container(
@@ -90,7 +92,7 @@ class RegisterScreen1 extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 130.0,
                     ),
                     Card(
@@ -172,7 +174,7 @@ class RegisterScreen1 extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 50.0,
                     ),
                     Align(
@@ -181,13 +183,16 @@ class RegisterScreen1 extends StatelessWidget {
                           width: 100.0,
                           function: ()
                           {
-                            if (formKey.currentState!.validate()) {
-                              print(nameController.text);
-                              print(emailController.text);
-                              print(passwordController.text);
-                              print(passwordConfController.text);
-                              navigateTo(context, const RegisterScreen2());
-                            }
+                            // if (formKey.currentState!.validate()) {
+                            //   print(nameController.text);
+                            //   print(emailController.text);
+                            //   print(passwordController.text);
+                            //   print(passwordConfController.text);
+                            //
+                            //   cubit.pageInd=true;
+                            //   cubit.counter++;
+                            // }
+                            navigateTo(context, const RegisterScreen2());
                           },
                           text: 'Next'),
                     )

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
-import 'package:graduation_project/modules/register/register_screen2.dart';
+import 'package:graduation_project/modules/register/register_screen3.dart';
 import 'package:graduation_project/modules/select_age/select_age_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
-import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
+import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class RegisterScreen2 extends StatelessWidget {
@@ -17,12 +16,13 @@ class RegisterScreen2 extends StatelessWidget {
     var formKey = GlobalKey<FormState>();
     var addressController = TextEditingController();
     var phoneController = TextEditingController();
-    var docIdController = TextEditingController();
-    var universityController = TextEditingController();
-    var specialController = TextEditingController();
+
     return BlocConsumer<RegisterCubit,RegisterStates>(
 
-      listener: (context,state){},
+      listener: (context,state)
+      {
+        CacheHelper.getData(key: 'token');
+      },
       builder: (context,state){
         return Scaffold(
           appBar: AppBar(
@@ -31,7 +31,10 @@ class RegisterScreen2 extends StatelessWidget {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+            ),
             child: SingleChildScrollView(
               child: Form(
                 key: formKey,
@@ -44,9 +47,9 @@ class RegisterScreen2 extends StatelessWidget {
                         Container(
                           height: 10,
                           width: 10,
-                          decoration: BoxDecoration(
+                          decoration:const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.grey[300],
+                            color:Colors.green  ,
                           ),
                         ),
                        const SizedBox(
@@ -55,7 +58,7 @@ class RegisterScreen2 extends StatelessWidget {
                         Container(
                           height: 1,
                           width: 30,
-                          color: Colors.grey[300],
+                          color: Colors.green,
                         ),
                        const SizedBox(
                           width: 3.0,
@@ -63,9 +66,9 @@ class RegisterScreen2 extends StatelessWidget {
                         Container(
                           height: 10,
                           width: 10,
-                          decoration: BoxDecoration(
+                          decoration:const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.grey[300],
+                            color: Colors.green,
                           ),
                         ),
                        const SizedBox(
@@ -105,7 +108,7 @@ class RegisterScreen2 extends StatelessWidget {
                               children: [
                                 MaterialButton(onPressed: ()
                                 {
-                                  navigateTo(context, SelectAgeScreen());
+                                  navigateTo(context,const SelectAgeScreen());
                                 },
                                   height: 50,
                                   color:Colors.grey[200],
@@ -116,7 +119,7 @@ class RegisterScreen2 extends StatelessWidget {
                                         color:  HexColor('4E51BF')
                                     ),),
                                 ),
-                                SizedBox(
+                               const SizedBox(
                                   width: 100.0,
                                 ),
                                 Text(
@@ -159,7 +162,7 @@ class RegisterScreen2 extends StatelessWidget {
                             const SizedBox(
                               height: 10.0,
                             ),
-                            //MARITAL STATUS //
+                            // MARITAL STATUS //
                             ClipRRect(
                               borderRadius: BorderRadius.circular(50.0),
                               child: ExpansionTile(
@@ -241,12 +244,15 @@ class RegisterScreen2 extends StatelessWidget {
                           width: 100.0,
                           function: ()
                           {
-                            if (formKey.currentState!.validate()) {
+                            // if (formKey.currentState!.validate()) {
+                            //   print(addressController.text);
+                            //   print(phoneController.text);
+                            //   navigateTo(context, const RegisterScreen3());
+                            //   cubit.pageInd=true;
+                            //   cubit.counter++;
+                            // }
+                            navigateTo(context, const RegisterScreen3());
 
-                              print(addressController.text);
-                              print(phoneController.text);
-                              navigateTo(context, const RegisterScreen2());
-                            }
                           },
                           text: 'Next'),
                     ),
