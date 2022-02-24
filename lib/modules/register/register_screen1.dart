@@ -183,16 +183,13 @@ class RegisterScreen1 extends StatelessWidget {
                           width: 100.0,
                           function: ()
                           {
-                            // if (formKey.currentState!.validate()) {
-                            //   print(nameController.text);
-                            //   print(emailController.text);
-                            //   print(passwordController.text);
-                            //   print(passwordConfController.text);
-                            //
-                            //   cubit.pageInd=true;
-                            //   cubit.counter++;
-                            // }
-                            navigateTo(context, const RegisterScreen2());
+                            if (formKey.currentState!.validate()) {
+                              print(nameController.text);
+                              print(emailController.text);
+                              print(passwordController.text);
+                              print(passwordConfController.text);
+                              navigateTo(context, const RegisterScreen2());
+                            }
                           },
                           text: 'Next'),
                     )

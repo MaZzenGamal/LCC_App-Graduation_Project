@@ -244,15 +244,11 @@ class RegisterScreen2 extends StatelessWidget {
                           width: 100.0,
                           function: ()
                           {
-                            // if (formKey.currentState!.validate()) {
-                            //   print(addressController.text);
-                            //   print(phoneController.text);
-                            //   navigateTo(context, const RegisterScreen3());
-                            //   cubit.pageInd=true;
-                            //   cubit.counter++;
-                            // }
-                            navigateTo(context, const RegisterScreen3());
-
+                            if (formKey.currentState!.validate()) {
+                              print(addressController.text);
+                              print(phoneController.text);
+                              navigateTo(context, const RegisterScreen3());
+                            }
                           },
                           text: 'Next'),
                     ),

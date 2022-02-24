@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -358,8 +359,7 @@ class RegisterScreen3 extends StatelessWidget {
                           function: ()
                           {
                             if (formKey.currentState!.validate()) {
-
-                            //  navigateTo(context, const RegisterScreen3());
+                              navigateTo(context, const PatientLayout());
                             }
                           },
                           text: 'Next'),

@@ -118,9 +118,4 @@ class RegisterCubit extends Cubit<RegisterStates>
     }
   }
 
-  bool pageInd1 = false;
-  bool pageInd2 = false;
-  bool pageInd3 = false;
-  int counter = 0;
-
 }
