@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/modules/cancer%20_informations/cancer_info_screen.dart';
 import 'package:graduation_project/modules/language/languages_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
@@ -19,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Language',
+                    'Cancer information',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyText1,
@@ -28,11 +29,11 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             onTap: (){
-              navigateTo(context, LanguagesScreen());
+              navigateTo(context, CancerInfoScreen());
             },
           ),
           separatorBuilder: (context,index)=>myDivider(),
-          itemCount: 2),
+          itemCount: 1),
       );
   }
 }
