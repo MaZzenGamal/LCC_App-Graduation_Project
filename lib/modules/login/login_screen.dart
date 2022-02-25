@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
+import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/modules/register/register_scrreen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -85,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                         TextButton(
                           onPressed: ()
                           {
-                            navigateTo(context,const RegisterScreen());
+                            navigateTo(context,const RegisterScreen1());
                           },
                           child: Text(
                             'REGISTER',

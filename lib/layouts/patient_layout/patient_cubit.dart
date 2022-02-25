@@ -6,6 +6,7 @@ import 'package:graduation_project/layouts/patient_layout/states.dart';
 import 'package:graduation_project/modules/Patient/home_screen/home_screen.dart';
 import 'package:graduation_project/modules/Patient/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/Patient/settings_screen/settings_screen.dart';
+import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/styles/icon_broken.dart';
 import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
 
@@ -23,7 +24,7 @@ class PatientCubit extends Cubit<PatientStates>{
     'Settings'
   ];
   List<Widget>screens=[
-    HomeScreen(),
+    SyndromesScreen(),
     SearchScreen(),
     SettingsScreen(),
   ];

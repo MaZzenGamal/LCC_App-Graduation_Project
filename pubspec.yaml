@@ -51,6 +51,7 @@ dependencies:
   eva_icons_flutter: ^3.0.2
   flutter_material_pickers: ^3.1.2
   numberpicker: ^2.1.1
+  animated_text_kit: ^4.2.1
 
 
   #Firebase
@@ -103,6 +104,10 @@ flutter:
     - assets/images/patient.png
     - assets/images/doctor2.png
     - assets/images/doc.png
+    - assets/images/lung cancer.jpg
+    - assets/images/types-lung-cancer.png
+    - assets/images/risk factors.png
+    - assets/images/cancer advice.jpg
 
   fonts:
     - family: Georama
