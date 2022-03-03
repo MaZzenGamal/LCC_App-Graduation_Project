@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-List<String> _list = ['Yes', "No"];
-class defaultListView extends StatefulWidget{
-  late String title;
-  late int number;
-  //late bool isVisible;
 
-  defaultListView({required this.title,required this.number});
+List<String> _list = ['Yes', "No"];
+
+class defaultListView extends StatefulWidget {
+  late String title;
+  //late bool isVisible;
+  final ValueChanged<String> onAnswer;
+
+  defaultListView({required this.title, required this.onAnswer});
 
   @override
   State<defaultListView> createState() => _defaultListViewState();
@@ -14,11 +16,10 @@ class defaultListView extends StatefulWidget{
 
 class _defaultListViewState extends State<defaultListView> {
   int? groubValue;
-  bool isVisible=false;
+  bool isVisible = false;
   @override
   Widget build(BuildContext context) {
-
-    return  Row(
+    return Row(
       // start of list1
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,15 +29,14 @@ class _defaultListViewState extends State<defaultListView> {
             width: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(color: HexColor('4E51BF')),
-                borderRadius:const BorderRadius.all(Radius.circular(20))
-            ),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Column(
               //this column hold the inner list and (tittle of list with icon)
               children: [
                 Container(
                   //style of the row that hold the name of list and icon
                   width: double.infinity,
-                  padding:const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   // decoration: BoxDecoration(
                   //     border: Border.all(
                   //         color: HexColor('4E51BF')
@@ -44,15 +44,15 @@ class _defaultListViewState extends State<defaultListView> {
                   //     //borderRadius:const BorderRadius.all(Radius.circular(50))
                   // ),
                   height: 60,
-                  constraints:const BoxConstraints(
+                  constraints: const BoxConstraints(
                     minHeight: 45,
                     //minWidth: double.infinity,
                   ),
                   //alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isVisible=!isVisible;  //close or open the list
+                        isVisible = !isVisible; //close or open the list
                       });
                     },
                     child: Row(
@@ -67,16 +67,16 @@ class _defaultListViewState extends State<defaultListView> {
                           ),
                         ),
                         GestureDetector(
-                          //icon of the list
+                            //icon of the list
                             onTap: () {
                               setState(() {
-                                isVisible=!isVisible;  //close or open the list
+                                isVisible = !isVisible; //close or open the list
                               });
                             },
                             child: Icon(isVisible
                                 ? Icons.arrow_upward
                                 : Icons
-                                .arrow_downward)) // change the icon of the list
+                                    .arrow_downward)) // change the icon of the list
                       ],
                     ),
                   ),
@@ -84,7 +84,7 @@ class _defaultListViewState extends State<defaultListView> {
                 Visibility(
                   visible: isVisible,
                   child: ListView.builder(
-                    // yes or no insisde listview
+                      // yes or no insisde listview
                       padding: EdgeInsets.all(0),
                       shrinkWrap: true,
                       itemCount: _list.length,
@@ -95,20 +95,19 @@ class _defaultListViewState extends State<defaultListView> {
                           value: index,
                           groupValue: groubValue,
                           onChanged: (val) {
+                            widget.onAnswer(_list[index]);
                             setState(() {
-                              groubValue=val as int?;     //choose one radio button only
-                            }
-                            );
+                              groubValue =
+                                  val as int?; //choose one radio button only
+                            });
                           },
                         );
                       }),
                 ),
-
               ],
             ),
           ),
         ),
-
       ],
     );
   }
