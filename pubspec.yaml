@@ -108,6 +108,34 @@ flutter:
     - assets/images/types-lung-cancer.png
     - assets/images/risk factors.png
     - assets/images/cancer advice.jpg
+    - assets/images/loginBack.jpg
+    - assets/images/BackG.jpg
+    - assets/images/test1.jpg
+    - assets/images/test2.jpg
+    - assets/images/test3.jpeg
+    - assets/images/test4.png
+    - assets/images/test5.png
+    - assets/images/slider1.jpg
+    - assets/images/slider2.jpg
+    - assets/images/slider3.jpg
+    - assets/images/Logo.png
+    - assets/images/Advice.jpg
+    - assets/images/slider4.jpg
+    - assets/images/slider5.jpg
+    - assets/images/slider6.jpg
+    - assets/images/xRay.png
+    - assets/images/syndrome.png
+    - assets/images/cancerInformatio.jpg
+    - assets/images/grid/advice.png
+    - assets/images/grid/inf.png
+    - assets/images/grid/syndromes.png
+    - assets/images/grid/x-Ray.png
+    - assets/images/grid/infor.png
+    - assets/images/background2.jpg
+    - assets/images/register.jpg
+    - assets/images/register2.jpg
+
+
 
   fonts:
     - family: Georama

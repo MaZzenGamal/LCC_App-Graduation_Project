@@ -26,108 +26,130 @@ class RegisterScreen3 extends StatelessWidget {
                 'Register'
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
-            ),
-            child: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    // PAGE INDICATOR //
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration:const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green,
+          body: Container(
+            constraints:const BoxConstraints.expand(),
+            decoration:const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/register2.jpg'),
+                    fit: BoxFit.cover)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 10.0,
+                right: 10.0,
+                bottom: 20.0,
+                top: 20.0
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      // PAGE INDICATOR //
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration:const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.green,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 1,
-                          width: 30,
-                          color: Colors.green,
-                        ),
-                        const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration:const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green,
+                          const SizedBox(
+                            width: 3.0,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 1,
-                          width: 30,
-                          color: Colors.green,
-                        ),
-                        const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration:const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green,
+                          Container(
+                            height: 1,
+                            width: 30,
+                            color: Colors.grey[300],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 130.0,
-                    ),
-                    Card(
-                      elevation: 20.0,
-                      child: Padding(
+                          const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration:const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.green,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 1,
+                            width: 30,
+                            color: Colors.grey[300],
+                          ),
+                          const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration:const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'If you are doctor\nplease select and fill these forms',
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Colors.white,
+                            fontSize:15.0,
+
+                        ),),
+                      const SizedBox(
+                        height: 130.0,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ListTile(
-                                    title: const Text('Patient'),
-                                    leading: Radio<condition>(
-                                      value: condition.patient,
-                                      groupValue: cubit.val,
-                                      onChanged: (condition? value) {
-                                        cubit.radioPatient(value);
-                                      },
-                                      activeColor: HexColor('4E51BF'),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50.0)
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: ListTile(
+                                      title: const Text('Patient'),
+                                      leading: Radio<condition>(
+                                        value: condition.patient,
+                                        groupValue: cubit.val,
+                                        onChanged: (condition? value) {
+                                          cubit.radioPatient(value);
+                                        },
+                                        activeColor: HexColor('4E51BF'),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                    title: const Text('Doctor'),
-                                    leading: Radio<condition>(
-                                      value: condition.doctor,
-                                      groupValue: cubit.val,
-                                      onChanged: (condition? value) {
-                                        cubit.radioDoctor(value);
-                                      },
-                                      activeColor: HexColor('4E51BF'),
+                                  Expanded(
+                                    child: ListTile(
+                                      title: const Text('Doctor'),
+                                      leading: Radio<condition>(
+                                        value: condition.doctor,
+                                        groupValue: cubit.val,
+                                        onChanged: (condition? value) {
+                                          cubit.radioDoctor(value);
+                                        },
+                                        activeColor: HexColor('4E51BF'),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20.0,
                             ),
                             TextFormField(
                                 controller: registrationNuController,
@@ -348,23 +370,23 @@ class RegisterScreen3 extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: defaultButton(
-                          width: 100.0,
-                          function: ()
-                          {
-                            if (formKey.currentState!.validate()) {
-                              navigateTo(context, const PatientLayout());
-                            }
-                          },
-                          text: 'Next'),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 50.0,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: defaultButton(
+                            width: 100.0,
+                            function: ()
+                            {
+                              if (formKey.currentState!.validate()) {
+                                navigateTo(context, const PatientLayout());
+                              }
+                            },
+                            text: 'Next'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

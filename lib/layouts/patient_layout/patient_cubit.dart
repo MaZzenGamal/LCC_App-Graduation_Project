@@ -24,7 +24,7 @@ class PatientCubit extends Cubit<PatientStates>{
     'Settings'
   ];
   List<Widget>screens=[
-    SyndromesScreen(),
+    HomeScreen(),
     SearchScreen(),
     SettingsScreen(),
   ];

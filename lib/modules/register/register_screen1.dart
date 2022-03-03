@@ -29,75 +29,96 @@ class RegisterScreen1 extends StatelessWidget {
                 'Register'
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
-            ),
-            child: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                 // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // PAGE INDICATOR//
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration:const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:Colors.green,
+          body: Container(
+            constraints:const BoxConstraints.expand(),
+            decoration:const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/register2.jpg'),
+                    fit: BoxFit.cover)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 10.0,
+                right: 10.0,
+                bottom: 20.0,
+                top: 20.0
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                   // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // PAGE INDICATOR//
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration:const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color:Colors.green,
+                            ),
                           ),
-                        ),
-                       const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 1,
-                          width: 30,
-                          color: Colors.grey[300],
-                        ),
-                       const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                         const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 1,
+                            width: 30,
                             color: Colors.grey[300],
                           ),
-                        ),
-                       const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 1,
-                          width: 30,
-                          color: Colors.grey[300],
-                        ),
-                       const SizedBox(
-                          width: 3.0,
-                        ),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                         const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                         const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 1,
+                            width: 30,
                             color: Colors.grey[300],
                           ),
+                         const SizedBox(
+                            width: 3.0,
+                          ),
+                          Container(
+                            height: 10,
+                            width: 10,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        'Create an account',
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                   const SizedBox(
-                      height: 130.0,
-                    ),
-                    Card(
-                      elevation: 20.0,
-                      child: Padding(
+                      ),
+                      Text(
+                        'Please fill these forms',
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                            color: Colors.white,
+                            fontSize:23.0
+                        ),),
+                     const SizedBox(
+                        height: 90.0,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -173,27 +194,27 @@ class RegisterScreen1 extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                   const SizedBox(
-                      height: 50.0,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: defaultButton(
-                          width: 100.0,
-                          function: ()
-                          {
-                            if (formKey.currentState!.validate()) {
-                              print(nameController.text);
-                              print(emailController.text);
-                              print(passwordController.text);
-                              print(passwordConfController.text);
-                              navigateTo(context, const RegisterScreen2());
-                            }
-                          },
-                          text: 'Next'),
-                    )
-                  ],
+                     const SizedBox(
+                        height: 50.0,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: defaultButton(
+                            width: 100.0,
+                            function: ()
+                            {
+                              if (formKey.currentState!.validate()) {
+                                print(nameController.text);
+                                print(emailController.text);
+                                print(passwordController.text);
+                                print(passwordConfController.text);
+                                navigateTo(context, const RegisterScreen2());
+                              }
+                            },
+                            text: 'Next'),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
