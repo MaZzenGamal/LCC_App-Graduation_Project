@@ -32,6 +32,7 @@ class PatientLayout extends StatelessWidget {
           ),
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
+            elevation: 20.0,
             items: cubit.bottomItems,
             currentIndex: cubit.currentIndex,
             onTap: (index){
