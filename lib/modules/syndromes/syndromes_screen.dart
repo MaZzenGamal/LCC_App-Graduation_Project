@@ -36,6 +36,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Smoking?',
                 onAnswer: (answer) => answers[2] = answer,
               ),
+              Visibility(visible:show1,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -43,6 +44,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are Your Fingers Yellow?',
                 onAnswer: (answer) => answers[2] = answer,
               ),
+              Visibility(visible:show2,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -50,6 +52,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Anxiety?',
                 onAnswer: (answer) => answers[3] = answer,
               ),
+              Visibility(visible:show3,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -57,6 +60,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Feeling Peer Pressure',
                 onAnswer: (answer) => answers[4] = answer,
               ),
+              Visibility(visible:show4,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -64,6 +68,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Any Chronic Disease?',
                 onAnswer: (answer) => answers[5] = answer,
               ),
+              Visibility(visible:show5,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -71,6 +76,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Any Fatigue?',
                 onAnswer: (answer) => answers[6] = answer,
               ),
+              Visibility(visible:show6,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -78,6 +84,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Allergy?',
                 onAnswer: (answer) => answers[7] = answer,
               ),
+              Visibility(visible:show7,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -85,6 +92,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Wheezing?',
                 onAnswer: (answer) => answers[8] = answer,
               ),
+              Visibility(visible:show8,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -92,6 +100,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Drinking Alcohol?',
                 onAnswer: (answer) => answers[9] = answer,
               ),
+              Visibility(visible:show9,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -99,6 +108,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Coughing?',
                 onAnswer: (answer) => answers[10] = answer,
               ),
+              Visibility(visible:show10,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -106,6 +116,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Swallowing Difficulty?',
                 onAnswer: (answer) => answers[11] = answer,
               ),
+              Visibility(visible:show11,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
@@ -113,6 +124,7 @@ class _SyndromesScreenState extends State<SyndromesScreen> {
                 title: 'Are You Suffering From Chest Pain?',
                 onAnswer: (answer) => answers[12] = answer,
               ),
+              Visibility(visible:show12,child: Container(width:double.infinity,child: Text("please answer this question",textAlign: TextAlign.left,style:TextStyle(color:Colors.red)))),
               const SizedBox(
                 height: 20,
               ),
