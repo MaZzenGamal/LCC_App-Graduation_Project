@@ -398,10 +398,10 @@ class RegisterScreen3 extends StatelessWidget {
                                 navigateTo(context, const PatientLayout());
 
                               }
-                              if (formKey.currentState!.validate()&&cubit.flag==false){
+                              if (cubit.flag==false){
                                 navigateTo(context, const PatientLayout());
                               }
-                              if (formKey.currentState!.validate()&&cubit.flag==true&&cubit.image==false){
+                              if ((cubit.flag==true&&cubit.image==false)||!formKey.currentState!.validate()){
                                 cubit.profileImageValidation();
                               }
                             },

@@ -17,15 +17,18 @@ class RegisterCubit extends Cubit<RegisterStates>
   condition? val = condition.patient;
   bool flag = false;
   int age = 25;
+  bool visible1=false;
   void radioPatient(value){
     val = value;
     flag = false;
+    visible1=false;
     emit(RegisterRadioPatientState());
   }
 
   void radioDoctor(value){
     val = value;
     flag = true;
+    visible1=false;
     emit(RegisterRadioDoctorState());
   }
 
@@ -120,7 +123,6 @@ class RegisterCubit extends Cubit<RegisterStates>
       emit(ProfileImagePickerErrorState());
     }
   }
-  bool visible1=false;
   void profileImageValidation(){ visible1=true;
   emit(ProfileImageValidationState());
   }
