@@ -105,17 +105,24 @@ class RegisterCubit extends Cubit<RegisterStates>
   }
 
   File? profileImage;
+  bool image=false;
   var picker = ImagePicker();
   Future<void> getProfileImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
+      image=true;
       print('image picked');
       // profileImage = File(pickedFile.path);
       emit(ProfileImagePickerSuccessState());
     } else {
       print('No image selected');
+      image=false;
       emit(ProfileImagePickerErrorState());
     }
+  }
+  bool visible1=false;
+  void profileImageValidation(){ visible1=true;
+  emit(ProfileImageValidationState());
   }
 
 }

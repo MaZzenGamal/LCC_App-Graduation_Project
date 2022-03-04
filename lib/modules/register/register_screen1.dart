@@ -5,6 +5,7 @@ import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/modules/register/register_screen2.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
+import 'package:email_validator/email_validator.dart';
 
 class RegisterScreen1 extends StatelessWidget {
   const RegisterScreen1({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class RegisterScreen1 extends StatelessWidget {
             constraints:const BoxConstraints.expand(),
             decoration:const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/register2.jpg'),
+                    image: AssetImage('assets/images/background2.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -128,8 +129,9 @@ class RegisterScreen1 extends StatelessWidget {
                                 controller: nameController,
                                 type: TextInputType.text,
                                 validate: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter your name';
+                                  //value.isEmpty
+                                  if (value!.isEmpty||!RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                                    return 'Please enter correct name name';
                                   }
                                 },
                                 label: 'Name',
@@ -141,8 +143,8 @@ class RegisterScreen1 extends StatelessWidget {
                                 controller: emailController,
                                 type: TextInputType.emailAddress,
                                 validate: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter your email address';
+                                  if (value!.isEmpty||!EmailValidator.validate(value)) {
+                                    return 'Please enter valid email address';
                                   }
                                 },
                                 label: 'Email address',
@@ -154,7 +156,7 @@ class RegisterScreen1 extends StatelessWidget {
                                 controller: passwordController,
                                 type: TextInputType.visiblePassword,
                                 validate: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return 'Please enter your password';
                                   }
                                 },

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/patient_layout/patient_layout.dart';
@@ -13,9 +14,10 @@ class RegisterScreen3 extends StatelessWidget {
     var cubit = RegisterCubit.get(context);
     var formKey = GlobalKey<FormState>();
     var registrationNuController = TextEditingController();
+    bool visible1=false;
     var specialtyController = TextEditingController();
     var universityController = TextEditingController();
-
+    var certificateController = TextEditingController();
     return BlocConsumer<RegisterCubit,RegisterStates>(
 
       listener: (context,state){},
@@ -30,7 +32,7 @@ class RegisterScreen3 extends StatelessWidget {
             constraints:const BoxConstraints.expand(),
             decoration:const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/register2.jpg'),
+                    image: AssetImage('assets/images/background2.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -96,12 +98,15 @@ class RegisterScreen3 extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
                       Text(
-                        'If you are doctor\nplease select and fill these forms',
+                        'If you are doctor\n please select and fill these forms',
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                             color: Colors.white,
-                            fontSize:15.0,
-
+                            fontSize:23.0
                         ),),
                       const SizedBox(
                         height: 130.0,
@@ -302,7 +307,7 @@ class RegisterScreen3 extends StatelessWidget {
                               height: 10.0,
                             ),
                             TextFormField(
-                                controller: specialtyController,
+                                controller: certificateController,
                                 keyboardType: TextInputType.text,
                                 enabled: cubit.flag ? true : false,
                                 cursorColor: HexColor('4E51BF'),
@@ -353,10 +358,10 @@ class RegisterScreen3 extends StatelessWidget {
                             ),
                             MaterialButton(onPressed: ()
                             {
-                              if(cubit.flag==true) {
+                              //if(cubit.flag==true) {
                                 cubit.getProfileImage();
-                              }
-                              null;
+                              //}
+                              //null;
                             },
                               height: 50,
                               color:cubit.flag?Colors.grey[200]:Colors.grey[100],
@@ -364,9 +369,18 @@ class RegisterScreen3 extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50.0),),
                               child: Text('Upload your personal image',
                                 style: TextStyle(
-                                    color:cubit.flag? HexColor('4E51BF') : Colors.grey
+                                  color:HexColor('4E51BF'),
+                                    //color:cubit.flag? HexColor('4E51BF') : Colors.grey
                                 ),),
                             ),
+                            Visibility(
+                                visible: cubit.visible1,
+                                child: Container(
+                                    width: double.infinity,
+                                    child: Text("please upload your image",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(color: Colors.red)))
+                              ),
                           ],
                         ),
                       ),
@@ -379,13 +393,22 @@ class RegisterScreen3 extends StatelessWidget {
                             width: 100.0,
                             function: ()
                             {
-                              if (formKey.currentState!.validate()) {
+                              if (formKey.currentState!.validate()&&cubit.flag==true&&cubit.image==true){
+
+                                navigateTo(context, const PatientLayout());
+
+                              }
+                              if (formKey.currentState!.validate()&&cubit.flag==false){
                                 navigateTo(context, const PatientLayout());
                               }
+                              if (formKey.currentState!.validate()&&cubit.flag==true&&cubit.image==false){
+                                cubit.profileImageValidation();
+                              }
                             },
-                            text: 'Next'),
+                            text: ('Next'),
                       ),
-                    ],
+                      ),
+                  ],
                   ),
                 ),
               ),

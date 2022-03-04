@@ -34,7 +34,7 @@ class RegisterScreen2 extends StatelessWidget {
             constraints:const BoxConstraints.expand(),
             decoration:const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/register2.jpg'),
+                    image: AssetImage('assets/images/background2.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -245,8 +245,8 @@ class RegisterScreen2 extends StatelessWidget {
                                 controller: phoneController,
                                 type: TextInputType.phone,
                                 validate: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter your phone';
+                                  if (value.isEmpty||!RegExp(r'^0*1*[0-9]{9}$').hasMatch(value!)) {
+                                    return 'Please enter correct phone';
                                   }
                                 },
                                 label: 'Phone',
