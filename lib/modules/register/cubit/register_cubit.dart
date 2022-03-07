@@ -1,9 +1,14 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/models/doctor_model.dart';
+import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
+import 'package:graduation_project/shared/components/components.dart';
 import 'package:image_picker/image_picker.dart';
 
 enum condition {patient , doctor}
@@ -14,20 +19,32 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   static RegisterCubit get(context) => BlocProvider.of(context);
 
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var passwordConfController = TextEditingController();
+  var addressController = TextEditingController();
+  var phoneController = TextEditingController();
+  var specialtyController = TextEditingController();
+  var universityController = TextEditingController();
+  var certificateController = TextEditingController();
+  var registrationNuController = TextEditingController();
+
+
   condition? val = condition.patient;
-  bool flag = false;
+  bool doctor = false;
   int age = 25;
   bool visible1=false;
   void radioPatient(value){
     val = value;
-    flag = false;
+    doctor = false;
     visible1=false;
     emit(RegisterRadioPatientState());
   }
 
   void radioDoctor(value){
     val = value;
-    flag = true;
+    doctor = true;
     visible1=false;
     emit(RegisterRadioDoctorState());
   }
@@ -115,7 +132,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     if (pickedFile != null) {
       image=true;
       print('image picked');
-      // profileImage = File(pickedFile.path);
+      profileImage = File(pickedFile.path);
       emit(ProfileImagePickerSuccessState());
     } else {
       print('No image selected');
@@ -125,6 +142,164 @@ class RegisterCubit extends Cubit<RegisterStates>
   }
   void profileImageValidation(){ visible1=true;
   emit(ProfileImageValidationState());
+  }
+
+  void patientRegister({
+    required String email,
+    required String fullName,
+    required String password,
+    required String phone,
+    required String gender,
+    required String address,
+    required String maritalStatus,
+    required int age,
+  }){
+    emit(PatientRegisterLoadingState());
+    FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password)
+        .then((value)
+    {
+      patientCreate(
+          email: email,
+          fullName: fullName,
+          phone: phone,
+          uId: value.user!.uid,
+          age: age,
+          gender: gender,
+          address:address,
+          maritalStatus: maritalStatus
+      );
+    }).catchError((error){
+      showToast(text: '${error}', state: ToastStates.ERROR);
+      print(error);
+      emit(PatientRegisterErrorState(error.toString()));
+    });
+  }
+
+  void patientCreate({
+    required String email,
+    required String fullName,
+    required String phone,
+    required String uId,
+    required String gender,
+    required String address,
+    required String maritalStatus,
+    required int age,
+  }){
+    PatientModel model = PatientModel(
+        email: email,
+        fullName: fullName,
+        phone: phone,
+        uId: uId,
+        image: 'https://www.pngitem.com/pimgs/m/35-350426_profile-icon-png-default-profile-picture-png-transparent.png',
+        age: age,
+        gender: gender,
+        address:address,
+        maritalStatus: maritalStatus
+    );
+    FirebaseFirestore.instance.
+    collection('patient').
+    doc(uId).
+    set(model.toMap())
+        .then((value)
+    {
+      showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
+      emit(PatientCreateSuccessState());
+    }).catchError((error)
+    {
+      showToast(text: 'Failed, please check your connection', state: ToastStates.ERROR);
+      print(error.toString);
+      emit(PatientCreateErrorState(error.toString()));
+    });
+  }
+
+
+  void doctorRegister({
+    required String email,
+    required String fullName,
+    required String password,
+    required String phone,
+    required String gender,
+    required String address,
+    required String maritalStatus,
+    required String university,
+    required String specialization,
+    required String certificates,
+    required String regisNumber,
+    required int age,
+
+  }){
+    emit(PatientRegisterLoadingState());
+    FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password)
+        .then((value)
+    {
+      doctorCreate(
+          email: email,
+          fullName: fullName,
+          phone: phone,
+          uId: value.user!.uid,
+          age: age,
+          gender: gender,
+          address:address,
+          maritalStatus: maritalStatus,
+          regisNumber: regisNumber,
+          specialization: specialization,
+          university: university,
+          certificates: certificates
+      );
+    }).catchError((error){
+      showToast(text: '${error}', state: ToastStates.ERROR);
+      print(error);
+      emit(DoctorRegisterErrorState(error.toString()));
+    });
+  }
+
+  void doctorCreate({
+    required String email,
+    required String fullName,
+    required String uId,
+    required String phone,
+    required String gender,
+    required String address,
+    required String maritalStatus,
+    required String university,
+    required String specialization,
+    required String certificates,
+    required String regisNumber,
+    required int age,
+  }){
+    DoctorModel model = DoctorModel(
+        email: email,
+        fullName: fullName,
+        phone: phone,
+        uId: uId,
+        image: 'https://www.pngitem.com/pimgs/m/35-350426_profile-icon-png-default-profile-picture-png-transparent.png',
+        age: age,
+        gender: gender,
+        address:address,
+        maritalStatus: maritalStatus,
+      certificates: certificates,
+      regisNumber: regisNumber,
+      specialization: specialization,
+      university: university,
+    );
+    FirebaseFirestore.instance.
+    collection('doctor').
+    doc(uId).
+    set(model.toMap())
+        .then((value)
+    {
+      showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
+      emit(DoctorCreateSuccessState());
+    }).catchError((error)
+    {
+      showToast(text: 'Failed, please check your connection', state: ToastStates.ERROR);
+      print(error.toString);
+      emit(DoctorCreateErrorState(error.toString()));
+    });
   }
 
 }

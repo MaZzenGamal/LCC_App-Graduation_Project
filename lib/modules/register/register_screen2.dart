@@ -14,8 +14,7 @@ class RegisterScreen2 extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = RegisterCubit.get(context);
     var formKey = GlobalKey<FormState>();
-    var addressController = TextEditingController();
-    var phoneController = TextEditingController();
+
 
     return BlocConsumer<RegisterCubit,RegisterStates>(
 
@@ -228,7 +227,7 @@ class RegisterScreen2 extends StatelessWidget {
                             ),
                             // ADDRESS //
                             defaultFormField(
-                                controller: addressController,
+                                controller: cubit.addressController,
                                 type: TextInputType.streetAddress,
                                 validate: (value) {
                                   if (value.isEmpty) {
@@ -242,7 +241,7 @@ class RegisterScreen2 extends StatelessWidget {
                             ),
                             // PHONE //
                             defaultFormField(
-                                controller: phoneController,
+                                controller: cubit.phoneController,
                                 type: TextInputType.phone,
                                 validate: (value) {
                                   if (value.isEmpty||!RegExp(r'^0*1*[0-9]{9}$').hasMatch(value!)) {
@@ -264,10 +263,11 @@ class RegisterScreen2 extends StatelessWidget {
                             function: ()
                             {
                               if (formKey.currentState!.validate()) {
-                                print(addressController.text);
-                                print(phoneController.text);
+                                print(cubit.addressController.text);
+                                print(cubit.phoneController.text);
                                 navigateTo(context, const RegisterScreen3());
                               }
+                              navigateTo(context, const RegisterScreen3());
                             },
                             text: 'Next'),
                       ),

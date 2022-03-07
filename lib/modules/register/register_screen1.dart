@@ -13,10 +13,7 @@ class RegisterScreen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = RegisterCubit.get(context);
     var formKey = GlobalKey<FormState>();
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var passwordConfController = TextEditingController();
+
 
 
     return BlocConsumer<RegisterCubit,RegisterStates>(
@@ -126,7 +123,7 @@ class RegisterScreen1 extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             defaultFormField(
-                                controller: nameController,
+                                controller: cubit.nameController,
                                 type: TextInputType.text,
                                 validate: (value) {
                                   //value.isEmpty
@@ -140,7 +137,7 @@ class RegisterScreen1 extends StatelessWidget {
                               height: 10.0,
                             ),
                             defaultFormField(
-                                controller: emailController,
+                                controller: cubit.emailController,
                                 type: TextInputType.emailAddress,
                                 validate: (value) {
                                   if (value!.isEmpty||!EmailValidator.validate(value)) {
@@ -153,7 +150,7 @@ class RegisterScreen1 extends StatelessWidget {
                               height: 10.0,
                             ),
                             defaultFormField(
-                                controller: passwordController,
+                                controller: cubit.passwordController,
                                 type: TextInputType.visiblePassword,
                                 validate: (value) {
                                   if (value!.isEmpty) {
@@ -172,13 +169,13 @@ class RegisterScreen1 extends StatelessWidget {
                               height: 10.0,
                             ),
                             defaultFormField(
-                                controller: passwordConfController,
+                                controller: cubit.passwordConfController,
                                 type: TextInputType.visiblePassword,
                                 validate: (value) {
                                   if (value.isEmpty) {
                                     return 'Please Confirm your password';
                                   }
-                                  if (value!= passwordController.text)
+                                  if (value!= cubit.passwordController.text)
                                   {
                                     return 'Not Match' ;
                                   }
@@ -206,12 +203,13 @@ class RegisterScreen1 extends StatelessWidget {
                             function: ()
                             {
                               if (formKey.currentState!.validate()) {
-                                print(nameController.text);
-                                print(emailController.text);
-                                print(passwordController.text);
-                                print(passwordConfController.text);
+                                print(cubit.nameController.text);
+                                print(cubit.emailController.text);
+                                print(cubit.passwordController.text);
+                                print(cubit.passwordConfController.text);
                                 navigateTo(context, const RegisterScreen2());
                               }
+                              //navigateTo(context, const RegisterScreen2());
                             },
                             text: 'Next'),
                       )

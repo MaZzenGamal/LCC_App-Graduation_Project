@@ -272,26 +272,26 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                           controller: docIdController,
                           keyboardType: TextInputType.phone,
-                          enabled: cubit.flag ? true : false,
+                          enabled: cubit.doctor ? true : false,
                           cursorColor: HexColor('4E51BF'),
-                          validator:cubit.flag? (value) {
+                          validator:cubit.doctor? (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your ID';
                             }
                           }:null,
                           style: TextStyle(
-                            color: cubit.flag ? Colors.black : Colors.grey[300]
+                            color: cubit.doctor ? Colors.black : Colors.grey[300]
                           ),
                           decoration: InputDecoration(
                             labelText: 'Doctor id',
                             alignLabelWithHint: true,
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                             floatingLabelStyle: TextStyle(
-                                color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                             labelStyle: TextStyle(
-                              color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                              color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                             ),
-                            fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                            fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                             filled: true,
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red,
@@ -313,7 +313,7 @@ class RegisterScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             prefixIcon: Icon(Icons.credit_card,
-                              color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                              color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                           )),
                       const SizedBox(
@@ -322,26 +322,26 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                           controller: universityController,
                           keyboardType: TextInputType.text,
-                          enabled: cubit.flag ? true : false,
+                          enabled: cubit.doctor ? true : false,
                           cursorColor: HexColor('4E51BF'),
-                          validator:cubit.flag? (value) {
+                          validator:cubit.doctor? (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your the university';
                             }
                           }:null,
                           style: TextStyle(
-                            color: cubit.flag ? Colors.black : Colors.grey[300]
+                            color: cubit.doctor ? Colors.black : Colors.grey[300]
                           ),
                           decoration: InputDecoration(
                             labelText: 'University',
                             alignLabelWithHint: true,
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                             floatingLabelStyle: TextStyle(
-                                color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                             labelStyle: TextStyle(
-                              color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                              color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                             ),
-                            fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                            fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                             filled: true,
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red,
@@ -363,7 +363,7 @@ class RegisterScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             prefixIcon: Icon(Icons.school_outlined,
-                              color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                              color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                           )),
                       const SizedBox(
@@ -372,26 +372,26 @@ class RegisterScreen extends StatelessWidget {
                       TextFormField(
                           controller: specialController,
                           keyboardType: TextInputType.text,
-                          enabled: cubit.flag ? true : false,
+                          enabled: cubit.doctor ? true : false,
                           cursorColor: HexColor('4E51BF'),
-                          validator:cubit.flag? (value) {
+                          validator:cubit.doctor? (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your your specialization';
                             }
                           }:null,
                           style: TextStyle(
-                            color: cubit.flag ? Colors.black : Colors.grey[300]
+                            color: cubit.doctor ? Colors.black : Colors.grey[300]
                           ),
                           decoration: InputDecoration(
                             labelText: 'Specialization',
                             alignLabelWithHint: true,
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                             floatingLabelStyle: TextStyle(
-                                color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                             labelStyle: TextStyle(
-                              color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                              color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                             ),
-                            fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                            fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                             filled: true,
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red,
@@ -413,7 +413,7 @@ class RegisterScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             prefixIcon: Icon(Icons.medical_services_outlined,
-                              color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                              color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                           )),
                       //readOnly: flag  ? false : true ,
