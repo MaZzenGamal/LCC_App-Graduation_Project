@@ -127,7 +127,7 @@ class RegisterScreen1 extends StatelessWidget {
                                 type: TextInputType.text,
                                 validate: (value) {
                                   //value.isEmpty
-                                  if (value!.isEmpty||!RegExp(r'^[a-z A-Z]+$').hasMatch(value!)) {
+                                  if(((!RegExp(r'^[ء-ي_ ]+$').hasMatch(value))&&(!RegExp(r'^[a-zA Z_ ]+$').hasMatch(value)))||value!.isEmpty){
                                     return 'Please enter correct name name';
                                   }
                                 },
@@ -177,7 +177,7 @@ class RegisterScreen1 extends StatelessWidget {
                                   }
                                   if (value!= cubit.passwordController.text)
                                   {
-                                    return 'Not Match' ;
+                                    return 'password not match confirm password please try again' ;
                                   }
                                 },
                                 label: 'Confirm Password',
