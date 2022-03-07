@@ -28,3 +28,33 @@ class ExpansionTitleDivorcedState extends RegisterStates{}
 class ProfileImagePickerSuccessState extends RegisterStates{}
 
 class ProfileImagePickerErrorState extends RegisterStates{}
+
+class PatientRegisterLoadingState extends RegisterStates{}
+
+class PatientRegisterErrorState extends RegisterStates{
+  final String error;
+
+  PatientRegisterErrorState(this.error);
+}
+
+class PatientCreateSuccessState extends RegisterStates{}
+
+class PatientCreateErrorState extends RegisterStates{
+  final String error;
+  PatientCreateErrorState(this.error);
+}
+
+class DoctorRegisterLoadingState extends RegisterStates{}
+
+class DoctorRegisterErrorState extends RegisterStates{
+  final String error;
+
+  DoctorRegisterErrorState(this.error);
+}
+
+class DoctorCreateSuccessState extends RegisterStates{}
+
+class DoctorCreateErrorState extends RegisterStates{
+  final String error;
+  DoctorCreateErrorState(this.error);
+}

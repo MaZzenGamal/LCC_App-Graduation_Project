@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,11 +14,8 @@ class RegisterScreen3 extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = RegisterCubit.get(context);
     var formKey = GlobalKey<FormState>();
-    var registrationNuController = TextEditingController();
     bool visible1=false;
-    var specialtyController = TextEditingController();
-    var universityController = TextEditingController();
-    var certificateController = TextEditingController();
+
     return BlocConsumer<RegisterCubit,RegisterStates>(
 
       listener: (context,state){},
@@ -157,28 +155,28 @@ class RegisterScreen3 extends StatelessWidget {
                               height: 20.0,
                             ),
                             TextFormField(
-                                controller: registrationNuController,
+                                controller: cubit.registrationNuController,
                                 keyboardType: TextInputType.number,
-                                enabled: cubit.flag ? true : false,
+                                enabled: cubit.doctor ? true : false,
                                 cursorColor: HexColor('4E51BF'),
-                                validator:cubit.flag? (value) {
+                                validator:cubit.doctor? (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter your Registration number';
                                   }
                                 }:null,
                                 style: TextStyle(
-                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                    color: cubit.doctor ? Colors.black : Colors.grey[300]
                                 ),
                                 decoration: InputDecoration(
                                   labelText: 'Registration number',
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                                   labelStyle: TextStyle(
-                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                    color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
-                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                                   filled: true,
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(color: Colors.red,
@@ -200,35 +198,35 @@ class RegisterScreen3 extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   prefixIcon: Icon(Icons.credit_card,
-                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                                    color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                                 )),
                             const SizedBox(
                               height: 10.0,
                             ),
                             TextFormField(
-                                controller: universityController,
+                                controller: cubit.universityController,
                                 keyboardType: TextInputType.text,
-                                enabled: cubit.flag ? true : false,
+                                enabled: cubit.doctor ? true : false,
                                 cursorColor: HexColor('4E51BF'),
-                                validator:cubit.flag? (value) {
+                                validator:cubit.doctor? (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter your the university';
                                   }
                                 }:null,
                                 style: TextStyle(
-                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                    color: cubit.doctor ? Colors.black : Colors.grey[300]
                                 ),
                                 decoration: InputDecoration(
                                   labelText: 'University',
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                                   labelStyle: TextStyle(
-                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                    color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
-                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                                   filled: true,
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(color: Colors.red,
@@ -250,35 +248,35 @@ class RegisterScreen3 extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   prefixIcon: Icon(Icons.school_outlined,
-                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                                    color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                                 )),
                             const SizedBox(
                               height: 10.0,
                             ),
                             TextFormField(
-                                controller: specialtyController,
+                                controller: cubit.specialtyController,
                                 keyboardType: TextInputType.text,
-                                enabled: cubit.flag ? true : false,
+                                enabled: cubit.doctor ? true : false,
                                 cursorColor: HexColor('4E51BF'),
-                                validator:cubit.flag? (value) {
+                                validator:cubit.doctor? (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter your your specialization';
                                   }
                                 }:null,
                                 style: TextStyle(
-                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                    color: cubit.doctor ? Colors.black : Colors.grey[300]
                                 ),
                                 decoration: InputDecoration(
                                   labelText: 'Specialization',
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                                   labelStyle: TextStyle(
-                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                    color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
-                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                                   filled: true,
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(color: Colors.red,
@@ -300,35 +298,35 @@ class RegisterScreen3 extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   prefixIcon: Icon(Icons.medical_services_outlined,
-                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                                    color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                                 )),
                             const SizedBox(
                               height: 10.0,
                             ),
                             TextFormField(
-                                controller: certificateController,
+                                controller: cubit.certificateController,
                                 keyboardType: TextInputType.text,
-                                enabled: cubit.flag ? true : false,
+                                enabled: cubit.doctor ? true : false,
                                 cursorColor: HexColor('4E51BF'),
-                                validator:cubit.flag? (value) {
+                                validator:cubit.doctor? (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter your Certificates';
                                   }
                                 }:null,
                                 style: TextStyle(
-                                    color: cubit.flag ? Colors.black : Colors.grey[300]
+                                    color: cubit.doctor ? Colors.black : Colors.grey[300]
                                 ),
                                 decoration: InputDecoration(
                                   labelText: 'Certificates',
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.flag ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
                                   labelStyle: TextStyle(
-                                    color: cubit.flag ? Colors.grey[400] : Colors.grey[300],
+                                    color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
-                                  fillColor: cubit.flag ? Colors.grey[200] : Colors.grey[100],
+                                  fillColor: cubit.doctor ? Colors.grey[200] : Colors.grey[100],
                                   filled: true,
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(color: Colors.red,
@@ -350,64 +348,85 @@ class RegisterScreen3 extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(50.0),
                                   ),
                                   prefixIcon: Icon(Icons.filter_frames_outlined,
-                                    color: cubit.flag ? HexColor('4E51BF') : Colors.grey,),
+                                    color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,),
 
                                 )),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            MaterialButton(onPressed: ()
-                            {
-                              //if(cubit.flag==true) {
-                                cubit.getProfileImage();
-                              //}
-                              //null;
-                            },
-                              height: 50,
-                              color:cubit.flag?Colors.grey[200]:Colors.grey[100],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),),
-                              child: Text('Upload your personal image',
-                                style: TextStyle(
-                                  color:HexColor('4E51BF'),
-                                    //color:cubit.flag? HexColor('4E51BF') : Colors.grey
-                                ),),
-                            ),
-                            Visibility(
-                                visible: cubit.visible1,
-                                child: Container(
-                                    width: double.infinity,
-                                    child: Text("please upload your image",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(color: Colors.red)))
-                              ),
+                            // const SizedBox(
+                            //   height: 20.0,
+                            // ),
+                            // MaterialButton(onPressed: ()
+                            // {
+                            //   //if(cubit.flag==true) {
+                            //     cubit.getProfileImage();
+                            //   //}
+                            //   //null;
+                            // },
+                            //   height: 50,
+                            //   color:cubit.flag?Colors.grey[200]:Colors.grey[100],
+                            //   shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(50.0),),
+                            //   child: Text('Upload your personal image',
+                            //     style: TextStyle(
+                            //       color:HexColor('4E51BF'),
+                            //         //color:cubit.flag? HexColor('4E51BF') : Colors.grey
+                            //     ),),
+                            // ),
+                            // Visibility(
+                            //     visible: cubit.visible1,
+                            //     child: Container(
+                            //         width: double.infinity,
+                            //         child:const Text("please upload your image",
+                            //             textAlign: TextAlign.left,
+                            //             style: TextStyle(color: Colors.red)))
+                            //   ),
                           ],
                         ),
                       ),
                       const SizedBox(
                         height: 50.0,
                       ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: defaultButton(
-                            width: 100.0,
-                            function: ()
-                            {
-                              if (formKey.currentState!.validate()&&cubit.flag==true&&cubit.image==true){
-
-                                navigateTo(context, const PatientLayout());
-
-                              }
-                              if (cubit.flag==false){
-                                navigateTo(context, const PatientLayout());
-                              }
-                              if ((cubit.flag==true&&cubit.image==false)||!formKey.currentState!.validate()){
-                                cubit.profileImageValidation();
-                              }
-                            },
-                            text: ('Next'),
-                      ),
-                      ),
+                     BuildCondition(
+                       condition: state is! PatientRegisterLoadingState ,
+                       builder: (context)=> Align(
+                         alignment: Alignment.bottomRight,
+                         child: defaultButton(
+                           width: 100.0,
+                           function: ()
+                           {
+                             if (formKey.currentState!.validate()&&cubit.doctor==true){
+                               cubit.doctorRegister(
+                                   email: cubit.emailController.text ,
+                                   fullName: cubit.nameController.text,
+                                   password: cubit.passwordController.text,
+                                   phone: cubit.phoneController.text,
+                                   gender: cubit.gender,
+                                   address: cubit.addressController.text,
+                                   maritalStatus: cubit.status,
+                                   age: cubit.age,
+                                   university: cubit.universityController.text,
+                                   specialization: cubit.specialtyController.text,
+                                   regisNumber: cubit.registrationNuController.text,
+                                  certificates: cubit.certificateController.text
+                                    );
+                             }
+                             if (cubit.doctor==false){
+                               cubit.patientRegister(
+                                   email: cubit.emailController.text ,
+                                   fullName: cubit.nameController.text,
+                                   password: cubit.passwordController.text,
+                                   phone: cubit.phoneController.text,
+                                   gender: cubit.gender,
+                                   address: cubit.addressController.text,
+                                   maritalStatus: cubit.status,
+                                   age: cubit.age,
+                               );
+                             }
+                           },
+                           text: ('Next'),
+                         ),
+                       ),
+                       fallback: (context) => const Center(child: CircularProgressIndicator()),
+                     )
                   ],
                   ),
                 ),
