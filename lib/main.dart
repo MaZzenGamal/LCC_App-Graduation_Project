@@ -29,7 +29,6 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   //DioHelper.init();
   await CacheHelper.init();
-
   runApp(const MyApp());
 }
 
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home:const LoginScreen(),
+          home: LoginScreen(),
         ),
       )
     );
