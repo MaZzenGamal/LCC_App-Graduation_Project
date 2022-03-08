@@ -11,6 +11,8 @@ import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../layouts/patient_layout/patient_layout.dart';
+
 enum condition {patient , doctor}
 
 class RegisterCubit extends Cubit<RegisterStates>
@@ -171,7 +173,9 @@ class RegisterCubit extends Cubit<RegisterStates>
           maritalStatus: maritalStatus
       );
     }).catchError((error){
-      showToast(text: '${error}', state: ToastStates.ERROR);
+      var index=(error.toString()).indexOf(']');
+      String showerror=(error.toString()).substring(index+1);
+      showToast(text: '${showerror}', state: ToastStates.ERROR);
       print(error);
       emit(PatientRegisterErrorState(error.toString()));
     });
@@ -251,7 +255,9 @@ class RegisterCubit extends Cubit<RegisterStates>
           certificates: certificates
       );
     }).catchError((error){
-      showToast(text: '${error}', state: ToastStates.ERROR);
+      var index=(error.toString()).indexOf(']');
+      String showerror=(error.toString()).substring(index+1);
+      showToast(text: '${showerror}', state: ToastStates.ERROR);
       print(error);
       emit(DoctorRegisterErrorState(error.toString()));
     });

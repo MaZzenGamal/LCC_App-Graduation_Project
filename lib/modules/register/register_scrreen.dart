@@ -28,10 +28,31 @@ class RegisterScreen extends StatelessWidget {
       var docIdController = TextEditingController();
       var universityController = TextEditingController();
       var specialController = TextEditingController();
-
-
       return BlocConsumer<RegisterCubit,RegisterStates>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(cubit.doctor==true)
+            {
+              if(!(state is DoctorCreateErrorState)){
+                showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
+                navigateTo(context, const PatientLayout());
+              }
+            }
+          else if(cubit.doctor==false)
+            {
+              if(!(state is PatientCreateErrorState)){
+                showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
+                navigateTo(context, const PatientLayout());
+              }
+            }
+         /* if(state is LoginErrorState){
+            showToast(
+                text: 'Failed, please enter valid email or password', state: ToastStates.ERROR
+            );
+          }
+          if(state is LoginSuccessState ){
+            navigateTo(context, const PatientLayout());
+          }*/
+        },
         builder: (context,state){
 
           return  Scaffold(
