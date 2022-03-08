@@ -12,6 +12,7 @@ class LoginCubit extends Cubit<LoginStates> {
   //LoginCubit(LoginStates initialState) : super(initialState);
   LoginCubit():super (LoginInitialState()) ;
 
+
   //LoginCubit() : super (InitialState());
   static LoginCubit get(context) => BlocProvider.of(context);
   void userLogin({
@@ -24,8 +25,10 @@ class LoginCubit extends Cubit<LoginStates> {
       print(value.user?.uid);
       emit(LoginSuccessState(value.user!.uid));
     }).catchError((error){
+      var index=(error.toString()).indexOf(']');
+      String showerror=(error.toString()).substring(index+1);
       showToast(
-          text: '${error}', state: ToastStates.ERROR
+          text: '${showerror}', state: ToastStates.ERROR
       );
       emit(LoginErrorState(error.toString()));
     });

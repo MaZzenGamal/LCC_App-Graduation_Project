@@ -37,7 +37,8 @@ class PatientRegisterErrorState extends RegisterStates{
   PatientRegisterErrorState(this.error);
 }
 
-class PatientCreateSuccessState extends RegisterStates{}
+class PatientCreateSuccessState extends RegisterStates{
+}
 
 class PatientCreateErrorState extends RegisterStates{
   final String error;
