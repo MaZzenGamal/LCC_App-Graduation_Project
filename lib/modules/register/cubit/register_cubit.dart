@@ -10,6 +10,8 @@ import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/user_model.dart';
+
 enum condition {patient , doctor}
 
 class RegisterCubit extends Cubit<RegisterStates>
@@ -205,6 +207,15 @@ class RegisterCubit extends Cubit<RegisterStates>
     set(model.toMap())
         .then((value)
     {
+      UserModel user = UserModel(
+        email: email,
+        uId: uId,
+        type: "patient",
+      );
+      FirebaseFirestore.instance.
+      collection('user').
+      doc(uId).
+      set(user.toMap());
       showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
       emit(PatientCreateSuccessState());
     }).catchError((error)
@@ -295,6 +306,15 @@ class RegisterCubit extends Cubit<RegisterStates>
     set(model.toMap())
         .then((value)
     {
+      UserModel user = UserModel(
+        email: email,
+        uId: uId,
+        type: "doctor",
+      );
+      FirebaseFirestore.instance.
+      collection('user').
+      doc(uId).
+      set(user.toMap());
       showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
       emit(DoctorCreateSuccessState());
     }).catchError((error)

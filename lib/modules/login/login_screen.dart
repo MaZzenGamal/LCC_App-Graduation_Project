@@ -1,4 +1,5 @@
 import 'package:buildcondition/buildcondition.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/patient_layout.dart';
@@ -20,12 +21,20 @@ class LoginScreen extends StatelessWidget {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
+    var type;
     return BlocProvider(
       create: (BuildContext context)=>LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
-        listener: (context,state){
+        listener: (context,state) async {
         if(state is LoginSuccessState ){
+          var collection = FirebaseFirestore.instance.collection('users');
+          var docSnapshot = await collection.doc(state.uId).get();
+          if (docSnapshot.exists) {
+            Map<String, dynamic>? data = docSnapshot.data();
+             type = data?['tpye']; // <-- The value you want to retrieve.
+          }
           CacheHelper.saveData(key: 'uId', value: state.uId);
+          CacheHelper.saveData(key: 'type', value: type);
           navigateTo(context, const AppLayout());
           }
 
