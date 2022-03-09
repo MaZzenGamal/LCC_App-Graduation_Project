@@ -1,8 +1,8 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
-import 'package:graduation_project/layouts/patient_layout/states.dart';
+import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
+import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
@@ -11,17 +11,17 @@ import 'chat_details_screen.dart';
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PatientCubit, PatientStates>(
+    return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
           body: ConditionalBuilder(
-            condition: PatientCubit.get(context).doctors.length > 0,
+            condition: AppCubit.get(context).doctors.length > 0,
             builder: (context)=>ListView.separated(
-                itemBuilder: (context, index) => buildChatItem(PatientCubit.get(context).doctors[index],context),
+                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
                 separatorBuilder: (context, index) => myDivider(),
-                itemCount: PatientCubit.get(context).doctors.length),
+                itemCount: AppCubit.get(context).doctors.length),
             fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
           ),
         );
