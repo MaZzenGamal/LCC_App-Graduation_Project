@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +9,6 @@ import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../layouts/patient_layout/patient_layout.dart';
 
 enum condition {patient , doctor}
 

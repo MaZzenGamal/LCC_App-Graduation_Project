@@ -3,26 +3,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/patient_layout/states.dart';
+import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
-import 'package:graduation_project/modules/Patient/home_screen/home_screen.dart';
-import 'package:graduation_project/modules/Patient/search_screen/search_screen.dart';
-import 'package:graduation_project/modules/Patient/settings_screen/settings_screen.dart';
+import 'package:graduation_project/modules/home_screen/home_screen.dart';
+import 'package:graduation_project/modules/search_screen/search_screen.dart';
+import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
 import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
+import 'package:graduation_project/shared/components/conestants.dart';
+import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/icon_broken.dart';
 import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
 
-class PatientCubit extends Cubit<PatientStates>{
+class AppCubit extends Cubit<AppStates>{
 
-  PatientCubit(): super(PatientInitialState());
+  AppCubit(): super(AppInitialState());
 
-  static PatientCubit get(context)=>BlocProvider.of(context);
+  static AppCubit get(context)=>BlocProvider.of(context);
 
   DoctorModel docModel = DoctorModel();
-  PatientModel patModel = PatientModel();
-
+  PatientModel patModel= PatientModel();
+  var uID = CacheHelper.getData(key: 'uId');
   int currentIndex = 0;
 
   List<String>titles=[
@@ -58,7 +60,7 @@ class PatientCubit extends Cubit<PatientStates>{
     currentIndex = index;
     if(index == 1)
      const SearchScreen();
-    emit(PatientBotNavState());
+    emit(AppBotNavState());
   }
 
 
@@ -84,7 +86,6 @@ class PatientCubit extends Cubit<PatientStates>{
         emit(GetAllUsersErrorState(error.toString()));
       });
     }
-
   }
 
 
@@ -97,12 +98,12 @@ class PatientCubit extends Cubit<PatientStates>{
     MessagesModel model = MessagesModel(
         dateTime: dateTime,
         receiverId: receiverId,
-        senderId: patModel.uId,
+        senderId: uID,
         text: text
     );
     FirebaseFirestore.instance
         .collection('patient')
-        .doc(patModel.uId)
+        .doc(uID)
         .collection('chats')
         .doc(receiverId)
         .collection('messages')
@@ -117,7 +118,7 @@ class PatientCubit extends Cubit<PatientStates>{
         .collection('doctor')
         .doc(receiverId)
         .collection('chats')
-        .doc(patModel.uId)
+        .doc(uId)
         .collection('messages')
         .add(model.toMap())
         .then((value) {
@@ -135,7 +136,7 @@ class PatientCubit extends Cubit<PatientStates>{
   {
     FirebaseFirestore.instance
         .collection('patient')
-        .doc(patModel.uId)
+        .doc(uID)
         .collection('chats')
         .doc(receiverId)
         .collection('messages')

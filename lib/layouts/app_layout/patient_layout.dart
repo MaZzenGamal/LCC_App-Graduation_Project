@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/patient_layout/patient_cubit.dart';
-import 'package:graduation_project/layouts/patient_layout/states.dart';
-import 'package:graduation_project/modules/Patient/chat_screen/chat_screen.dart';
+import 'package:graduation_project/layouts/app_layout/states.dart';
+import 'package:graduation_project/modules/chat_screen/chat_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
-class PatientLayout extends StatelessWidget {
-  const PatientLayout({Key? key}) : super(key: key);
+import 'app_cubit.dart';
+
+class AppLayout extends StatelessWidget {
+  const AppLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PatientCubit,PatientStates>(
+    return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state){},
       builder: (context,state){
-        var cubit = PatientCubit.get(context);
+        var cubit = AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
             title:Text(

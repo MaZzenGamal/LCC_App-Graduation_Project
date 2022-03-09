@@ -2,8 +2,8 @@ abstract class LoginStates {}
 class LoginInitialState extends LoginStates{}
 class LoginLoadingState extends LoginStates{}
 class LoginSuccessState extends LoginStates{
-  final String UID;
-  LoginSuccessState(this.UID);
+  final String uId;
+  LoginSuccessState(this.uId);
 }
 
 class LoginErrorState extends LoginStates{

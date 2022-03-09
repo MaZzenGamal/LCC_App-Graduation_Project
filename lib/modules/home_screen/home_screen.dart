@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/modules/Patient/settings_screen/settings_screen.dart';
 import 'package:graduation_project/modules/cancer%20_informations/advice_screen.dart';
 import 'package:graduation_project/modules/cancer%20_informations/cancer_info_screen.dart';
 import 'package:graduation_project/modules/cancer%20_informations/motivation_screen.dart';
