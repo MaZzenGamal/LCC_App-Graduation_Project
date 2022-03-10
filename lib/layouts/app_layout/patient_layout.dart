@@ -4,6 +4,8 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/modules/chat_screen/chat_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
+import '../../modules/chat_screen/chat_screen_doctor.dart';
+import '../../shared/network/local/cash_helper.dart';
 import 'app_cubit.dart';
 
 class AppLayout extends StatelessWidget {
@@ -24,7 +26,12 @@ class AppLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: (){
+                    AppCubit.get(context).getUsers();
+                    var type=CacheHelper.getData(key: 'type');
+                    if(type=="doctor")
                     navigateTo(context, ChatScreen());
+                    else
+                      navigateTo(context, ChatScreenDoctor());
                   },
                   icon: Icon(
                     Icons.chat_outlined

@@ -8,7 +8,7 @@ import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 
-class ChatDetailsScreen extends StatelessWidget {
+class ChatDetailsScreenDoctor extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
 
   PatientModel? patModel;
@@ -16,7 +16,7 @@ class ChatDetailsScreen extends StatelessWidget {
 
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
 
-   ChatDetailsScreen({Key? key, this.patModel}) : super(key: key);
+  ChatDetailsScreenDoctor({Key? key, this.docModel}) : super(key: key);
 
   var messageController = TextEditingController();
 
@@ -24,7 +24,7 @@ class ChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
         builder: (BuildContext context) {
-          AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
+          AppCubit.get(context).getMessage(receiverId: docModel!.uId!);
           return BlocConsumer<AppCubit, AppStates>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -36,14 +36,14 @@ class ChatDetailsScreen extends StatelessWidget {
                         CircleAvatar(
                           radius: 15.0,
                           backgroundImage: NetworkImage(
-                            '${patModel!.image}',
+                            '${docModel!.image}',
                           ),
                         ),
                         const SizedBox(
                           width: 8.0,
                         ),
                         Text(
-                          '${patModel!.fullName}',
+                          '${docModel!.fullName}',
                           style: const TextStyle(
                               fontSize: 15.0
                           ),
@@ -142,8 +142,8 @@ class ChatDetailsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                   // fallback: (context) =>
-                   // const Center(child: CircularProgressIndicator()),
+                    // fallback: (context) =>
+                    // const Center(child: CircularProgressIndicator()),
                   ),
                 );
               }

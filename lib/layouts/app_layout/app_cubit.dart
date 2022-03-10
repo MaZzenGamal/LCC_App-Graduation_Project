@@ -158,7 +158,6 @@ class AppCubit extends Cubit<AppStates>{
   var uID = CacheHelper.getData(key: 'uId');
   var type=CacheHelper.getData(key: 'type');
   int currentIndex = 0;
-
   List<String>titles=[
     'Home',
     'Search',
@@ -197,8 +196,6 @@ class AppCubit extends Cubit<AppStates>{
   List<DoctorModel> doctors = [];
   List<PatientModel>patients=[];
   void getUsers() {
-    void check() {
-      //print ('${type}');
       if (CacheHelper.getData(key: 'type') == 'patient') {
         if (doctors.isEmpty) {
           FirebaseFirestore.instance
@@ -237,7 +234,6 @@ class AppCubit extends Cubit<AppStates>{
           });
         }
       }
-    }
   }
 
   void sendMessage({
@@ -269,7 +265,7 @@ class AppCubit extends Cubit<AppStates>{
           .collection('doctor')
           .doc(receiverId)
           .collection('chats')
-          .doc(uId)
+          .doc(uID)
           .collection('messages')
           .add(model.toMap())
           .then((value) {
@@ -297,7 +293,7 @@ class AppCubit extends Cubit<AppStates>{
           .collection('patient')
           .doc(receiverId)
           .collection('chats')
-          .doc(uId)
+          .doc(uID)
           .collection('messages')
           .add(model.toMap())
           .then((value) {
