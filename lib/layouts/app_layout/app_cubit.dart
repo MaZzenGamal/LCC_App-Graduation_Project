@@ -71,11 +71,11 @@ import '../../shared/network/local/cash_helper.dart';
   void getUsers() {
     if (doctors.isEmpty) {
       FirebaseFirestore.instance
-          .collection('doctor')
+          .collection('doctors')
           .get()
           .then((value) {
         value.docs.forEach((element) {
-          if (element.data()['uId'] != docModel.uId) {
+          if (element.data()['uId'] != patModel.uId) {
             doctors.add(DoctorModel.fromJson(element.data()));
           }
         });
@@ -198,8 +198,8 @@ class AppCubit extends Cubit<AppStates>{
   List<PatientModel>patients=[];
   void getUsers() {
     void check() {
-      print ('${type}');
-      if ('${type}' == 'patient') {
+      //print ('${type}');
+      if (CacheHelper.getData(key: 'type') == 'patient') {
         if (doctors.isEmpty) {
           FirebaseFirestore.instance
               .collection('doctor')
@@ -218,7 +218,7 @@ class AppCubit extends Cubit<AppStates>{
           });
         }
       }
-      else if ('${type}' == 'doctor') {
+      else if (CacheHelper.getData(key: 'type') == 'doctor') {
         if (patients.isEmpty) {
           FirebaseFirestore.instance
               .collection('patient')
@@ -251,7 +251,7 @@ class AppCubit extends Cubit<AppStates>{
         senderId: uID,
         text: text
     );
-    if ('${type}' == 'patient') {
+    if (CacheHelper.getData(key: 'type') == 'patient') {
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -279,7 +279,7 @@ class AppCubit extends Cubit<AppStates>{
         emit(SendMessagesErrorState());
       });
     }
-    else if ('${type}' == 'doctor') {
+    else if (CacheHelper.getData(key: 'type') == 'doctor') {
       FirebaseFirestore.instance
           .collection('doctor')
           .doc(uID)
@@ -314,7 +314,7 @@ class AppCubit extends Cubit<AppStates>{
     required String receiverId,
   })
   {
-    if('${type}'=='patient') {
+    if(CacheHelper.getData(key: 'type')=='patient') {
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -331,7 +331,7 @@ class AppCubit extends Cubit<AppStates>{
         });
       });
     }
-    else if('${type}'=='doctor') {
+    else if(CacheHelper.getData(key: 'type')=='doctor') {
       FirebaseFirestore.instance
           .collection('doctor')
           .doc(uID)

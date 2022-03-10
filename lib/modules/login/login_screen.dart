@@ -21,20 +21,20 @@ class LoginScreen extends StatelessWidget {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
-    var type;
     return BlocProvider(
       create: (BuildContext context)=>LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context,state) async {
         if(state is LoginSuccessState ){
-          var collection = FirebaseFirestore.instance.collection('users');
+          var collection = FirebaseFirestore.instance.collection('user');
           var docSnapshot = await collection.doc(state.uId).get();
-          if (docSnapshot.exists) {
+          if (docSnapshot!=null&&docSnapshot.exists) {
             Map<String, dynamic>? data = docSnapshot.data();
-             type = data?['tpye']; // <-- The value you want to retrieve.
+             //var type = data?['tpye'];// <-- The value you want to retrieve.
+            CacheHelper.saveData(key: 'type', value: data!['type']);
+            print(CacheHelper.getData(key: 'type'));
           }
           CacheHelper.saveData(key: 'uId', value: state.uId);
-          CacheHelper.saveData(key: 'type', value: type);
           navigateTo(context, const AppLayout());
           }
 

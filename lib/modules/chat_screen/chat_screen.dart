@@ -7,23 +7,16 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
+import '../../models/patient_model.dart';
 import '../../shared/network/local/cash_helper.dart';
 import '../../shared/network/local/cash_helper.dart';
 import 'chat_details_screen.dart';
 
 class ChatScreen extends StatelessWidget {
-  var type1=CacheHelper.getData(key: 'type');
-  var list;
+  //var type1=CacheHelper.getData(key: 'type');
   @override
   Widget build(BuildContext context) {
-    if(type1=='patient') {
-      list='doctors';
-    };
-    if(type1=='doctor'){
-      list='patients';
-    };
-    print(type1);
-
+    print(CacheHelper.getData(key: 'type'));
       return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
 
@@ -33,11 +26,11 @@ class ChatScreen extends StatelessWidget {
           appBar: AppBar(
           ),
           body: ConditionalBuilder(
-            condition: AppCubit.get(context).doctors.length > 0,
+            condition: AppCubit.get(context).patients.length > 0,
             builder: (context)=>ListView.separated(
-                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
+                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
                 separatorBuilder: (context, index) => myDivider(),
-                itemCount: AppCubit.get(context).doctors.length),
+                itemCount: AppCubit.get(context).patients.length),
             //fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
           ),
         );
@@ -47,10 +40,10 @@ class ChatScreen extends StatelessWidget {
   }
 
 
-Widget buildChatItem(DoctorModel model,context) => InkWell(
+Widget buildChatItem(PatientModel model,context) => InkWell(
   onTap: ()
   {
-    navigateTo(context, ChatDetailsScreen(docModel: model,));
+    navigateTo(context, ChatDetailsScreen(patModel: model,));
   } ,
   child: Padding(
     padding: const EdgeInsets.all(20.0),
