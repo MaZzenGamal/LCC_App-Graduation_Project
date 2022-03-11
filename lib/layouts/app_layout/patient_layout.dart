@@ -19,21 +19,23 @@ class AppLayout extends StatelessWidget {
         var cubit = AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
+            titleSpacing:8,
             title:Text(
               cubit.titles[cubit.currentIndex],
             ),
-            titleSpacing: 0,
+           // titleSpacing: 0,
             actions: [
               IconButton(
                   onPressed: (){
                     AppCubit.get(context).getUsers();
                     var type=CacheHelper.getData(key: 'type');
-                    if(type=="doctor")
-                    navigateTo(context, ChatScreen());
-                    else
-                      navigateTo(context, ChatScreenDoctor());
+                    if(type=="doctor") {
+                      navigateTo(context, ChatScreen());
+                    } else {
+                      navigateTo(context, const ChatScreenDoctor());
+                    }
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.chat_outlined
                   ))
             ],

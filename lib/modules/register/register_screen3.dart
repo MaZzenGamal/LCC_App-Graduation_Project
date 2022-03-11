@@ -17,7 +17,12 @@ class RegisterScreen3 extends StatelessWidget {
 
     return BlocConsumer<RegisterCubit,RegisterStates>(
 
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is DoctorCreateSuccessState||state is PatientCreateSuccessState ){
+          //Navigator.pushReplacementNamed(context,'login');
+
+        }
+      },
       builder: (context,state){
         return Scaffold(
           appBar: AppBar(

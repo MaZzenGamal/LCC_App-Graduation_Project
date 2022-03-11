@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +175,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
-      showToast(text: '${showerror}', state: ToastStates.ERROR);
+      showToast(text: showerror, state: ToastStates.ERROR);
       print(error);
       emit(PatientRegisterErrorState(error.toString()));
     });
@@ -265,7 +266,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
-      showToast(text: '${showerror}', state: ToastStates.ERROR);
+      showToast(text: showerror, state: ToastStates.ERROR);
       print(error);
       emit(DoctorRegisterErrorState(error.toString()));
     });
