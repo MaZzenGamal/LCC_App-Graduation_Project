@@ -1,6 +1,7 @@
-import 'package:bloc/bloc.dart';
+
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
@@ -10,11 +11,7 @@ import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/home_screen/home_screen.dart';
 import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
-import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
-import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
-import 'package:graduation_project/shared/styles/icon_broken.dart';
-import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
 
 import '../../shared/network/local/cash_helper.dart';
 /*class AppCubit extends Cubit<AppStates> {
@@ -189,8 +186,9 @@ class AppCubit extends Cubit<AppStates>{
 
   void changeBotNavBar(int index){
     currentIndex = index;
-    if(index == 1)
-     const SearchScreen();
+    if(index == 1) {
+      const SearchScreen();
+    }
     emit(AppBotNavState());
   }
   List<DoctorModel> doctors = [];

@@ -11,7 +11,7 @@ import '../../models/doctor_model.dart';
 import 'chat_details_screen_doctor.dart';
 
 class ChatScreenDoctor extends StatelessWidget {
-  ChatScreenDoctor({Key? key}) : super(key: key);
+  const ChatScreenDoctor({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {              //patient is logining
     return BlocConsumer<AppCubit, AppStates>(

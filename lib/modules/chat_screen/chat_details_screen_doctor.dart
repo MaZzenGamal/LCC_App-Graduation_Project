@@ -13,9 +13,6 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   PatientModel? patModel;
   DoctorModel? docModel;
-
-  //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
-
   ChatDetailsScreenDoctor({Key? key, this.docModel}) : super(key: key);
 
   var messageController = TextEditingController();
