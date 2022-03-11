@@ -2,6 +2,7 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -412,6 +413,7 @@ class RegisterScreen3 extends StatelessWidget {
                                    regisNumber: cubit.registrationNuController.text,
                                   certificates: cubit.certificateController.text
                                     );
+                               navigateAndFinish(context, LoginScreen());
                              }
                              if (cubit.doctor==false){
                                cubit.patientRegister(
@@ -424,6 +426,7 @@ class RegisterScreen3 extends StatelessWidget {
                                    maritalStatus: cubit.status,
                                    age: cubit.age,
                                );
+                               navigateAndFinish(context, LoginScreen());
                              }
                            },
                            text: ('Next'),

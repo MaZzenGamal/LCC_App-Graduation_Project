@@ -4,6 +4,7 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layouts/app_layout/app_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -36,9 +37,7 @@ class LoginScreen extends StatelessWidget {
             print(CacheHelper.getData(key: 'type'));
           }
           CacheHelper.saveData(key: 'uId', value: state.uId);
-          //navigateTo(context, const AppLayout());
-          Navigator.pushReplacementNamed(context,'AppLayout');
-          //Navigator.of(context).pushReplacementNamed("patient_layout");
+          navigateAndFinish(context, const AppLayout());
           }
 
     },

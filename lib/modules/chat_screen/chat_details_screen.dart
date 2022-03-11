@@ -61,89 +61,75 @@ class ChatDetailsScreen extends StatelessWidget {
                           )),
                     ],
                   ),
-                  body: BuildCondition(
-                    condition: AppCubit
-                        .get(context)
-                        .messages.isNotEmpty,
-                    builder: (context) =>
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Expanded(
+                  body: Column(
+                    children: [
+                      Expanded(
+                        child: BuildCondition(
+                          condition: AppCubit.get(context).messages.isNotEmpty,
+                          builder: (context) => Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: ListView.separated(
                                     physics: const BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      var message = AppCubit
-                                          .get(context)
-                                          .messages[index];
-                                      if (AppCubit
-                                          .get(context)
-                                          .uID == message.senderId) {
+                                      var message = AppCubit.get(context).messages[index];
+                                      if (AppCubit.get(context).uID == message.senderId) {
                                         return buildMyMessages(message);
                                       }
                                       return buildMessages(message);
                                     },
-                                    separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 15.0,),
-                                    itemCount: AppCubit
-                                        .get(context)
-                                        .messages
-                                        .length),
+                                    separatorBuilder: (context, index) => const SizedBox(height: 15.0,),
+                                    itemCount: AppCubit.get(context).messages.length),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.withOpacity(0.5),
+                          fallback: (context) =>const Center(child: CircularProgressIndicator()),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5),),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Row(
+                            children: [
+                              IconButton(onPressed: () {},
+                                  icon: const Icon(
+                                      Icons.add_circle
+                                  )),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets
+                                      .symmetric(
+                                      horizontal: 10.0),
+                                  child: TextFormField(
+                                    controller: messageController,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'write your message...'
                                     ),
-                                    borderRadius: BorderRadius.circular(
-                                        15.0),
-                                  ),
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: Row(
-                                    children: [
-                                      IconButton(onPressed: () {},
-                                          icon: const Icon(
-                                              Icons.add_circle
-                                          )),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets
-                                              .symmetric(
-                                              horizontal: 10.0),
-                                          child: TextFormField(
-                                            controller: messageController,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'write your message...'
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(onPressed: () {
-                                        if (messageController.text != '') {
-                                          AppCubit.get(context).sendMessage(
-                                              receiverId: patModel!.uId!,
-                                              dateTime: DateTime.now()
-                                                  .toString(),
-                                              text: messageController.text);
-                                        }
-                                        messageController.text = '';
-                                      },
-                                          icon: const Icon(
-                                              Icons.send
-                                          ))
-                                    ],
                                   ),
                                 ),
-                              )
+                              ),
+                              IconButton(onPressed: () {
+                                if (messageController.text != '') {
+                                  AppCubit.get(context).sendMessage(
+                                      receiverId: patModel!.uId!,
+                                      dateTime: DateTime.now()
+                                          .toString(),
+                                      text: messageController.text);
+                                }
+                                messageController.text = '';
+                              },
+                                  icon: const Icon(
+                                      Icons.send
+                                  ))
                             ],
                           ),
                         ),
-                   // fallback: (context) =>
-                   // const Center(child: CircularProgressIndicator()),
+                      )
+                    ],
                   ),
                 );
               }
