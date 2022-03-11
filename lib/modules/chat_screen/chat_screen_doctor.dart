@@ -1,5 +1,5 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
-
+import 'package:buildcondition/buildcondition.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,30 +15,17 @@ class ChatScreenDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {              //patient is logining
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-          ),
-          body: ConditionalBuilder(
-            condition: AppCubit
-                .get(context)
-                .doctors.isNotEmpty,
-            builder: (context) =>
-                ListView.separated(
-                    itemBuilder: (context, index) =>
-                        buildChatItem(AppCubit
-                            .get(context)
-                            .doctors[index], context),
+          appBar: AppBar(),
+          body: BuildCondition(
+            condition: AppCubit.get(context).doctors.isNotEmpty,
+            builder: (context) => ListView.separated(
+                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index], context),
                     separatorBuilder: (context, index) => myDivider(),
-                    itemCount: AppCubit
-                        .get(context)
-                        .doctors
-                        .length),
-            fallback: (context) =>
-            const Center(child: CircularProgressIndicator()),
+                    itemCount: AppCubit.get(context).doctors.length),
+            fallback: (context) => const Center(child: CircularProgressIndicator()),
           ),
         );
       },
@@ -48,11 +35,7 @@ class ChatScreenDoctor extends StatelessWidget {
 Widget buildChatItem(DoctorModel model,context) => InkWell(
   onTap: ()
   {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatDetailsScreenDoctor(docModel: model,),
-        ));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetailsScreenDoctor(docModel: model,),));
   } ,
   child: Padding(
     padding: const EdgeInsets.all(20.0),
