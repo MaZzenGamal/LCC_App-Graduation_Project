@@ -1,21 +1,22 @@
+// ignore_for_file: must_be_immutable, avoid_print
+
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/app_layout/patient_layout.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
-import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import 'cubit/login_cubit.dart';
 import 'cubit/states.dart';
 
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
+  LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
@@ -28,14 +29,16 @@ class LoginScreen extends StatelessWidget {
         if(state is LoginSuccessState ){
           var collection = FirebaseFirestore.instance.collection('user');
           var docSnapshot = await collection.doc(state.uId).get();
-          if (docSnapshot!=null&&docSnapshot.exists) {
+          if (docSnapshot.exists) {
             Map<String, dynamic>? data = docSnapshot.data();
              //var type = data?['tpye'];// <-- The value you want to retrieve.
             CacheHelper.saveData(key: 'type', value: data!['type']);
             print(CacheHelper.getData(key: 'type'));
           }
           CacheHelper.saveData(key: 'uId', value: state.uId);
-          navigateTo(context, const AppLayout());
+          //navigateTo(context, const AppLayout());
+          Navigator.pushReplacementNamed(context,'AppLayout');
+          //Navigator.of(context).pushReplacementNamed("patient_layout");
           }
 
     },
@@ -82,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                                 {
                                   return 'Please enter your email address';
                                 }
+                                return null;
                               },
                               label: 'Email address',
                               prefix: Icons.email_outlined),
@@ -91,6 +95,7 @@ class LoginScreen extends StatelessWidget {
                           defaultFormField(
                               controller: passwordController,
                               type: TextInputType.visiblePassword,
+                              // ignore: body_might_complete_normally_nullable
                               validate: (value) {
                                 if (value.isEmpty) {
                                   return 'Please enter your password';
