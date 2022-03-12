@@ -177,7 +177,16 @@ class RegisterScreen3 extends StatelessWidget {
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      shadows:const [
+                                        Shadow(
+                                            color: Colors.white,
+                                            offset: Offset(1,-1.3),
+                                            blurRadius: 2.0
+                                        )
+                                      ]
+                                  ),
                                   labelStyle: TextStyle(
                                     color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
@@ -227,7 +236,16 @@ class RegisterScreen3 extends StatelessWidget {
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      shadows:const [
+                                        Shadow(
+                                            color: Colors.white,
+                                            offset: Offset(1,-1.3),
+                                            blurRadius: 2.0
+                                        )
+                                      ]
+                                  ),
                                   labelStyle: TextStyle(
                                     color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
@@ -277,7 +295,15 @@ class RegisterScreen3 extends StatelessWidget {
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      shadows:const [
+                                        Shadow(
+                                            color: Colors.white,
+                                            offset: Offset(1,-1.3),
+                                            blurRadius: 2.0
+                                        )
+                                      ]),
                                   labelStyle: TextStyle(
                                     color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),
@@ -327,7 +353,15 @@ class RegisterScreen3 extends StatelessWidget {
                                   alignLabelWithHint: true,
                                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                                   floatingLabelStyle: TextStyle(
-                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey),
+                                      color: cubit.doctor ? HexColor('4E51BF') : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                      shadows:const [
+                                        Shadow(
+                                            color: Colors.white,
+                                            offset: Offset(1,-1.3),
+                                            blurRadius: 2.0
+                                        )
+                                      ]),
                                   labelStyle: TextStyle(
                                     color: cubit.doctor ? Colors.grey[400] : Colors.grey[300],
                                   ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -64,7 +65,16 @@ Widget defaultFormField({
           labelText: label,
           alignLabelWithHint: true,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          floatingLabelStyle: TextStyle(color:HexColor('4E51BF')),
+          floatingLabelStyle: TextStyle(color:HexColor('4E51BF'),
+              fontWeight: FontWeight.bold,
+              shadows:const [
+                Shadow(
+                    color: Colors.white,
+                    offset: Offset(1,-1.3),
+                    blurRadius: 2.0
+                )
+              ]
+          ),
           labelStyle: TextStyle(
             color: Colors.grey[400],
           ),

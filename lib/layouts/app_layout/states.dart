@@ -4,12 +4,20 @@ class AppInitialState extends AppStates{}
 
 class AppBotNavState extends AppStates{}
 
-class GetAllUsersSuccessState extends AppStates{}
+class GetAllDoctorsSuccessState extends AppStates{}
 
-class GetAllUsersErrorState extends AppStates
+class GetAllDoctorsErrorState extends AppStates
 {
   final String error;
-  GetAllUsersErrorState(this.error);
+  GetAllDoctorsErrorState(this.error);
+}
+
+class GetAllPatientsSuccessState extends AppStates{}
+
+class GetAllPatientsErrorState extends AppStates
+{
+  final String error;
+  GetAllPatientsErrorState(this.error);
 }
 
 class SendMessagesSuccessState extends AppStates{}

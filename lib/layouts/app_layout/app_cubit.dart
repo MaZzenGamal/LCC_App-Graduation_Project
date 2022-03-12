@@ -190,13 +190,15 @@ class AppCubit extends Cubit<AppStates>{
 
   void changeBotNavBar(int index){
     currentIndex = index;
-    if(index == 1)
-     const SearchScreen();
+    if(index == 1) {
+      const SearchScreen();
+    }
     emit(AppBotNavState());
   }
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
   void getUsers() {
+    if (CacheHelper.getData(key: 'type') == 'patient') {
         if (doctors.isEmpty) {
           FirebaseFirestore.instance
               .collection('doctor')
@@ -207,13 +209,33 @@ class AppCubit extends Cubit<AppStates>{
                 doctors.add(DoctorModel.fromJson(element.data()));
               }
             });
-            emit(GetAllUsersSuccessState());
+            emit(GetAllDoctorsSuccessState());
           })
               .catchError((error) {
             print(error.toString());
-            emit(GetAllUsersErrorState(error.toString()));
+            emit(GetAllDoctorsErrorState(error.toString()));
           });
         }
+  }
+    else if (CacheHelper.getData(key: 'type') == 'doctor') {
+      if (patients.isEmpty) {
+        FirebaseFirestore.instance
+            .collection('patient')
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            if (element.data()['uId'] != patModel.uId) {
+              patients.add(PatientModel.fromJson(element.data()));
+            }
+          });
+          emit(GetAllPatientsSuccessState());
+        })
+            .catchError((error) {
+          print(error.toString());
+          emit(GetAllPatientsErrorState(error.toString()));
+        });
+      }
+    }
   }
 
   void sendMessage({
