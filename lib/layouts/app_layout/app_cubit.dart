@@ -190,34 +190,33 @@ class AppCubit extends Cubit<AppStates>{
 
   void changeBotNavBar(int index){
     currentIndex = index;
-    if(index == 1) {
-      const SearchScreen();
-    }
+    if(index == 1)
+     const SearchScreen();
     emit(AppBotNavState());
   }
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
   void getUsers() {
-    if (CacheHelper.getData(key: 'type') == 'patient') {
-        if (doctors.isEmpty) {
-          FirebaseFirestore.instance
-              .collection('doctor')
-              .get()
-              .then((value) {
-            value.docs.forEach((element) {
-              if (element.data()['uId'] != docModel.uId) {
-                doctors.add(DoctorModel.fromJson(element.data()));
-              }
-            });
-            emit(GetAllDoctorsSuccessState());
-          })
-              .catchError((error) {
-            print(error.toString());
-            emit(GetAllDoctorsErrorState(error.toString()));
+    if (type == "patient") {
+      if (doctors.isEmpty) {
+        FirebaseFirestore.instance
+            .collection('doctor')
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            if (element.data()['uId'] != docModel.uId) {
+              doctors.add(DoctorModel.fromJson(element.data()));
+            }
           });
-        }
-  }
-    else if (CacheHelper.getData(key: 'type') == 'doctor') {
+          emit(GetAllPatientsSuccessState());
+        })
+            .catchError((error) {
+          print(error.toString());
+          emit(GetAllPatientsErrorState(error.toString()));
+        });
+      }
+    }
+    else if (type == "doctor") {
       if (patients.isEmpty) {
         FirebaseFirestore.instance
             .collection('patient')
@@ -228,11 +227,11 @@ class AppCubit extends Cubit<AppStates>{
               patients.add(PatientModel.fromJson(element.data()));
             }
           });
-          emit(GetAllPatientsSuccessState());
+          emit(GetAllDoctorsSuccessState());
         })
             .catchError((error) {
           print(error.toString());
-          emit(GetAllPatientsErrorState(error.toString()));
+          emit(GetAllDoctorsErrorState(error.toString()));
         });
       }
     }
@@ -252,6 +251,7 @@ class AppCubit extends Cubit<AppStates>{
     print('time in send function ${model.dateTime}');
     print('sender id  in send function ${model.senderId}');
     print('reciver id  in send function ${model.receiverId}');
+    if (type == "patient") {
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -278,13 +278,42 @@ class AppCubit extends Cubit<AppStates>{
           .catchError((error) {
         emit(SendMessagesErrorState());
       });
+    }
+    else if (type == "doctor") {
+      FirebaseFirestore.instance
+          .collection('doctor')
+          .doc(uID)
+          .collection('chats')
+          .doc(receiverId)
+          .collection('messages')
+          .add(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      })
+          .catchError((error) {
+        emit(SendMessagesErrorState());
+      });
+      FirebaseFirestore.instance
+          .collection('patient')
+          .doc(receiverId)
+          .collection('chats')
+          .doc(uID)
+          .collection('messages')
+          .add(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      })
+          .catchError((error) {
+        emit(SendMessagesErrorState());
+      });
+    }
   }
 
   List<MessagesModel> messages = [];
   void getMessage({
     required String receiverId,
-  })
-  {
+  }) {
+    if (type == "patient") {
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -300,6 +329,24 @@ class AppCubit extends Cubit<AppStates>{
         });
         emit(GetMessagesSuccessState());
       });
+    }
+  else if (type == "doctor") {
+  FirebaseFirestore.instance
+      .collection('doctor')
+      .doc(uID)
+      .collection('chats')
+      .doc(receiverId)
+      .collection('messages')
+      .orderBy('dateTime')
+      .snapshots()
+      .listen((event) {
+  messages = [];
+  event.docs.forEach((element) {
+  messages.add(MessagesModel.fromJson(element.data()));
+  });
+  emit(GetMessagesSuccessState());
+  });
   }
+}
 
 }

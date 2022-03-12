@@ -32,7 +32,7 @@ class AppLayout extends StatelessWidget {
                     if(type=="patient") {
                       navigateTo(context, ChatScreen());
                     }
-                    else {
+                    else if(type=="doctor") {
                       navigateTo(context, const ChatScreenDoctor());
                     }
                   },
