@@ -13,7 +13,10 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   PatientModel? patModel;
   DoctorModel? docModel;
-  ChatDetailsScreenDoctor({Key? key, this.docModel}) : super(key: key);
+
+  //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
+
+  ChatDetailsScreenDoctor({Key? key, this.patModel}) : super(key: key);
 
   var messageController = TextEditingController();
 
@@ -21,7 +24,7 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
         builder: (BuildContext context) {
-          AppCubit.get(context).getMessage(receiverId: docModel!.uId!);
+          AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
           return BlocConsumer<AppCubit, AppStates>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -33,14 +36,14 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                         CircleAvatar(
                           radius: 15.0,
                           backgroundImage: NetworkImage(
-                            '${docModel!.image}',
+                            '${patModel!.image}',
                           ),
                         ),
                         const SizedBox(
                           width: 8.0,
                         ),
                         Text(
-                          '${docModel!.fullName}',
+                          '${patModel!.fullName}',
                           style: const TextStyle(
                               fontSize: 15.0
                           ),
@@ -64,20 +67,20 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                         child: BuildCondition(
                           condition: AppCubit.get(context).messages.isNotEmpty,
                           builder: (context) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      var message = AppCubit.get(context).messages[index];
-                                      if (AppCubit.get(context).uID == message.senderId) {
-                                        return buildMyMessages(message);
-                                      }
-                                      return buildMessages(message);
-                                    },
-                                    separatorBuilder: (context, index) => const SizedBox(height: 15.0,),
-                                    itemCount: AppCubit.get(context).messages.length),
-                              ),
-                           fallback: (context) => const Center(child: CircularProgressIndicator()),
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var message = AppCubit.get(context).messages[index];
+                                  if (AppCubit.get(context).uID == message.senderId) {
+                                    return buildMyMessages(message);
+                                  }
+                                  return buildMessages(message);
+                                },
+                                separatorBuilder: (context, index) => const SizedBox(height: 15.0,),
+                                itemCount: AppCubit.get(context).messages.length),
+                          ),
+                          fallback: (context) =>const Center(child: CircularProgressIndicator()),
                         ),
                       ),
                       Padding(
@@ -85,10 +88,8 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                            borderRadius: BorderRadius.circular(
-                                15.0),
+                              color: Colors.grey.withOpacity(0.5),),
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           child: Row(
@@ -114,7 +115,7 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                               IconButton(onPressed: () {
                                 if (messageController.text != '') {
                                   AppCubit.get(context).sendMessage(
-                                      receiverId: docModel!.uId!,
+                                      receiverId: patModel!.uId!,
                                       dateTime: DateTime.now()
                                           .toString(),
                                       text: messageController.text);
@@ -178,6 +179,3 @@ Widget buildMyMessages(MessagesModel model) =>Align(
     ),
   ),
 );
-
-
-

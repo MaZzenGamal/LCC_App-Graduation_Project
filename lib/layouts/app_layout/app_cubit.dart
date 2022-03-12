@@ -197,8 +197,6 @@ class AppCubit extends Cubit<AppStates>{
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
   void getUsers() {
-      //print ('${type}');
-      if (CacheHelper.getData(key: 'type') == 'patient') {
         if (doctors.isEmpty) {
           FirebaseFirestore.instance
               .collection('doctor')
@@ -216,26 +214,6 @@ class AppCubit extends Cubit<AppStates>{
             emit(GetAllUsersErrorState(error.toString()));
           });
         }
-      }
-      else if (CacheHelper.getData(key: 'type') == 'doctor') {
-        if (patients.isEmpty) {
-          FirebaseFirestore.instance
-              .collection('patient')
-              .get()
-              .then((value) {
-            value.docs.forEach((element) {
-              if (element.data()['uId'] != patModel.uId) {
-                patients.add(PatientModel.fromJson(element.data()));
-              }
-            });
-            emit(GetAllUsersSuccessState());
-          })
-              .catchError((error) {
-            print(error.toString());
-            emit(GetAllUsersErrorState(error.toString()));
-          });
-        }
-      }
   }
 
   void sendMessage({
@@ -249,7 +227,9 @@ class AppCubit extends Cubit<AppStates>{
         senderId: uID,
         text: text
     );
-    if (CacheHelper.getData(key: 'type') == 'patient') {
+    print('time in send function ${model.dateTime}');
+    print('sender id  in send function ${model.senderId}');
+    print('reciver id  in send function ${model.receiverId}');
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -267,22 +247,7 @@ class AppCubit extends Cubit<AppStates>{
           .collection('doctor')
           .doc(receiverId)
           .collection('chats')
-          .doc(uId)
-          .collection('messages')
-          .add(model.toMap())
-          .then((value) {
-        emit(SendMessagesSuccessState());
-      })
-          .catchError((error) {
-        emit(SendMessagesErrorState());
-      });
-    }
-    else if (CacheHelper.getData(key: 'type') == 'doctor') {
-      FirebaseFirestore.instance
-          .collection('doctor')
           .doc(uID)
-          .collection('chats')
-          .doc(receiverId)
           .collection('messages')
           .add(model.toMap())
           .then((value) {
@@ -291,20 +256,6 @@ class AppCubit extends Cubit<AppStates>{
           .catchError((error) {
         emit(SendMessagesErrorState());
       });
-      FirebaseFirestore.instance
-          .collection('patient')
-          .doc(receiverId)
-          .collection('chats')
-          .doc(uId)
-          .collection('messages')
-          .add(model.toMap())
-          .then((value) {
-        emit(SendMessagesSuccessState());
-      })
-          .catchError((error) {
-        emit(SendMessagesErrorState());
-      });
-    }
   }
 
   List<MessagesModel> messages = [];
@@ -312,7 +263,6 @@ class AppCubit extends Cubit<AppStates>{
     required String receiverId,
   })
   {
-    if(CacheHelper.getData(key: 'type')=='patient') {
       FirebaseFirestore.instance
           .collection('patient')
           .doc(uID)
@@ -325,27 +275,9 @@ class AppCubit extends Cubit<AppStates>{
         messages = [];
         event.docs.forEach((element) {
           messages.add(MessagesModel.fromJson(element.data()));
-          emit(GetMessagesSuccessState());
         });
+        emit(GetMessagesSuccessState());
       });
-    }
-    else if(CacheHelper.getData(key: 'type')=='doctor') {
-      FirebaseFirestore.instance
-          .collection('doctor')
-          .doc(uID)
-          .collection('chats')
-          .doc(receiverId)
-          .collection('messages')
-          .orderBy('dateTime')
-          .snapshots()
-          .listen((event) {
-        messages = [];
-        event.docs.forEach((element) {
-          messages.add(MessagesModel.fromJson(element.data()));
-          emit(GetMessagesSuccessState());
-        });
-      });
-    }
   }
 
 }

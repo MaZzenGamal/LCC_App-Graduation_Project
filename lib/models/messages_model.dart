@@ -21,6 +21,8 @@ class MessagesModel
 
   Map<String,dynamic> toMap()
   {
+    print("sender id in map ${senderId}");
+    print("reciver id in map ${receiverId}");
     return{
       'senderId':senderId,
       'receiverId':receiverId,

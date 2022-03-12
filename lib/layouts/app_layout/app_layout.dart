@@ -29,9 +29,10 @@ class AppLayout extends StatelessWidget {
                   onPressed: (){
                     AppCubit.get(context).getUsers();
                     var type=CacheHelper.getData(key: 'type');
-                    if(type=="doctor") {
+                    if(type=="patient") {
                       navigateTo(context, ChatScreen());
-                    } else {
+                    }
+                    else {
                       navigateTo(context, const ChatScreenDoctor());
                     }
                   },
