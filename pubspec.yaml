@@ -56,6 +56,8 @@ dependencies:
   email_validator: ^2.0.1
   onesignal_flutter: ^3.3.0
   http: ^0.13.4
+  permission_handler: ^9.2.0
+  agora_rtc_engine: ^5.0.0
 
 
   #Firebase
