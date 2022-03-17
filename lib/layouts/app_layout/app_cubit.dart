@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -147,61 +148,63 @@ import '../../shared/network/local/cash_helper.dart';
         });
       });
 }}*/
-class AppCubit extends Cubit<AppStates>{
+class AppCubit extends Cubit<AppStates> {
 
-  AppCubit(): super(AppInitialState());
+  AppCubit() : super(AppInitialState());
 
-  static AppCubit get(context)=>BlocProvider.of(context);
+  static AppCubit get(context) => BlocProvider.of(context);
 
   DoctorModel docModel = DoctorModel();
-  PatientModel patModel= PatientModel();
+  PatientModel patModel = PatientModel();
   var uID = CacheHelper.getData(key: 'uId');
-  var type=CacheHelper.getData(key: 'type');
+  var type = CacheHelper.getData(key: 'type');
   int currentIndex = 0;
 
-  List<String>titles=[
+  List<String>titles = [
     'Home',
     'Search',
     'Settings'
   ];
-  List<Widget>screens=const[
+  List<Widget>screens = const[
     HomeScreen(),
     SearchScreen(),
     SettingsScreen(),
   ];
 
-  List<BottomNavigationBarItem> bottomItems =const[
+  List<BottomNavigationBarItem> bottomItems = const[
     BottomNavigationBarItem(
         icon: Icon(
-          Icons.home
+            Icons.home
         ),
-    label: 'home'),
+        label: 'home'),
     BottomNavigationBarItem(
         icon: Icon(
           Icons.search,
         ),
-    label: 'search'),
+        label: 'search'),
     BottomNavigationBarItem(
         icon: Icon(
           Icons.settings,
         ),
-    label: 'search'),
+        label: 'search'),
   ];
 
-  void changeBotNavBar(int index){
+  void changeBotNavBar(int index) {
     currentIndex = index;
-    if(index == 1)
-     const SearchScreen();
+    if (index == 1)
+      const SearchScreen();
     emit(AppBotNavState());
   }
+
   List<DoctorModel> doctors = [];
-  List<PatientModel>patients= [];
+  List<PatientModel>patients = [];
+
   void getUsers() {
     if (type == "patient") {
       if (doctors.isEmpty) {
         FirebaseFirestore.instance
-            .collection('doctor')
-            .get()
+            .collection("doctor")
+            .orderBy('createdAt', descending: true).get()
             .then((value) {
           value.docs.forEach((element) {
             if (element.data()['uId'] != docModel.uId) {
@@ -219,8 +222,8 @@ class AppCubit extends Cubit<AppStates>{
     else if (type == "doctor") {
       if (patients.isEmpty) {
         FirebaseFirestore.instance
-            .collection('patient')
-            .get()
+            .collection("patient")
+            .orderBy('createdAt', descending: true).get()
             .then((value) {
           value.docs.forEach((element) {
             if (element.data()['uId'] != patModel.uId) {
@@ -248,9 +251,6 @@ class AppCubit extends Cubit<AppStates>{
         senderId: uID,
         text: text
     );
-    print('time in send function ${model.dateTime}');
-    print('sender id  in send function ${model.senderId}');
-    print('reciver id  in send function ${model.receiverId}');
     if (type == "patient") {
       FirebaseFirestore.instance
           .collection('patient')
@@ -310,6 +310,7 @@ class AppCubit extends Cubit<AppStates>{
   }
 
   List<MessagesModel> messages = [];
+
   void getMessage({
     required String receiverId,
   }) {
@@ -330,23 +331,39 @@ class AppCubit extends Cubit<AppStates>{
         emit(GetMessagesSuccessState());
       });
     }
-  else if (type == "doctor") {
-  FirebaseFirestore.instance
-      .collection('doctor')
-      .doc(uID)
-      .collection('chats')
-      .doc(receiverId)
-      .collection('messages')
-      .orderBy('dateTime')
-      .snapshots()
-      .listen((event) {
-  messages = [];
-  event.docs.forEach((element) {
-  messages.add(MessagesModel.fromJson(element.data()));
-  });
-  emit(GetMessagesSuccessState());
-  });
+    else if (type == "doctor") {
+      FirebaseFirestore.instance
+          .collection('doctor')
+          .doc(uID)
+          .collection('chats')
+          .doc(receiverId)
+          .collection('messages')
+          .orderBy('dateTime')
+          .snapshots()
+          .listen((event) {
+        messages = [];
+        event.docs.forEach((element) {
+          messages.add(MessagesModel.fromJson(element.data()));
+        });
+        emit(GetMessagesSuccessState());
+      });
+    }
   }
-}
 
+  void replaceDoctor(DoctorModel docModel) {
+    doctors[0] = docModel;
+    emit(replaceDoctorSuccessState());
+  }
+  void removeDoctor(int index) {
+    doctors.removeAt(index);
+    emit(DeleteDoctorSuccessState ());
+  }
+  void replacePatient(PatientModel patModel) {
+    patients[0] = patModel;
+    emit(replaceDoctorSuccessState());
+  }
+  void removePatient(int index) {
+    patients.removeAt(index);
+    emit(DeleteDoctorSuccessState ());
+  }
 }

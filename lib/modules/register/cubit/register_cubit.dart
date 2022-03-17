@@ -9,8 +9,10 @@ import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/phone_model.dart';
 import '../../../models/user_model.dart';
 
 enum condition {patient , doctor}
@@ -157,21 +159,39 @@ class RegisterCubit extends Cubit<RegisterStates>
     required int age,
   }){
     emit(PatientRegisterLoadingState());
+    String? tokenm;
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    _firebaseMessaging.getToken().then((token) {
+      tokenm=token!;
+      print(token); // Print the Token in Console
+    });
+    //final FirebaseMessaging _fcm=FirebaseMessaging();
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password)
         .then((value)
     {
-      patientCreate(
+      if(checkExist(phone)==false) {
+        patientCreate(
           email: email,
           fullName: fullName,
           phone: phone,
           uId: value.user!.uid,
           age: age,
           gender: gender,
-          address:address,
-          maritalStatus: maritalStatus
-      );
+          address: address,
+          maritalStatus: maritalStatus,
+          token: tokenm!,
+          createdAt: Timestamp.now(),
+        );
+      }
+      else{
+        String error="please chooce another phone number";
+        showToast(text: error, state: ToastStates.ERROR);
+        print(error);
+        emit(PatientRegisterErrorState(error.toString()));
+      }
+
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -190,17 +210,21 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String address,
     required String maritalStatus,
     required int age,
+    required String token,
+    required Timestamp createdAt,
   }){
     PatientModel model = PatientModel(
-        email: email,
-        fullName: fullName,
-        phone: phone,
-        uId: uId,
-        image: 'https://www.pngitem.com/pimgs/m/35-350426_profile-icon-png-default-profile-picture-png-transparent.png',
-        age: age,
-        gender: gender,
-        address:address,
-        maritalStatus: maritalStatus
+      email: email,
+      fullName: fullName,
+      phone: phone,
+      uId: uId,
+      image: 'https://www.pngitem.com/pimgs/m/35-350426_profile-icon-png-default-profile-picture-png-transparent.png',
+      age: age,
+      gender: gender,
+      address:address,
+      maritalStatus: maritalStatus,
+      token:token,
+      createdAt:createdAt,
     );
     FirebaseFirestore.instance.
     collection('patient').
@@ -217,9 +241,16 @@ class RegisterCubit extends Cubit<RegisterStates>
       collection('user').
       doc(uId).
       set(user.toMap());
+      PhoneModel phone1 = PhoneModel(
+        phone: phone,
+        uId: uId,
+      ) ;
+      FirebaseFirestore.instance.
+      collection('Phone').doc(uId).
+      set(phone1.toMap());
       showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
-      emit(PatientCreateSuccessState());
-    }).catchError((error)
+      emit(DoctorCreateSuccessState());
+     }).catchError((error)
     {
       showToast(text: 'Failed, please check your connection', state: ToastStates.ERROR);
       print(error.toString);
@@ -244,25 +275,33 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   }){
     emit(PatientRegisterLoadingState());
+    String? tokenm;
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    _firebaseMessaging.getToken().then((token) {
+      tokenm=token!;
+      print(token); // Print the Token in Console
+    });
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password)
         .then((value)
     {
-      doctorCreate(
+        doctorCreate(
           email: email,
           fullName: fullName,
           phone: phone,
           uId: value.user!.uid,
           age: age,
           gender: gender,
-          address:address,
+          address: address,
           maritalStatus: maritalStatus,
           regisNumber: regisNumber,
           specialization: specialization,
           university: university,
-          certificates: certificates
-      );
+          certificates: certificates,
+          token: tokenm!,
+          createdAt: Timestamp.now(),
+        );
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -285,6 +324,8 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String certificates,
     required String regisNumber,
     required int age,
+    required String token,
+    required Timestamp createdAt,
   }){
     DoctorModel model = DoctorModel(
         email: email,
@@ -300,6 +341,8 @@ class RegisterCubit extends Cubit<RegisterStates>
       regisNumber: regisNumber,
       specialization: specialization,
       university: university,
+      token:token,
+      createdAt:createdAt,
     );
     FirebaseFirestore.instance.
     collection('doctor').
@@ -316,6 +359,13 @@ class RegisterCubit extends Cubit<RegisterStates>
       collection('user').
       doc(uId).
       set(user.toMap());
+      PhoneModel phone1 = PhoneModel(
+       phone: phone,
+        uId: uId,
+      ) ;
+      FirebaseFirestore.instance.
+      collection('Phone').doc(uId).
+      set(phone1.toMap());
       showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
       emit(DoctorCreateSuccessState());
     }).catchError((error)
@@ -326,4 +376,15 @@ class RegisterCubit extends Cubit<RegisterStates>
     });
   }
 
+}
+
+Future<bool> checkExist(String phone) async {
+  try {
+    await FirebaseFirestore.instance.collection("phone/$phone").get().then((phone) {
+    });
+    return true;
+  } catch (e) {
+    // If any error
+    return false;
+  }
 }

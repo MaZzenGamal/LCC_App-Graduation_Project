@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PatientModel
 {
   String? fullName;
@@ -9,6 +11,8 @@ class PatientModel
   String? gender;
   String? maritalStatus;
   String? address;
+  String?token;
+  Timestamp?createdAt;
 
   PatientModel({
     this.fullName,
@@ -20,6 +24,8 @@ class PatientModel
     this.gender,
     this.address,
     this.maritalStatus,
+    this.token,
+    this.createdAt,
   });
   PatientModel.fromJson(Map<String,dynamic>json)
   {
@@ -32,6 +38,8 @@ class PatientModel
     gender = json['gender'];
     address = json['address'];
     maritalStatus = json['maritalStatus'];
+    token=json['token'];
+    createdAt=json['createdAt'];
   }
 
   Map<String,dynamic> toMap()
@@ -46,6 +54,8 @@ class PatientModel
       'address':address,
       'gender':gender,
       'maritalStatus':maritalStatus,
+      'token':token,
+      'createdAt':createdAt,
     };
   }
 }

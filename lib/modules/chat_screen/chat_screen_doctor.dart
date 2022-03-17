@@ -31,7 +31,7 @@ class ChatScreenDoctor extends StatelessWidget {
           body: ConditionalBuilder(
             condition: AppCubit.get(context).patients.length > 0,
             builder: (context)=>ListView.separated(
-                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
+                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context,index),
                 separatorBuilder: (context, index) => myDivider(),
                 itemCount: AppCubit.get(context).patients.length),
             fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
@@ -43,10 +43,10 @@ class ChatScreenDoctor extends StatelessWidget {
 }
 
 
-Widget buildChatItem(PatientModel model,context) => InkWell(
+Widget buildChatItem(PatientModel model,context, int index) => InkWell(
   onTap: ()
   {
-    navigateTo(context, ChatDetailsScreenDoctor(patModel: model,));
+    navigateTo(context, ChatDetailsScreenDoctor(patModel: model,index:index));
   } ,
   child: Padding(
     padding: const EdgeInsets.all(20.0),

@@ -27,3 +27,7 @@ class SendMessagesErrorState extends AppStates {}
 class GetMessagesSuccessState extends AppStates{}
 
 class GetMessagesErrorState extends AppStates {}
+class replaceDoctorSuccessState extends AppStates{}
+class DeleteDoctorSuccessState extends AppStates{}
+class replacePatientSuccessState extends AppStates{}
+class DeletePatientSuccessState extends AppStates{}

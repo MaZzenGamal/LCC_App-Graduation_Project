@@ -1,5 +1,6 @@
 //ignore_for_file: must_be_immutable
 import 'package:buildcondition/buildcondition.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
@@ -13,10 +14,10 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   PatientModel? patModel;
   DoctorModel? docModel;
-
+  int?index;
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
 
-  ChatDetailsScreenDoctor({Key? key, this.patModel}) : super(key: key);
+  ChatDetailsScreenDoctor({Key? key, this.patModel,this.index}) : super(key: key);
 
   var messageController = TextEditingController();
 
@@ -114,7 +115,13 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                               ),
                               IconButton(onPressed: () {
                                 if (messageController.text != '') {
-                                  AppCubit.get(context).sendMessage(
+                                  if(AppCubit.get(context).patients[0]!=patModel!){
+                                    AppCubit.get(context).replacePatient(patModel!);
+                                   patModel!.createdAt!=Timestamp.now();
+                                    AppCubit.get(context).removePatient(index!);
+
+                                  }
+                                    AppCubit.get(context).sendMessage(
                                       receiverId: patModel!.uId!,
                                       dateTime: DateTime.now()
                                           .toString(),
