@@ -1,27 +1,12 @@
-// import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-// import 'package:flutter/cupertino.dart';
+// import 'package:agora_rtc_engine/rtc_engine.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:graduation_project/layouts/app_layout/app_layout.dart';
-// import 'package:graduation_project/modules/login/login_screen.dart';
-// import 'package:graduation_project/shared/components/components.dart';
-// import 'package:graduation_project/shared/network/local/cash_helper.dart';
-// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
+// import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 //
-// class BoardingModel
-// {
-//   late final String image;
-//   late final String title;
-//   late final String body;
 //
-//   BoardingModel({
-//     required this.image,
-//     required this.title,
-//     required this.body,
-//   });
-// }
-//
+// const appId='006134f989105cf45fb8645b2d730cbf55cIAAdD0KsxWEvFtdFrq1MfX3m5X7XPqe6JZhirB1C9xP3IIdhBcQAAAAAEADjTvSOAmczYgEAAQACZzNi';
+// const token='134f989105cf45fb8645b2d730cbf55c';
 // class TestScreen extends StatefulWidget {
 //   const TestScreen({Key? key}) : super(key: key);
 //
@@ -30,144 +15,159 @@
 // }
 //
 // class _TestScreenState extends State<TestScreen> {
-//   var boardController = PageController();
-//   var emailController = TextEditingController();
-//   List<Widget> boarding=
-//   [
-//     Card(
-//       child: defaultButton(function: ()
-//       {
-//       },
-//           text: 'login'),
-//     )
-//   ];
-//   void submit()
-//   {
-//     CacheHelper.saveData(key: 'onBoarding', value: true).then((value)
-//     {
-//       if(value!)
-//       {
-//         navigateAndFinish(context, const LoginScreen());
-//       }
-//     });
+//   int? _remoteUid;
+//   late RtcEngine _engine;
 //
-//   }
-//   bool isLast = false;
 //   @override
-//   Widget build(BuildContext context) {
-//     return AnnotatedRegion<SystemUiOverlayStyle>(
-//       value:const SystemUiOverlayStyle(
-//         statusBarColor: Colors.transparent,
-//       ),
-//       child: Scaffold(
-//           body: Container(
-//             constraints:const BoxConstraints.expand(),
-//             decoration:const BoxDecoration(
-//                 image: DecorationImage(
-//                     image: AssetImage('assets/images/softBack.png'),
-//                     fit: BoxFit.cover)),
-//             child: Padding(
-//               padding: const EdgeInsets.all(20.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   TextButton(onPressed: submit, child:const Text(
-//                     'SKIP',
-//                     style: TextStyle(
-//                         fontSize: 25.0
-//                     ),
-//                   )),
-//                   Expanded(
-//                       child:PageView.builder(itemBuilder: (context,index)=>buildBoardingItem(boarding[index]),
-//                         controller: boardController,
-//                         itemCount: boarding.length,
-//                         onPageChanged: (int index){
-//                           if(index == boarding.length-1)
-//                           {
-//                             setState(() {
-//                               isLast = true;
-//                             });
-//                           }else
-//                           {
-//                             setState(() {
-//                               isLast = false;
-//                             });
-//                           }
-//                         },
-//                         physics:const BouncingScrollPhysics(),
-//                       )
-//                   ),
-//                   const SizedBox(
-//                     height: 50.0,
-//                   ),
-//                   Row(
-//                     // mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       SmoothPageIndicator(controller: boardController,
-//                         effect:const SwapEffect(
-//                           radius: 10,
-//                           activeDotColor: Colors.tealAccent,
-//                           dotColor: Colors.blue,
-//                         ),
-//                         count: boarding.length,
-//                       ),
-//                       const Spacer(),
-//                       FloatingActionButton(onPressed: ()
-//                       {
-//                         boardController.nextPage(
-//                             duration:const Duration(milliseconds: 750),
-//                             curve: Curves.easeInQuint);
-//                         if(isLast == true)
-//                         {
-//                           submit();
-//                         }
-//                       },
-//                         child:const Icon(
-//                           EvaIcons.arrowRight,
-//                           color: Colors.tealAccent,
-//                         ),)
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ),
-//           )
+//   void initState() {
+//     super.initState();
+//     initAgora();
+//   }
+//
+//   Future<void> initAgora() async {
+//     // retrieve permissions
+//     await [Permission.microphone, Permission.camera].request();
+//
+//     //create the engine
+//     _engine = await RtcEngine.create("eea35a29e63640c58179685ee868a8d5");
+//     await _engine.enableVideo();
+//     _engine.setEventHandler(
+//       RtcEngineEventHandler(
+//         joinChannelSuccess: (String channel, int uid, int elapsed) {
+//           print("local user $uid joined");
+//         },
+//         userJoined: (int uid, int elapsed) {
+//           print("remote user $uid joined");
+//           setState(() {
+//             _remoteUid = uid;
+//           });
+//         },
+//         userOffline: (int uid, UserOfflineReason reason) {
+//           print("remote user $uid left channel");
+//           setState(() {
+//             _remoteUid = null;
+//           });
+//         },
 //       ),
 //     );
 //
+//     await _engine.joinChannel(token, "first channel", null, 0);
+//   }
+//
+//   // Create UI with local view and remote view
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Agora Video Call'),
+//       ),
+//       body: Stack(
+//         children: [
+//           Center(
+//             child: _remoteVideo(),
+//           ),
+//           Align(
+//             alignment: Alignment.topLeft,
+//             child: Container(
+//               width: 100,
+//               height: 100,
+//               child: Center(
+//                 child: RtcLocalView.SurfaceView(),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   // Display remote user's video
+//   Widget _remoteVideo() {
+//     if (_remoteUid != null) {
+//       return RtcRemoteView.SurfaceView(uid: _remoteUid!,channelId:appId ,);
+//     } else {
+//       return Text(
+//         'Please wait for remote user to joiioooooooooooin',
+//         textAlign: TextAlign.center,
+//       );
+//     }
 //   }
 // }
-//
-// Widget buildBoardingItem(BoardingModel model)=>Column(
-//   crossAxisAlignment: CrossAxisAlignment.start,
-//   children:  [
-//     Expanded(
-//       child: Center(
-//         child: Image(
-//           image: AssetImage(model.image),
-//           height: 350.0,
-//           width: double.infinity,
-//         ),
-//       ),
-//     ),
-//     Text(
-//       model.title,
-//       style: const TextStyle(
-//           fontWeight:FontWeight.bold,
-//           fontSize: 30.0
-//       ),
-//     ),
-//     const SizedBox(
-//       height: 20.0,
-//     ),
-//     Text(
-//       model.body,
-//       style:const TextStyle(
-//           fontSize: 20.0
-//       ),
-//     ),
-//   ],
-// );
-//
-//
-//
+
+
+import 'package:flutter/material.dart';
+import 'package:graduation_project/myTest/videoCall.dart';
+
+import 'audioCall.dart';
+
+class HomeTestScreen extends StatefulWidget {
+  const HomeTestScreen({Key? key}) : super(key: key);
+  @override
+  _HomeTestScreenState createState() => _HomeTestScreenState();
+}
+class _HomeTestScreenState extends State<HomeTestScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Fluent App'),
+      ),
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+      ClipRRect(
+      borderRadius: BorderRadius.circular(150.0),
+      child: Image.network(
+      'https://play-lh.googleusercontent.com/ZpQcKuCwbQnrCgNpsyUsgDjuBUnpcIBkVrPSDKS9LOJTAW1kxMsu6cLltOSUODjiEQ=w500-h280-rw',
+      height: 200.0,
+      width: 200.0,
+      fit: BoxFit.cover,
+      ),
+    ),
+    Text(
+    'Amar Awni',
+    style: Theme.of(context).textTheme.headline3,
+    ),
+    Text(
+    '+90 555 000 00 00',
+    style: Theme.of(context).textTheme.headline6,
+    ),
+    Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+    IconButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => VideoCallScreen()));
+    },
+    icon: Icon(
+    Icons.video_call,
+    size: 44,
+    ),
+    color: Colors.teal,
+    ),
+    IconButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => AudioCallScreen()));
+    },
+    icon: Icon(
+    Icons.phone,
+    size: 35,
+    ),
+    color: Colors.teal,
+    ),
+    ],
+    ),
+    ),
+    ],
+    ),
+    );
+  }
+}
