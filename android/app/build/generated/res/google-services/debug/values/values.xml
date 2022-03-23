@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">742395953187-0pnja5u1iedi5tdt8h5haf7lm1g5o9ds.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">742395953187</string>
+    <string name="google_api_key" translatable="false">AIzaSyDtIQDIqt608nxbhH0d4w7apPovAfTKKn0</string>
+    <string name="google_app_id" translatable="false">1:742395953187:android:72852582b002d297b9f196</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDtIQDIqt608nxbhH0d4w7apPovAfTKKn0</string>
+    <string name="google_storage_bucket" translatable="false">graduation-project-a1c89.appspot.com</string>
+    <string name="project_id" translatable="false">graduation-project-a1c89</string>
+</resources>
