@@ -7,9 +7,8 @@ class DoctorModel
   String? phone;
   String? uId;
   String? image;
-  int? age;
+  String? age;
   String? gender;
-  String? maritalStatus;
   String? address;
   String? university;
   String? regisNumber;
@@ -32,7 +31,6 @@ class DoctorModel
     this.age,
     this.gender,
     this.address,
-    this.maritalStatus,
     this.university,
     this.regisNumber,
     this.specialization,
@@ -79,7 +77,6 @@ class DoctorModel
       'age':age,
       'address':address,
       'gender':gender,
-      'martialStatus':maritalStatus,
       'university':university,
       'regisNumber':regisNumber,
       'specialization':specialization,

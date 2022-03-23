@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_layout.dart';
+import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -121,10 +122,9 @@ class LoginScreen extends StatelessWidget {
                                 print(emailController.text);
                                 print(passwordController.text);
                                 LoginCubit.get(context).userLogin(
-                                 email: emailController.text,
+                                  email: emailController.text,
                                   password: passwordController.text,
                                 );
-                                //navigateTo(context,const PatientLayout());
                               }
                             },
                                 text: 'login'),

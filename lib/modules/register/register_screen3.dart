@@ -440,8 +440,7 @@ class RegisterScreen3 extends StatelessWidget {
                                    phone: cubit.phoneController.text,
                                    gender: cubit.gender,
                                    address: cubit.addressController.text,
-                                   maritalStatus: cubit.status,
-                                   age: cubit.age,
+                                   age: cubit.ageController.text,
                                    university: cubit.universityController.text,
                                    specialization: cubit.specialtyController.text,
                                    regisNumber: cubit.registrationNuController.text,
@@ -454,11 +453,10 @@ class RegisterScreen3 extends StatelessWidget {
                                    email: cubit.emailController.text ,
                                    fullName: cubit.nameController.text,
                                    password: cubit.passwordController.text,
+                                   age: cubit.ageController.text,
                                    phone: cubit.phoneController.text,
                                    gender: cubit.gender,
                                    address: cubit.addressController.text,
-                                   maritalStatus: cubit.status,
-                                   age: cubit.age,
                                );
                                navigateAndFinish(context, LoginScreen());
                              }

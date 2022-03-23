@@ -116,10 +116,9 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                               IconButton(onPressed: () {
                                 if (messageController.text != '') {
                                   if(AppCubit.get(context).patients[0]!=patModel!){
+                                    AppCubit.get(context).removePatient(index!);
                                     AppCubit.get(context).replacePatient(patModel!);
                                    patModel!.createdAt!=Timestamp.now();
-                                    AppCubit.get(context).removePatient(index!);
-
                                   }
                                     AppCubit.get(context).sendMessage(
                                       receiverId: patModel!.uId!,

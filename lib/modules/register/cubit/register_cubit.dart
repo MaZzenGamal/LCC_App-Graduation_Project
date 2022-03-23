@@ -27,6 +27,7 @@ class RegisterCubit extends Cubit<RegisterStates>
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var passwordConfController = TextEditingController();
+  var ageController = TextEditingController();
   var addressController = TextEditingController();
   var phoneController = TextEditingController();
   var specialtyController = TextEditingController();
@@ -37,7 +38,7 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   condition? val = condition.patient;
   bool doctor = false;
-  int age = 25;
+  //int age = 25;
   bool visible1=false;
   void radioPatient(value){
     val = value;
@@ -54,10 +55,10 @@ class RegisterCubit extends Cubit<RegisterStates>
   }
 
 
-  void selectAge(value){
-    age = value;
-    emit(RegisterAgeValueState());
-  }
+  // void selectAge(value){
+  //   age = value;
+  //   emit(RegisterAgeValueState());
+  // }
 
   IconData suffix = Icons.visibility;
   bool isPassword = true;
@@ -144,7 +145,8 @@ class RegisterCubit extends Cubit<RegisterStates>
       emit(ProfileImagePickerErrorState());
     }
   }
-  void profileImageValidation(){ visible1=true;
+  void profileImageValidation(){
+    visible1=true;
   emit(ProfileImageValidationState());
   }
 
@@ -155,8 +157,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String phone,
     required String gender,
     required String address,
-    required String maritalStatus,
-    required int age,
+    required String age,
   }){
     emit(PatientRegisterLoadingState());
     String? tokenm;
@@ -171,7 +172,6 @@ class RegisterCubit extends Cubit<RegisterStates>
         password: password)
         .then((value)
     {
-      if(checkExist(phone)==false) {
         patientCreate(
           email: email,
           fullName: fullName,
@@ -180,18 +180,9 @@ class RegisterCubit extends Cubit<RegisterStates>
           age: age,
           gender: gender,
           address: address,
-          maritalStatus: maritalStatus,
           token: tokenm!,
           createdAt: Timestamp.now(),
         );
-      }
-      else{
-        String error="please chooce another phone number";
-        showToast(text: error, state: ToastStates.ERROR);
-        print(error);
-        emit(PatientRegisterErrorState(error.toString()));
-      }
-
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -208,8 +199,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String uId,
     required String gender,
     required String address,
-    required String maritalStatus,
-    required int age,
+    required String age,
     required String token,
     required Timestamp createdAt,
   }){
@@ -222,7 +212,6 @@ class RegisterCubit extends Cubit<RegisterStates>
       age: age,
       gender: gender,
       address:address,
-      maritalStatus: maritalStatus,
       token:token,
       createdAt:createdAt,
     );
@@ -249,7 +238,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       collection('Phone').doc(uId).
       set(phone1.toMap());
       showToast(text: 'Account created successfully', state: ToastStates.SUCCESS);
-      emit(DoctorCreateSuccessState());
+      emit(PatientCreateSuccessState());
      }).catchError((error)
     {
       showToast(text: 'Failed, please check your connection', state: ToastStates.ERROR);
@@ -266,12 +255,11 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String phone,
     required String gender,
     required String address,
-    required String maritalStatus,
     required String university,
     required String specialization,
     required String certificates,
     required String regisNumber,
-    required int age,
+    required String age,
 
   }){
     emit(PatientRegisterLoadingState());
@@ -294,7 +282,6 @@ class RegisterCubit extends Cubit<RegisterStates>
           age: age,
           gender: gender,
           address: address,
-          maritalStatus: maritalStatus,
           regisNumber: regisNumber,
           specialization: specialization,
           university: university,
@@ -318,12 +305,11 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String phone,
     required String gender,
     required String address,
-    required String maritalStatus,
     required String university,
     required String specialization,
     required String certificates,
     required String regisNumber,
-    required int age,
+    required String age,
     required String token,
     required Timestamp createdAt,
   }){
@@ -336,7 +322,6 @@ class RegisterCubit extends Cubit<RegisterStates>
         age: age,
         gender: gender,
         address:address,
-        maritalStatus: maritalStatus,
       certificates: certificates,
       regisNumber: regisNumber,
       specialization: specialization,

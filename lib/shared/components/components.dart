@@ -76,7 +76,8 @@ Widget defaultFormField({
               ]
           ),
           labelStyle: TextStyle(
-            color: Colors.grey[400],
+           color: Colors.grey[400],
+           // color: Colors.black,
           ),
           hintText: hint,
           hintStyle: TextStyle(

@@ -16,8 +16,6 @@ class LoginCubit extends Cubit<LoginStates> {
   //LoginCubit(LoginStates initialState) : super(initialState);
   LoginCubit():super (LoginInitialState()) ;
 
-
-  //LoginCubit() : super (InitialState());
   static LoginCubit get(context) => BlocProvider.of(context);
   void userLogin({
   required String email,
