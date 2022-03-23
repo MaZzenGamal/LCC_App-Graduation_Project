@@ -7,9 +7,8 @@ class PatientModel
   String? phone;
   String? uId;
   String? image;
-  int? age;
+  String? age;
   String? gender;
-  String? maritalStatus;
   String? address;
   String?token;
   Timestamp?createdAt;
@@ -23,7 +22,6 @@ class PatientModel
     this.age,
     this.gender,
     this.address,
-    this.maritalStatus,
     this.token,
     this.createdAt,
   });
@@ -37,7 +35,6 @@ class PatientModel
     age = json['age'];
     gender = json['gender'];
     address = json['address'];
-    maritalStatus = json['maritalStatus'];
     token=json['token'];
     createdAt=json['createdAt'];
   }
@@ -53,7 +50,6 @@ class PatientModel
       'age':age,
       'address':address,
       'gender':gender,
-      'maritalStatus':maritalStatus,
       'token':token,
       'createdAt':createdAt,
     };

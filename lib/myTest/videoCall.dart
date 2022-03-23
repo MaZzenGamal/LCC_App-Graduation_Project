@@ -20,8 +20,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   @override
   void initState() {
-    initAgora();
     super.initState();
+    initAgora();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _engine.leaveChannel();
   }
   @override
   Widget build(BuildContext context) {
@@ -52,7 +57,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.call_end,
                         size: 44,
                         color: Colors.redAccent,
@@ -99,8 +104,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   }
   Widget _renderRemoteVideo() {
     if (_remoteUid != 0) {
-      return RtcRemoteView.SurfaceView(
-        channelId: AgoraManager.token ,
+        return RtcRemoteView.SurfaceView(
+        channelId:AgoraManager.channelName,
         uid: _remoteUid,
       );
     } else {

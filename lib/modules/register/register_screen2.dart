@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/modules/register/register_screen3.dart';
-import 'package:graduation_project/modules/select_age/select_age_screen.dart';
+import 'package:graduation_project/modules/select_age/select_age_register_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -117,33 +117,6 @@ class RegisterScreen2 extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // AGE //
-                            Row(
-                              children: [
-                                MaterialButton(onPressed: ()
-                                {
-                                  navigateTo(context,const SelectAgeScreen());
-                                },
-                                  height: 50,
-                                  color:Colors.grey[200],
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),),
-                                  child: Text('Select your age',
-                                    style: TextStyle(
-                                        color:  HexColor('4E51BF')
-                                    ),),
-                                ),
-                               const SizedBox(
-                                  width: 50.0,
-                                ),
-                                Text(
-                                    'Age : ${cubit.age}',
-                                  style:const TextStyle(
-                                    color: Colors.white
-                                  ),
-                                )
-                              ],
-                            ),
                             const SizedBox(
                               height: 10.0,
                             ),
@@ -181,51 +154,65 @@ class RegisterScreen2 extends StatelessWidget {
                               height: 10.0,
                             ),
                             // MARITAL STATUS //
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50.0),
-                              child: ExpansionTile(
-                                collapsedBackgroundColor: Colors.grey[200],
-                                title:Text(
-                                  cubit.chosenStatus? cubit.status:'Marital status' ,
-                                 ),
-                                backgroundColor: Colors.white,
-                                textColor: HexColor('4E51BF'),
-                                collapsedTextColor:HexColor('4E51BF'),
-                                children: [
-                                  ListTile(
-                                    title:const Text('Single'),
-                                    onTap: (){
-                                      cubit.changeExpansionToSingle();
-                                    },
-                                  ),
-                                  ListTile(
-                                    title:const Text('Married'),
-                                    onTap: (){
-                                      cubit.changeExpansionToMarried();
-                                    },
-                                  ),
-                                  ListTile(
-                                    title:const Text('Divorced'),
-                                    onTap: (){
-                                      cubit.changeExpansionToDivorced();
-                                    },
-                                  ),
-                                  ListTile(
-                                    title:const Text('Widowed'),
-                                    onTap: (){
-                                      cubit.changeExpansionToWidowed();
-                                    },
-                                  ),
-                                ],
-                                onExpansionChanged: (isExpanded){
-                                  print('Expanded: $isExpanded');
+                            // ClipRRect(
+                            //   borderRadius: BorderRadius.circular(50.0),
+                            //   child: ExpansionTile(
+                            //     collapsedBackgroundColor: Colors.grey[200],
+                            //     title:Text(
+                            //       cubit.chosenStatus? cubit.status:'Marital status' ,
+                            //      ),
+                            //     backgroundColor: Colors.white,
+                            //     textColor: HexColor('4E51BF'),
+                            //     collapsedTextColor:HexColor('4E51BF'),
+                            //     children: [
+                            //       ListTile(
+                            //         title:const Text('Single'),
+                            //         onTap: (){
+                            //           cubit.changeExpansionToSingle();
+                            //         },
+                            //       ),
+                            //       ListTile(
+                            //         title:const Text('Married'),
+                            //         onTap: (){
+                            //           cubit.changeExpansionToMarried();
+                            //         },
+                            //       ),
+                            //       ListTile(
+                            //         title:const Text('Divorced'),
+                            //         onTap: (){
+                            //           cubit.changeExpansionToDivorced();
+                            //         },
+                            //       ),
+                            //       ListTile(
+                            //         title:const Text('Widowed'),
+                            //         onTap: (){
+                            //           cubit.changeExpansionToWidowed();
+                            //         },
+                            //       ),
+                            //     ],
+                            //     onExpansionChanged: (isExpanded){
+                            //       print('Expanded: $isExpanded');
+                            //     },
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   height: 10.0,
+                            // ),
+                            // ADDRESS //
+                            defaultFormField(
+                                controller: cubit.ageController,
+                                type: TextInputType.number,
+                                validate: (value){
+                                  if(value.isEmpty){
+                                    return'please enter your age';
+                                  }
+                                  return null;
                                 },
-                              ),
-                            ),
+                                label: 'Age',
+                                prefix: Icons.calendar_today),
                             const SizedBox(
                               height: 10.0,
                             ),
-                            // ADDRESS //
                             defaultFormField(
                                 controller: cubit.addressController,
                                 type: TextInputType.streetAddress,

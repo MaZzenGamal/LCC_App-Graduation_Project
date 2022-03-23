@@ -1,5 +1,6 @@
 abstract class LoginStates {}
 class LoginInitialState extends LoginStates{}
+class LoginPasswordVisibilityState extends LoginStates{}
 class GetAllUsersSuccessLoginState extends LoginStates{}
 class GetAllUsersErrorLoginState extends LoginStates{
   final String error;

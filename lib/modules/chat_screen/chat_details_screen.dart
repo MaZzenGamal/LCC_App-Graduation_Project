@@ -148,13 +148,13 @@ class ChatDetailsScreen extends StatelessWidget {
                               IconButton(onPressed: () {
                                 if (messageController.text != '') {
                                   if(AppCubit.get(context).doctors[0]!=docModel!) {
+                                    AppCubit.get(context).removeDoctor(index!);
                                     AppCubit.get(context).replaceDoctor(docModel!);
                                     docModel!.createdAt!=Timestamp.now();
-                                    AppCubit.get(context).removeDoctor(index!);
                                   }
                                   print("id of user to send him ${docModel!.uId!}");
                                   var y=CacheHelper.getData(key: 'uId');
-                                  print('sender id when loging ${y}');
+                                  print('sender id when logging ${y}');
                                   AppCubit.get(context).sendMessage(
                                       receiverId: docModel!.uId!,
                                       dateTime: DateTime.now()
@@ -162,7 +162,6 @@ class ChatDetailsScreen extends StatelessWidget {
                                       text: messageController.text);
                                   sendNotification('${docModel!.token!}', "nada", "hello");
                                 }
-
                                 messageController.text = '';
                               },
                                   icon: const Icon(
