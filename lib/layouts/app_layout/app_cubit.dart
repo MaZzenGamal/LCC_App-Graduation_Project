@@ -1,5 +1,6 @@
-
+import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,17 +11,11 @@ import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:graduation_project/modules/home_screen/home_screen.dart';
-import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
-import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
-import 'package:graduation_project/shared/styles/icon_broken.dart';
-import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -73,7 +68,31 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBotNavState());
   }
 
-
+  var serverToken =
+      "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
+  sendNotfiy(String title,String body,String token) async {
+    print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': body,
+            'title': title,
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK'
+          },
+          'to':token,
+        },
+      ),
+    );
+  }
   void getDoctorData() {
     emit(GetDoctorLoadingState());
     FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
@@ -140,6 +159,7 @@ class AppCubit extends Cubit<AppStates> {
     required String receiverId,
     required String dateTime,
     required String text,
+    required String token,
   }) {
     MessagesModel model = MessagesModel(
         dateTime: dateTime,
@@ -169,6 +189,9 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
+        var title="nada";
+        var body="xxxxx";
+        sendNotfiy(title,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
@@ -197,6 +220,9 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
+        var title="nada";
+        var body="xxxxx";
+        sendNotfiy(title,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
@@ -300,16 +326,16 @@ class AppCubit extends Cubit<AppStates> {
       ) {
     emit(UpdateProfileLoadingState());
     DoctorModel model = DoctorModel(
-        fullName: name,
-        phone: phone,
-        email: docModel.email,
-        image: image??docModel.image,
-        uId: docModel.uId,
-        token: docModel.token,
-        address: address,
-        age: age,
-        gender:gender,
-        university:university,
+      fullName: name,
+      phone: phone,
+      email: docModel.email,
+      image: image??docModel.image,
+      uId: docModel.uId,
+      token: docModel.token,
+      address: address,
+      age: age,
+      gender:gender,
+      university:university,
     );
     FirebaseFirestore.instance
         .collection('doctor')
@@ -324,46 +350,46 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  // void uploadProfileImage({
-  //   required String name,
-  //   required String email,
-  //   required String phone,
-  //   required String gender,
-  //   required int age,
-  //   required String address,
-  //   required String university,
-  // }) {
-  //   emit(UploadProfileImageLoadingState());
-  //   firebase_storage.FirebaseStorage.instance
-  //       .ref()
-  //       .child('doctor/${Uri.file(profileImage!.path).pathSegments.last}')
-  //       .putFile(profileImage!)
-  //       .then((value) {
-  //     value.ref.getDownloadURL()
-  //         .then((value)
-  //     {
-  //       print(value.toString());
-  //       updateProfile(
-  //         gender: gender,
-  //           name: name,
-  //           phone: phone,
-  //           address: address,
-  //           //age: age,
-  //           university: university,
-  //           image: value);
-  //       showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
-  //       emit(UploadProfileImageSuccessState());
-  //     })
-  //         .catchError((error)
-  //     {
-  //       showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
-  //       emit(UploadProfileImageErrorState(error));
-  //     });
-  //   }).catchError((error)
-  //   {
-  //     showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
-  //     print(error);
-  //     emit(UploadProfileImageErrorState(error));
-  //   });
-  // }
+// void uploadProfileImage({
+//   required String name,
+//   required String email,
+//   required String phone,
+//   required String gender,
+//   required int age,
+//   required String address,
+//   required String university,
+// }) {
+//   emit(UploadProfileImageLoadingState());
+//   firebase_storage.FirebaseStorage.instance
+//       .ref()
+//       .child('doctor/${Uri.file(profileImage!.path).pathSegments.last}')
+//       .putFile(profileImage!)
+//       .then((value) {
+//     value.ref.getDownloadURL()
+//         .then((value)
+//     {
+//       print(value.toString());
+//       updateProfile(
+//         gender: gender,
+//           name: name,
+//           phone: phone,
+//           address: address,
+//           //age: age,
+//           university: university,
+//           image: value);
+//       showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
+//       emit(UploadProfileImageSuccessState());
+//     })
+//         .catchError((error)
+//     {
+//       showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
+//       emit(UploadProfileImageErrorState(error));
+//     });
+//   }).catchError((error)
+//   {
+//     showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
+//     print(error);
+//     emit(UploadProfileImageErrorState(error));
+//   });
+// }
 }
