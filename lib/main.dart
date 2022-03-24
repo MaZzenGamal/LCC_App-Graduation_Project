@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home:LoginScreen(),
+          home:AppLayout(),
         ),
       )
     );

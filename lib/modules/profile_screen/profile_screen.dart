@@ -46,15 +46,26 @@ class ProfileScreen extends StatelessWidget {
             actions: [
               defaultTextButton(
                   function: (){
+                    if(cubit.profileImage == null){
                     cubit.updateProfile(
                         name: nameController.text,
                         phone: phoneController.text,
                         address: addressController.text,
                         age: ageController.text,
                         gender: genderController.text,
-                        university: universityController.text);
-                  },
-                  text: 'Update')
+                        university: universityController.text);}
+                    else{
+                      cubit.uploadProfileImage(
+                          name: nameController.text,
+                          phone: phoneController.text,
+                          address: addressController.text,
+                          age: ageController.text,
+                          gender: genderController.text,
+                          university: universityController.text
+                      );
+                    }
+                   },
+                  text: 'Update'),
             ],
           ),
           body: SingleChildScrollView(
@@ -64,19 +75,37 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  if(state is UpdateProfileLoadingState)
+                    const LinearProgressIndicator(),
+                  if(state is UpdateProfileLoadingState)
+                    const SizedBox(height: 10.0,),
                   Center(
                     child: Stack(
                       alignment: AlignmentDirectional.bottomEnd,
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                          radius: 70.0 ,
-                          child: CircleAvatar(
-                            radius: 70.0,
-                            backgroundImage: profileImage == null? NetworkImage(
-                              '${docModel.image}',
-                            ) : FileImage(profileImage) as ImageProvider,
-                          ),
+                        Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                              radius: 70.0 ,
+                              child: CircleAvatar(
+                                radius: 70.0,
+                                backgroundColor: Colors.white,
+                                backgroundImage: profileImage == null? NetworkImage(
+                                  '${docModel.image}',
+                                ) : FileImage(profileImage) as ImageProvider,
+                              ),
+                            ),
+                            if(state is UploadProfileImageLoadingState)
+                              CircleAvatar(
+                                radius: 70.0,
+                                backgroundColor: Colors.grey.withOpacity(0.5),
+                                child:const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ) ,
+                              ),
+                          ],
                         ),
                         CircleAvatar(
                           backgroundColor: Colors.grey.withOpacity(0.7),
@@ -183,7 +212,8 @@ class ProfileScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      label: '${docModel.gender}',
+                      hint: '${docModel.gender}',
+                      label:'Gender',
                       prefix: Icons.male),
                   const SizedBox(
                     height: 8.0,
@@ -197,7 +227,8 @@ class ProfileScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      label: '${docModel.university}',
+                      hint: '${docModel.university}',
+                      label:'University',
                       prefix: Icons.school_outlined),
                 ],
               ),
