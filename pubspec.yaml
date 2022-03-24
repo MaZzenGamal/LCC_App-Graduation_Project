@@ -59,6 +59,7 @@ dependencies:
   permission_handler: ^9.2.0
   agora_rtc_engine: ^5.0.0
   photo_manager: ^2.0.4
+  flutter_rating_bar: ^4.0.0
 
 
   #Firebase
