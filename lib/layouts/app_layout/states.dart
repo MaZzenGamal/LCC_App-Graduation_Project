@@ -54,12 +54,16 @@ class ProfileImageValidationState extends AppStates{}
 
 class UpdateProfileLoadingState extends AppStates{}
 
+class UpdateProfileSuccessState extends AppStates{}
+
 class UpdateProfileErrorState extends AppStates{
   final String error;
   UpdateProfileErrorState(this.error);
 }
 
 class UploadProfileImageLoadingState extends AppStates{}
+
+class UploadProfileImageLoadingState2 extends AppStates{}
 
 class UploadProfileImageSuccessState extends AppStates{}
 

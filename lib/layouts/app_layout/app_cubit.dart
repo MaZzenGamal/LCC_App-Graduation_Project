@@ -16,6 +16,7 @@ import 'package:graduation_project/modules/settings_screen/settings_screen.dart'
 import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -322,20 +323,19 @@ class AppCubit extends Cubit<AppStates> {
     required String university,
     required String gender,
     String? image,
-  }
-      ) {
+  }){
     emit(UpdateProfileLoadingState());
     DoctorModel model = DoctorModel(
-      fullName: name,
-      phone: phone,
-      email: docModel.email,
-      image: image??docModel.image,
-      uId: docModel.uId,
-      token: docModel.token,
-      address: address,
-      age: age,
-      gender:gender,
-      university:university,
+        fullName: name,
+        phone: phone,
+        email: docModel.email,
+        image: image??docModel.image,
+        uId: docModel.uId,
+        token: docModel.token,
+        address: address,
+        age: age,
+        gender:gender,
+        university:university,
     );
     FirebaseFirestore.instance
         .collection('doctor')
@@ -343,53 +343,64 @@ class AppCubit extends Cubit<AppStates> {
         .update(model.toMap())
         .then((value)
     {
+      showToast(text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
+      emit(UpdateProfileSuccessState());
       getDoctorData();
     }).catchError((error)
     {
+      var index=(error.toString()).indexOf(']');
+      String showError=(error.toString()).substring(index+1);
+      showToast(text: showError, state: ToastStates.ERROR);
+      print(error);
       emit(UpdateProfileErrorState(error));
     });
   }
 
-// void uploadProfileImage({
-//   required String name,
-//   required String email,
-//   required String phone,
-//   required String gender,
-//   required int age,
-//   required String address,
-//   required String university,
-// }) {
-//   emit(UploadProfileImageLoadingState());
-//   firebase_storage.FirebaseStorage.instance
-//       .ref()
-//       .child('doctor/${Uri.file(profileImage!.path).pathSegments.last}')
-//       .putFile(profileImage!)
-//       .then((value) {
-//     value.ref.getDownloadURL()
-//         .then((value)
-//     {
-//       print(value.toString());
-//       updateProfile(
-//         gender: gender,
-//           name: name,
-//           phone: phone,
-//           address: address,
-//           //age: age,
-//           university: university,
-//           image: value);
-//       showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
-//       emit(UploadProfileImageSuccessState());
-//     })
-//         .catchError((error)
-//     {
-//       showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
-//       emit(UploadProfileImageErrorState(error));
-//     });
-//   }).catchError((error)
-//   {
-//     showToast(text: 'Check your internet connection', state: ToastStates.ERROR);
-//     print(error);
-//     emit(UploadProfileImageErrorState(error));
-//   });
-// }
+  void uploadProfileImage({
+    required String name,
+    required String phone,
+    required String gender,
+    required String age,
+    required String address,
+    required String university,
+  }){
+    emit(UploadProfileImageLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('doctor/${Uri.file(profileImage!.path).pathSegments.last}')
+        .putFile(profileImage!)
+        .then((value) {
+      value.ref.getDownloadURL()
+          .then((value)
+      {
+        print(value.toString());
+        updateProfile(
+          gender: gender,
+            name: name,
+            phone: phone,
+            address: address,
+            age: age,
+            university: university,
+            image: value);
+        showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
+        emit(UploadProfileImageSuccessState());
+        //emit(UploadProfileImageLoadingState2());
+        profileImage = null;
+      }).catchError((error)
+      {
+        var index=(error.toString()).indexOf(']');
+        String showError=(error.toString()).substring(index+1);
+        showToast(text: showError, state: ToastStates.ERROR);
+        print(error);
+        emit(UploadProfileImageErrorState(error));
+      });
+    }).catchError((error)
+    {
+      var index=(error.toString()).indexOf(']');
+      String showError=(error.toString()).substring(index+1);
+      showToast(text: showError, state: ToastStates.ERROR);
+      print(error);
+      emit(UploadProfileImageErrorState(error));
+    });
+  }
 }

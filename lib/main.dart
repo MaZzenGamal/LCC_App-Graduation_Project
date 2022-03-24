@@ -50,19 +50,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context)=>AppCubit()..getUsers()..getDoctorData()),
-          BlocProvider(create: (context)=>RegisterCubit(),)
-        ],
-        child: BlocConsumer<AppCubit,AppStates>(
-          listener: (context,state){},
-          builder: (context,state)=>MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            //darkTheme: darkTheme,
-            home:LoginScreen(),
-          ),
-        )
+      providers: [
+        BlocProvider(create: (context)=>AppCubit()..getUsers()..getDoctorData()),
+        BlocProvider(create: (context)=>RegisterCubit(),)
+      ],
+      child: BlocConsumer<AppCubit,AppStates>(
+        listener: (context,state){},
+        builder: (context,state)=>MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          //darkTheme: darkTheme,
+          home:AppLayout(),
+        ),
+      )
     );
   }
 }
