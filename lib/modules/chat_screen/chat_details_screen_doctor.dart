@@ -118,12 +118,13 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                                   if(AppCubit.get(context).patients[0]!=patModel!){
                                     AppCubit.get(context).removePatient(index!);
                                     AppCubit.get(context).replacePatient(patModel!);
-                                   patModel!.createdAt!=Timestamp.now();
+                                    patModel!.createdAt!=Timestamp.now();
                                   }
-                                    AppCubit.get(context).sendMessage(
+                                  AppCubit.get(context).sendMessage(
                                       receiverId: patModel!.uId!,
                                       dateTime: DateTime.now()
                                           .toString(),
+                                      token: patModel!.token!,
                                       text: messageController.text);
                                 }
                                 messageController.text = '';
@@ -185,3 +186,4 @@ Widget buildMyMessages(MessagesModel model) =>Align(
     ),
   ),
 );
+
