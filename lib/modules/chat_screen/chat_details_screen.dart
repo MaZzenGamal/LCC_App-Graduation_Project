@@ -24,33 +24,6 @@ class ChatDetailsScreen extends StatelessWidget {
 
   var messageController = TextEditingController();
 
-  Future<Response> sendNotification(String token, String contents, String heading) async {
-    print("xxxxx");
-    return await post(
-      Uri.parse('https://onesignal.com/api/v1/notifications'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>
-      {
-        "app_id": 'ecd11fed-ac58-43f7-b224-1d158bf5dfdd',//kAppId is the App Id that one get from the OneSignal When the application is registered.
-
-        "include_player_ids": token,//tokenIdList Is the List of All the Token Id to to Whom notification must be sent.
-
-        // android_accent_color reprsent the color of the heading text in the notifiction
-        "android_accent_color":"FF9976D2",
-
-        "small_icon":"ic_stat_onesignal_default",
-
-        "large_icon":"https://www.filepicker.io/api/file/zPloHSmnQsix82nlj9Aj?filename=name.jpg",
-
-        "headings": {"en": heading},
-
-        "contents": {"en": contents},
-
-      }),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,8 +132,8 @@ class ChatDetailsScreen extends StatelessWidget {
                                       receiverId: docModel!.uId!,
                                       dateTime: DateTime.now()
                                           .toString(),
+                                      token: docModel!.token!,
                                       text: messageController.text);
-                                  sendNotification('${docModel!.token!}', "nada", "hello");
                                 }
                                 messageController.text = '';
                               },
@@ -404,5 +377,3 @@ Widget buildMyMessages(MessagesModel model) =>Align(
     ),
   ),
 );*/
-
-

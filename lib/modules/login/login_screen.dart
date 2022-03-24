@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_layout.dart';
-import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -28,20 +27,21 @@ class LoginScreen extends StatelessWidget {
       create: (BuildContext context)=>LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context,state) async {
-        if(state is LoginSuccessState ){
-          var collection = FirebaseFirestore.instance.collection('user');
-          var docSnapshot = await collection.doc(state.uId).get();
-          if (docSnapshot.exists) {
-            Map<String, dynamic>? data = docSnapshot.data();
-             //var type = data?['tpye'];// <-- The value you want to retrieve.
-            CacheHelper.saveData(key: 'type', value: data!['type']);
-            print(CacheHelper.getData(key: 'type'));
-          }
-          CacheHelper.saveData(key: 'uId', value: state.uId);
-          navigateAndFinish(context, const AppLayout());
+          if(state is LoginSuccessState ){
+            var collection = FirebaseFirestore.instance.collection('user');
+            var docSnapshot = await collection.doc(state.uId).get();
+            if (docSnapshot.exists) {
+              Map<String, dynamic>? data = docSnapshot.data();
+              //var type = data?['tpye'];// <-- The value you want to retrieve.
+              CacheHelper.saveData(key: 'type', value: data!['type']);
+              print(CacheHelper.getData(key: 'type'));
+            }
+            CacheHelper.saveData(key: 'uId', value: state.uId);
+            LoginCubit.get(context).updateToken(userId: CacheHelper.getData(key: 'uId'));
+            navigateAndFinish(context, const AppLayout());
           }
 
-    },
+        },
         builder: (context,state){
           return Scaffold(
               body: Container(
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                             'Welcome',
                             style: Theme.of(context).textTheme.headline3!.copyWith(
                                 color: Colors.white,
-                              fontSize: 43.0
+                                fontSize: 43.0
                             ),),
                           const SizedBox(
                             height: 120.0,
@@ -114,8 +114,8 @@ class LoginScreen extends StatelessWidget {
                           ),
                           //
                           BuildCondition(
-                              condition: state is! LoginLoadingState ,
-                              builder: (context)=> defaultButton(function: ()
+                            condition: state is! LoginLoadingState ,
+                            builder: (context)=> defaultButton(function: ()
                             {
                               if(formKey.currentState!.validate())
                               {

@@ -25,43 +25,13 @@ import 'modules/register/cubit/register_cubit.dart';
 import 'modules/register/register_screen1.dart';
 import 'modules/register/register_screen3.dart';
 import 'myTest/test_screen.dart';
-Future<void>firebaseMessagingBackgroundHandler(RemoteMessage message)async{
-  print("on background message");
-  print(message.data.toString());
-
-}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  OneSignal.shared.setAppId('ecd11fed-ac58-43f7-b224-1d158bf5dfdd');
-  OneSignal.shared.setNotificationWillShowInForegroundHandler((OSNotificationReceivedEvent event) {
-    // Will be called whenever a notification is received in foreground
-    // Display Notification, pass null param for not displaying the notification
-    event.complete(event.notification);
-  });
-
-  OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-    // Will be called whenever a notification is opened/button pressed.
-  });
-  await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
-  var token= await FirebaseMessaging.instance.getToken();
-  print (token);
-  //foreground fcm
-  FirebaseMessaging.onMessage.listen((event) {
-    print('on message');
-    print (event.data.toString());
-  });
-  //when click on notification to open app
-  FirebaseMessaging.onMessageOpenedApp.listen((event) {
-    print('on message opened app');
-    print (event.data.toString());
-  });
-  //background fcm    fcm  firebase cloud messaging
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   Bloc.observer = MyBlocObserver();
   //DioHelper.init();
   await CacheHelper.init();
-  
+
   uId = CacheHelper.getData(key: 'uId');
   runApp( MyApp());
 }
@@ -76,10 +46,6 @@ class _MyAppState extends State<MyApp> {
   @override
   voidninitState(){
     super.initState();
-    configOneSignal();
-  }
-  void configOneSignal(){
-    OneSignal.shared.setAppId('ecd11fed-ac58-43f7-b224-1d158bf5dfdd');
   }
   @override
   Widget build(BuildContext context) {

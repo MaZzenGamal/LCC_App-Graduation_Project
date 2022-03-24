@@ -1,5 +1,6 @@
-
+import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +11,11 @@ import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:graduation_project/modules/home_screen/home_screen.dart';
-import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
-import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
-import 'package:graduation_project/shared/styles/icon_broken.dart';
-import 'package:graduation_project/shared/styles/my_flutter_app_icons.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
 
@@ -73,7 +69,31 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBotNavState());
   }
 
-
+  var serverToken =
+      "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
+  sendNotfiy(String title,String body,String token) async {
+    print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': body,
+            'title': title,
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK'
+          },
+          'to':token,
+        },
+      ),
+    );
+  }
   void getDoctorData() {
     emit(GetDoctorLoadingState());
     FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
@@ -140,6 +160,7 @@ class AppCubit extends Cubit<AppStates> {
     required String receiverId,
     required String dateTime,
     required String text,
+    required String token,
   }) {
     MessagesModel model = MessagesModel(
         dateTime: dateTime,
@@ -169,6 +190,9 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
+        var title="nada";
+        var body="xxxxx";
+        sendNotfiy(title,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
@@ -197,6 +221,9 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
+        var title="nada";
+        var body="xxxxx";
+        sendNotfiy(title,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
