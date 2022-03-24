@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
@@ -18,9 +15,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
   void userLogin({
-  required String email,
+    required String email,
     required String password,
-}){
+  }){
     emit(LoginLoadingState());
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value){
       print(value.user?.email);
@@ -83,6 +80,24 @@ class LoginCubit extends Cubit<LoginStates> {
           emit(GetAllUsersErrorLoginState(error.toString()));
         });
       }
+    }
+  }
+  Future<String> updateToken({required String userId}) async {
+    String?currentToken=await FirebaseMessaging.instance.getToken();
+    String type=CacheHelper.getData(key: 'type');
+    try {
+      if(type=="doctor")
+      {
+        FirebaseFirestore.instance.collection('doctor').doc(userId).update({'token':currentToken});
+      }
+      else if(type=="patient")
+      {
+        FirebaseFirestore.instance.collection('patient').doc(userId).update({'token':currentToken});
+      }
+
+      return "Token Updated Successfully...";
+    } on Exception catch (e) {
+      return e.toString();
     }
   }
 
