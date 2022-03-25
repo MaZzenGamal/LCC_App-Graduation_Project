@@ -94,16 +94,28 @@ class AppCubit extends Cubit<AppStates> {
       ),
     );
   }
-  void getDoctorData() {
-    emit(GetDoctorLoadingState());
-    FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
-      print(value.data());
-      docModel = DoctorModel.fromJson(value.data()!);
-      emit(GetDoctorSuccessState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetDoctorErrorState(error.toString()));
-    });
+  void getUserData() {
+    if (type == "patient") {
+      emit(GetPatientLoadingState());
+      FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+        print(value.data());
+        patModel = PatientModel.fromJson(value.data()!);
+        emit(GetPatientSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetPatientErrorState(error.toString()));
+      });
+    }else if(type == "doctor"){
+      emit(GetDoctorLoadingState());
+      FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
+        print(value.data());
+        docModel = DoctorModel.fromJson(value.data()!);
+        emit(GetDoctorSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetDoctorErrorState(error.toString()));
+      });
+    }
   }
 
   int age = 20;
@@ -315,16 +327,19 @@ class AppCubit extends Cubit<AppStates> {
   // emit(ProfileImageValidationState());
   // }
 
-  void updateProfile({
+  void updateDocProfile({
     required String name,
     required String phone,
     required String age,
     required String address,
     required String university,
     required String gender,
+    required String regisNumber,
+    required String specialization,
+    required String certificates,
     String? image,
   }){
-    emit(UpdateProfileLoadingState());
+    emit(UpdateDocProfileLoadingState());
     DoctorModel model = DoctorModel(
         fullName: name,
         phone: phone,
@@ -336,6 +351,9 @@ class AppCubit extends Cubit<AppStates> {
         age: age,
         gender:gender,
         university:university,
+        certificates: certificates,
+        specialization: specialization,
+        regisNumber: regisNumber
     );
     FirebaseFirestore.instance
         .collection('doctor')
@@ -344,27 +362,30 @@ class AppCubit extends Cubit<AppStates> {
         .then((value)
     {
       showToast(text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
-      emit(UpdateProfileSuccessState());
-      getDoctorData();
+      emit(UpdateDocProfileSuccessState());
+      getUserData();
     }).catchError((error)
     {
       var index=(error.toString()).indexOf(']');
       String showError=(error.toString()).substring(index+1);
       showToast(text: showError, state: ToastStates.ERROR);
       print(error);
-      emit(UpdateProfileErrorState(error));
+      emit(UpdateDocProfileErrorState(error));
     });
   }
 
-  void uploadProfileImage({
+  void uploadDocProfileImage({
     required String name,
     required String phone,
     required String gender,
     required String age,
     required String address,
     required String university,
+    required String regisNumber,
+    required String specialization,
+    required String certificates,
   }){
-    emit(UploadProfileImageLoadingState());
+    emit(UploadDocProfileImageLoadingState());
     firebase_storage.FirebaseStorage.instance
         .ref()
         .child('doctor/${Uri.file(profileImage!.path).pathSegments.last}')
@@ -374,16 +395,19 @@ class AppCubit extends Cubit<AppStates> {
           .then((value)
       {
         print(value.toString());
-        updateProfile(
+        updateDocProfile(
           gender: gender,
             name: name,
             phone: phone,
             address: address,
             age: age,
             university: university,
+            certificates: certificates,
+            specialization: specialization,
+            regisNumber: regisNumber,
             image: value);
         showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
-        emit(UploadProfileImageSuccessState());
+        emit(UploadDocProfileImageSuccessState());
         //emit(UploadProfileImageLoadingState2());
         profileImage = null;
       }).catchError((error)
@@ -392,7 +416,7 @@ class AppCubit extends Cubit<AppStates> {
         String showError=(error.toString()).substring(index+1);
         showToast(text: showError, state: ToastStates.ERROR);
         print(error);
-        emit(UploadProfileImageErrorState(error));
+        emit(UploadDocProfileImageErrorState(error));
       });
     }).catchError((error)
     {
@@ -400,7 +424,92 @@ class AppCubit extends Cubit<AppStates> {
       String showError=(error.toString()).substring(index+1);
       showToast(text: showError, state: ToastStates.ERROR);
       print(error);
-      emit(UploadProfileImageErrorState(error));
+      emit(UploadDocProfileImageErrorState(error));
+    });
+  }
+
+  void updatePatProfile({
+    required String name,
+    required String phone,
+    required String age,
+    required String address,
+    required String gender,
+    String? image,
+  }){
+    emit(UpdatePatProfileLoadingState());
+    PatientModel model = PatientModel(
+        fullName: name,
+        phone: phone,
+        email: patModel.email,
+        image: image??patModel.image,
+        uId: patModel.uId,
+        token: patModel.token,
+        address: address,
+        age: age,
+        gender:gender,
+    );
+    FirebaseFirestore.instance
+        .collection('patient')
+        .doc(patModel.uId)
+        .update(model.toMap())
+        .then((value)
+    {
+      showToast(text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
+      emit(UpdatePatProfileSuccessState());
+      getUserData();
+    }).catchError((error)
+    {
+      var index=(error.toString()).indexOf(']');
+      String showError=(error.toString()).substring(index+1);
+      showToast(text: showError, state: ToastStates.ERROR);
+      print(error);
+      emit(UpdatePatProfileErrorState(error));
+    });
+  }
+
+  void uploadPatProfileImage({
+    required String name,
+    required String phone,
+    required String gender,
+    required String age,
+    required String address,
+  }){
+    emit(UploadPatProfileImageLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('patient/${Uri.file(profileImage!.path).pathSegments.last}')
+        .putFile(profileImage!)
+        .then((value) {
+      value.ref.getDownloadURL()
+          .then((value)
+      {
+        print(value.toString());
+        updatePatProfile(
+            gender: gender,
+            name: name,
+            phone: phone,
+            address: address,
+            age: age,
+            image: value);
+        showToast(text: 'Profile image uploaded successfully', state: ToastStates.SUCCESS);
+        emit(UploadPatProfileImageSuccessState());
+        //emit(UploadProfileImageLoadingState2());
+        profileImage = null;
+      }).catchError((error)
+      {
+        var index=(error.toString()).indexOf(']');
+        String showError=(error.toString()).substring(index+1);
+        showToast(text: showError, state: ToastStates.ERROR);
+        print(error);
+        emit(UploadPatProfileImageErrorState(error));
+      });
+    }).catchError((error)
+    {
+      var index=(error.toString()).indexOf(']');
+      String showError=(error.toString()).substring(index+1);
+      showToast(text: showError, state: ToastStates.ERROR);
+      print(error);
+      emit(UploadPatProfileImageErrorState(error));
     });
   }
 }

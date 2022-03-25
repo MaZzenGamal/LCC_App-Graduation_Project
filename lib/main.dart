@@ -10,7 +10,7 @@ import 'package:graduation_project/modules/cancer%20_informations/motivation_scr
 import 'package:graduation_project/modules/language/languages_screen.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/modules/profile_screen/profile_screen.dart';
+import 'package:graduation_project/modules/profile_screen/doctor_profile_screen.dart';
 import 'package:graduation_project/modules/register/register_screen2.dart';
 import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>AppCubit()..getUsers()..getDoctorData()),
+        BlocProvider(create: (context)=>AppCubit()..getUsers()..getUserData()),
         BlocProvider(create: (context)=>RegisterCubit(),)
       ],
       child: BlocConsumer<AppCubit,AppStates>(
@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home:AppLayout(),
+          home:LoginScreen(),
         ),
       )
     );
