@@ -24,6 +24,7 @@ import 'modules/on_boarding/on_boarding_screen.dart';
 import 'modules/register/cubit/register_cubit.dart';
 import 'modules/register/register_screen1.dart';
 import 'modules/register/register_screen3.dart';
+import 'modules/reservation_screen/doctors.dart';
 import 'myTest/test_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home:AppLayout(),
+          home:DoctorsScreen(),//AppLayout(),
         ),
       )
     );
