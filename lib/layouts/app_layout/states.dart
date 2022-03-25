@@ -4,6 +4,16 @@ class AppInitialState extends AppStates{}
 
 class AppBotNavState extends AppStates{}
 
+class GetPatientLoadingState extends AppStates{}
+
+class GetPatientSuccessState extends AppStates{}
+
+class GetPatientErrorState extends AppStates
+{
+  final String error;
+  GetPatientErrorState(this.error);
+}
+
 class GetDoctorLoadingState extends AppStates{}
 
 class GetDoctorSuccessState extends AppStates{}
@@ -52,24 +62,40 @@ class ProfileImagePickerErrorState extends AppStates{}
 
 class ProfileImageValidationState extends AppStates{}
 
-class UpdateProfileLoadingState extends AppStates{}
+class UpdateDocProfileLoadingState extends AppStates{}
 
-class UpdateProfileSuccessState extends AppStates{}
+class UpdateDocProfileSuccessState extends AppStates{}
 
-class UpdateProfileErrorState extends AppStates{
+class UpdateDocProfileErrorState extends AppStates{
   final String error;
-  UpdateProfileErrorState(this.error);
+  UpdateDocProfileErrorState(this.error);
 }
 
-class UploadProfileImageLoadingState extends AppStates{}
+class UploadDocProfileImageLoadingState extends AppStates{}
 
-class UploadProfileImageLoadingState2 extends AppStates{}
+class UploadDocProfileImageSuccessState extends AppStates{}
 
-class UploadProfileImageSuccessState extends AppStates{}
-
-class UploadProfileImageErrorState extends AppStates{
+class UploadDocProfileImageErrorState extends AppStates{
   final String error;
-  UploadProfileImageErrorState(this.error);
+  UploadDocProfileImageErrorState(this.error);
+}
+
+class UpdatePatProfileLoadingState extends AppStates{}
+
+class UpdatePatProfileSuccessState extends AppStates{}
+
+class UpdatePatProfileErrorState extends AppStates{
+  final String error;
+  UpdatePatProfileErrorState(this.error);
+}
+
+class UploadPatProfileImageLoadingState extends AppStates{}
+
+class UploadPatProfileImageSuccessState extends AppStates{}
+
+class UploadPatProfileImageErrorState extends AppStates{
+  final String error;
+  UploadPatProfileImageErrorState(this.error);
 }
 
 class UpdateProfileAgeValueState extends AppStates{}

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/modules/cancer%20_informations/cancer_info_screen.dart';
 import 'package:graduation_project/modules/language/languages_screen.dart';
-import 'package:graduation_project/modules/profile_screen/profile_screen.dart';
+import 'package:graduation_project/modules/profile_screen/doctor_profile_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
 import '../../layouts/app_layout/app_cubit.dart';
 import '../../layouts/app_layout/states.dart';
+import '../profile_screen/patient_profile_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
     return BlocConsumer<AppCubit,AppStates>(
     listener: (context, state) {} ,
     builder: (context,state){
+      var cubit = AppCubit.get(context);
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.separated(
@@ -37,8 +39,13 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             onTap: (){
-             // AppCubit.get(context).getUsers();
-              navigateTo(context, ProfileScreen());
+              if(cubit.type == 'doctor')
+                {
+                  navigateTo(context, DoctorProfileScreen());
+                }else if (cubit.type == 'patient')
+                  {
+                    navigateTo(context, PatientProfileScreen());
+                  }
             },
           ),
           separatorBuilder: (context,index)=>myDivider(),

@@ -102,11 +102,11 @@ class LoginScreen extends StatelessWidget {
                                 }
                               },
                               label: 'Password',
-                              isPassword: RegisterCubit.get(context).isPasswordLogin,
+                              isPassword: LoginCubit.get(context).isPasswordLogin,
                               prefix: Icons.lock_outline,
-                              suffix: RegisterCubit.get(context).suffixLogin,
+                              suffix: LoginCubit.get(context).suffixLogin,
                               suffixPressed: (){
-                                RegisterCubit.get(context).changeLoginPasswordVisibility();
+                                LoginCubit.get(context).changeLoginPasswordVisibility();
                               }
                           ),
                           const SizedBox(
