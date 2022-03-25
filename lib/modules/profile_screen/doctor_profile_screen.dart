@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,8 +11,8 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../select_age/select_age_register_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class DoctorProfileScreen extends StatelessWidget {
+  const DoctorProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
@@ -31,6 +30,9 @@ class ProfileScreen extends StatelessWidget {
         var addressController = TextEditingController();
         var universityController = TextEditingController();
         var ageController = TextEditingController();
+        var specializeController = TextEditingController();
+        var registrationNuController = TextEditingController();
+        var certificateController = TextEditingController();
 
         nameController.text =docModel.fullName!;
         emailController.text =docModel.email!;
@@ -39,6 +41,9 @@ class ProfileScreen extends StatelessWidget {
         addressController.text =docModel.address!;
         universityController.text =docModel.university!;
         ageController.text =docModel.age!;
+        specializeController.text=docModel.specialization!;
+        registrationNuController.text=docModel.regisNumber!;
+        certificateController.text=docModel.certificates!;
 
 
         return Scaffold(
@@ -48,23 +53,27 @@ class ProfileScreen extends StatelessWidget {
               defaultTextButton(
                   function: (){
                     if(cubit.profileImage == null){
-                    cubit.updateProfile(
+                    cubit.updateDocProfile(
                         name: nameController.text,
                         phone: phoneController.text,
                         address: addressController.text,
                         age: ageController.text,
                         gender: genderController.text,
-                        university: universityController.text);}
+                        university: universityController.text,
+                        regisNumber: registrationNuController.text,
+                        specialization: specializeController.text,
+                        certificates: certificateController.text,);}
                     else{
-                      cubit.uploadProfileImage(
+                      cubit.uploadDocProfileImage(
                           name: nameController.text,
                           phone: phoneController.text,
                           address: addressController.text,
                           age: ageController.text,
                           gender: genderController.text,
-                          university: universityController.text
-                      );
-                    }
+                          university: universityController.text,
+                          regisNumber: registrationNuController.text,
+                          specialization: specializeController.text,
+                          certificates: certificateController.text,);}
                    },
                   text: 'Update'),
             ],
@@ -76,9 +85,9 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if(state is UpdateProfileLoadingState)
+                  if(state is UpdateDocProfileLoadingState)
                     const LinearProgressIndicator(),
-                  if(state is UpdateProfileLoadingState)
+                  if(state is UpdateDocProfileLoadingState)
                     const SizedBox(height: 10.0,),
                   Center(
                     child: Stack(
@@ -98,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
                                 ) : FileImage(profileImage) as ImageProvider,
                               ),
                             ),
-                            if(state is UploadProfileImageLoadingState)
+                            if(state is UploadDocProfileImageLoadingState)
                               CircleAvatar(
                                 radius: 70.0,
                                 backgroundColor: Colors.grey.withOpacity(0.5),
@@ -142,7 +151,7 @@ class ProfileScreen extends StatelessWidget {
                       label: 'Name',
                       prefix: Icons.person),
                   const SizedBox(
-                    height: 8.0,
+                    height: 12.0,
                   ),
                   defaultFormField(
                       controller: emailController,
@@ -157,7 +166,7 @@ class ProfileScreen extends StatelessWidget {
                       label: 'Email address',
                       prefix: Icons.email),
                   const SizedBox(
-                    height: 8.0,
+                    height: 12.0,
                   ),
                   defaultFormField(
                       controller: phoneController,
@@ -172,22 +181,45 @@ class ProfileScreen extends StatelessWidget {
                       label: 'Phone',
                       prefix: Icons.phone_android),
                   const SizedBox(
-                    height: 8.0,
+                    height: 12.0,
                   ),
-            defaultFormField(
-                controller: ageController,
-                type: TextInputType.number,
-                validate: (value){
-                  if(value.isEmpty){
-                    return'please enter your age';
-                  }
-                  return null;
-                },
-                hint: '${docModel.age}',
-                label: 'Age',
-                prefix: Icons.calendar_today),
+            Row(
+              children: [
+                SizedBox(
+                  width: 170.0,
+                  child: defaultFormField(
+                      controller: ageController,
+                      type: TextInputType.number,
+                      validate: (value){
+                        if(value.isEmpty){
+                          return'please enter your age';
+                        }
+                        return null;
+                      },
+                      hint: '${docModel.age}',
+                      label: 'Age',
+                      prefix: Icons.calendar_today),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 170.0,
+                  child: defaultFormField(
+                      controller: genderController,
+                      type: TextInputType.text,
+                      validate: (value){
+                        if(value.isEmpty){
+                          return'please enter your gender';
+                        }
+                        return null;
+                      },
+                      hint: '${docModel.gender}',
+                      label:'Gender',
+                      prefix: Icons.male),
+                ),
+              ],
+            ),
                   const SizedBox(
-                    height: 8.0,
+                    height: 12.0,
                   ),
                   defaultFormField(
                       controller: addressController,
@@ -202,22 +234,7 @@ class ProfileScreen extends StatelessWidget {
                       label: 'Address',
                       prefix: Icons.home),
                   const SizedBox(
-                    height: 8.0,
-                  ),
-                  defaultFormField(
-                      controller: genderController,
-                      type: TextInputType.text,
-                      validate: (value){
-                        if(value.isEmpty){
-                          return'please enter your gender';
-                        }
-                        return null;
-                      },
-                      hint: '${docModel.gender}',
-                      label:'Gender',
-                      prefix: Icons.male),
-                  const SizedBox(
-                    height: 8.0,
+                    height: 12.0,
                   ),
                   defaultFormField(
                       controller: universityController,
@@ -231,6 +248,63 @@ class ProfileScreen extends StatelessWidget {
                       hint: '${docModel.university}',
                       label:'University',
                       prefix: Icons.school_outlined),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  ExpansionTile(
+                      title: const Text('Show more'),
+                  childrenPadding: EdgeInsets.symmetric(vertical: 8.0),
+                  children: [
+                    Column(
+                      children: [
+                        defaultFormField(
+                            controller: registrationNuController,
+                            type: TextInputType.number,
+                            isClickable: false,
+                            validate: (value){
+                              if(value.isEmpty){
+                                return'please enter your registration Number';
+                              }
+                              return null;
+                            },
+                            hint: '${docModel.regisNumber}',
+                            label: 'Registration number (unchangeable)',
+                            prefix: Icons.credit_card),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
+                        defaultFormField(
+                            controller: specializeController,
+                            type: TextInputType.text,
+                            isClickable: false,
+                            validate: (value){
+                              if(value.isEmpty){
+                                return'please enter your specialization';
+                              }
+                              return null;
+                            },
+                            hint: '${docModel.specialization}',
+                            label:'Specialization (unchangeable)',
+                            prefix: Icons.medical_services_outlined),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
+                        defaultFormField(
+                            controller: certificateController,
+                            type: TextInputType.text,
+                            validate: (value){
+                              if(value.isEmpty){
+                                return'please enter your certificates';
+                              }
+                              return null;
+                            },
+                            hint: '${docModel.certificates}',
+                            label:'Certificates',
+                            prefix: Icons.filter_frames_outlined),
+                      ],
+                    )
+                  ],
+                  )
                 ],
               ),
             ),
