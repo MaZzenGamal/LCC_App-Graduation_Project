@@ -8,17 +8,17 @@ import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 
-void signOut(context)
-{
-  CacheHelper.removeDate(
-      key: 'token'
-  ).then((value) {
-    if(value)
-      {
-        navigateAndFinish(context,LoginScreen());
-      }
-  });
-}
+// void signOut(context)
+// {
+//   CacheHelper.removeDate(
+//       key: 'uId',
+//   ).then((value) {
+//     if(value)
+//       {
+//         navigateAndFinish(context,LoginScreen());
+//       }
+//   });
+// }
 
 
 

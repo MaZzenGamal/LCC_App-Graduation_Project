@@ -10,11 +10,12 @@ import 'package:graduation_project/modules/cancer%20_informations/motivation_scr
 import 'package:graduation_project/modules/language/languages_screen.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/modules/profile_screen/profile_screen.dart';
 import 'package:graduation_project/modules/register/register_screen2.dart';
 import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/components/conestants.dart';
+import 'package:graduation_project/shared/cubit/main_cubit.dart';
+import 'package:graduation_project/shared/cubit/main_states.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -45,23 +46,25 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   //const MyApp({Key? key}) : super(key: key);
   @override
-  voidninitState(){
+  void initState(){
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>AppCubit()..getUsers()..getDoctorData()),
-        BlocProvider(create: (context)=>RegisterCubit(),)
+        BlocProvider(create: (context)=>MainCubit(),),
+        BlocProvider(create: (context)=>AppCubit()..getUsers()..getUserData()),
+        BlocProvider(create: (context)=>LoginCubit()),
+        BlocProvider(create: (context)=>RegisterCubit(),),
       ],
-      child: BlocConsumer<AppCubit,AppStates>(
+      child: BlocConsumer<MainCubit,MainStates>(
         listener: (context,state){},
         builder: (context,state)=>MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           //darkTheme: darkTheme,
-          home:DoctorsScreen(),//AppLayout(),
+          home:LoginScreen(),
         ),
       )
     );
