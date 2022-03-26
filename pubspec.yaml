@@ -68,7 +68,6 @@ dependencies:
   cloud_firestore: ^2.5.2
   firebase_storage: ^10.2.9
   firebase_messaging: ^11.2.10
-  flutter_rating_bar: ^4.0.0-nullsafety.0
 
 
 dev_dependencies:
@@ -143,7 +142,6 @@ flutter:
     - assets/images/background2.jpg
     - assets/images/register.jpg
     - assets/images/register2.jpg
-    - assets/images/Abstract.jpg
 
 
 

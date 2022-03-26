@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -69,6 +71,11 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBotNavState());
   }
 
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    emit(SignOutState());
+  }
+
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
   sendNotfiy(String title,String body,String token) async {
@@ -97,7 +104,7 @@ class AppCubit extends Cubit<AppStates> {
   void getUserData() {
     if (type == "patient") {
       emit(GetPatientLoadingState());
-      FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+      FirebaseFirestore.instance.collection('patient').doc(uID).get().then((value) {
         print(value.data());
         patModel = PatientModel.fromJson(value.data()!);
         emit(GetPatientSuccessState());
@@ -107,7 +114,7 @@ class AppCubit extends Cubit<AppStates> {
       });
     }else if(type == "doctor"){
       emit(GetDoctorLoadingState());
-      FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
+      FirebaseFirestore.instance.collection('doctor').doc(uID).get().then((value) {
         print(value.data());
         docModel = DoctorModel.fromJson(value.data()!);
         emit(GetDoctorSuccessState());
@@ -139,11 +146,11 @@ class AppCubit extends Cubit<AppStates> {
               doctors.add(DoctorModel.fromJson(element.data()));
             }
           });
-          emit(GetAllPatientsSuccessState());
+          emit(GetAllDoctorsSuccessState());
         })
             .catchError((error) {
           print(error.toString());
-          emit(GetAllPatientsErrorState(error.toString()));
+          emit(GetAllDoctorsErrorState(error.toString()));
         });
       }
     }
@@ -158,11 +165,11 @@ class AppCubit extends Cubit<AppStates> {
               patients.add(PatientModel.fromJson(element.data()));
             }
           });
-          emit(GetAllDoctorsSuccessState());
+          emit(GetAllPatientsSuccessState());
         })
             .catchError((error) {
           print(error.toString());
-          emit(GetAllDoctorsErrorState(error.toString()));
+          emit(GetAllPatientsErrorState(error.toString()));
         });
       }
     }
@@ -347,6 +354,7 @@ class AppCubit extends Cubit<AppStates> {
         image: image??docModel.image,
         uId: docModel.uId,
         token: docModel.token,
+        createdAt: docModel.createdAt,
         address: address,
         age: age,
         gender:gender,
@@ -444,6 +452,7 @@ class AppCubit extends Cubit<AppStates> {
         image: image??patModel.image,
         uId: patModel.uId,
         token: patModel.token,
+        createdAt: patModel.createdAt,
         address: address,
         age: age,
         gender:gender,

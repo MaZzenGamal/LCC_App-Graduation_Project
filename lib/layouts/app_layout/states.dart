@@ -4,6 +4,8 @@ class AppInitialState extends AppStates{}
 
 class AppBotNavState extends AppStates{}
 
+class SignOutState extends AppStates{}
+
 class GetPatientLoadingState extends AppStates{}
 
 class GetPatientSuccessState extends AppStates{}

@@ -11,6 +11,8 @@ import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 
+import '../../../shared/components/conestants.dart';
+
 class LoginCubit extends Cubit<LoginStates> {
   //LoginCubit(LoginStates initialState) : super(initialState);
   LoginCubit():super (LoginInitialState()) ;
@@ -52,6 +54,30 @@ class LoginCubit extends Cubit<LoginStates> {
   var type=CacheHelper.getData(key: 'type');
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
+
+  void getUserData() {
+    if (type == "patient") {
+      emit(GetPatientLoadingState());
+      FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+        print(value.data());
+        patModel = PatientModel.fromJson(value.data()!);
+        emit(GetPatientSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetPatientErrorState(error.toString()));
+      });
+    }else if(type == "doctor"){
+      emit(GetDoctorLoadingState());
+      FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
+        print(value.data());
+        docModel = DoctorModel.fromJson(value.data()!);
+        emit(GetDoctorSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetDoctorErrorState(error.toString()));
+      });
+    }
+  }
 
   void getUsers() {
     //print ('${type}');
