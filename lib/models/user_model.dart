@@ -12,6 +12,9 @@ class UserModel
     this.email,
     this.type,
     this.uId,
+    this.gender,
+    this.status,
+    this.name
   });
   UserModel.fromJson(Map<String,dynamic>json)
   {
