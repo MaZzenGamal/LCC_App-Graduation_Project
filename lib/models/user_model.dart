@@ -4,6 +4,9 @@ class UserModel
   String? email;
   String? type;
   String? uId;
+  String?gender;
+  String?status;
+  String?name;
 
   UserModel({
     this.email,
@@ -15,6 +18,9 @@ class UserModel
     email = json['email'];
    type = json['type'];
     uId = json['uId'];
+    gender=json['gender'];
+    status=json['status'];
+    name=json['name'];
   }
 
   Map<String,dynamic> toMap()
@@ -23,6 +29,9 @@ class UserModel
       'email':email,
       'uId':uId,
       'type':type,
+      'gender':gender,
+      'status':status,
+      'name':name,
     };
   }
 }
