@@ -14,7 +14,6 @@ class DoctorsInformation extends StatelessWidget {
   PatientModel? patModel;
   DoctorModel? docModel;
   int patientNumber=300;
- //String exprience='10';
   DoctorsInformation({Key? key, this.docModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
