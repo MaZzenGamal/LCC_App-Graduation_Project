@@ -6,6 +6,8 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../shared/components/components.dart';
+import 'doctor_information_screen.dart';
 class DoctorsScreen extends StatelessWidget {
 
   @override
@@ -48,7 +50,7 @@ class DoctorsScreen extends StatelessWidget {
 Widget buildDoctorItem(DoctorModel model,context) => InkWell(
   onTap: ()
   {
-    //navigateTo(context, ChatDetailsScreen(docModel: model,index:index1));
+    navigateTo(context,DoctorsInformation (docModel: model));
   } ,
   child:Padding(
     padding: const EdgeInsets.all(10.0),
@@ -80,7 +82,7 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Dr. ${model.fullName}',
+                      'Dr.${model.fullName}',
                       style: TextStyle(fontSize: 18.0, height: 1.3,color: Colors.black,fontWeight: FontWeight.bold),
                     ),
                     Text(

@@ -101,3 +101,13 @@ class UploadPatProfileImageErrorState extends AppStates{
 }
 
 class UpdateProfileAgeValueState extends AppStates{}
+class SendCommentsSuccessState extends AppStates{}
+class SendCommentsErrorState extends AppStates{
+  final String error;
+  SendCommentsErrorState(this.error);
+}
+class getCommentsSuccessState extends AppStates{}
+class getCommentsErrorState extends AppStates{
+  final String error;
+  getCommentsErrorState(this.error);
+}
