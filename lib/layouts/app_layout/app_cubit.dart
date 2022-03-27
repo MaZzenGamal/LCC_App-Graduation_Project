@@ -1,9 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:graduation_project/modules/settings_screen/settings_screen.dart'
 import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../models/comment_model.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
 
@@ -66,8 +68,9 @@ class AppCubit extends Cubit<AppStates> {
 
   void changeBotNavBar(int index) {
     currentIndex = index;
-    if (index == 1)
+    if (index == 1) {
       const SearchScreen();
+    }
     emit(AppBotNavState());
   }
 
@@ -174,7 +177,56 @@ class AppCubit extends Cubit<AppStates> {
       }
     }
   }
+  void sendComment({
+    required String receiverId,
+    required Timestamp dateTime,
+    required String text,
+    required double rate,
+  }) {
+    String? name;
+    String?photo;
+    FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+      patModel = PatientModel.fromJson(value.data()!);
+      name = patModel.fullName;
+      photo=patModel.image;
+    });
 
+    CommentModel model = CommentModel(
+        receiverId: receiverId,
+        senderId: uID,
+        message: text,
+        rate: rate,
+      createdAt: dateTime,
+      fullName: name,
+      image: photo,
+
+    );
+      FirebaseFirestore.instance
+          .collection('comment')
+          .doc(receiverId)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendCommentsSuccessState());
+      })
+          .catchError((error) {
+        emit(SendCommentsErrorState(error));
+      });
+    }
+  List<CommentModel> comments=[];
+  void getComment(String uid){
+    if (comments.isEmpty) {
+      FirebaseFirestore.instance.collection('comment').get().then((value) {
+        value.docs.forEach((element) {
+          //if (element == uid) {
+            comments.add(CommentModel.fromJson(element.data()));
+         // }
+        });
+        emit(getCommentsSuccessState());
+      }).catchError((error) {
+        emit(getCommentsErrorState(error));
+      });
+    }
+  }
   void sendMessage({
     required String receiverId,
     required String dateTime,
@@ -209,9 +261,12 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
-        var title="nada";
-        var body="xxxxx";
-        sendNotfiy(title,body,token);
+            String ?title;
+        FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+          patModel = PatientModel.fromJson(value.data()!);
+           title = patModel.fullName;});
+        var body=text;
+        sendNotfiy(title!,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
@@ -240,9 +295,12 @@ class AppCubit extends Cubit<AppStates> {
           .collection('messages')
           .add(model.toMap())
           .then((value) {
-        var title="nada";
-        var body="xxxxx";
-        sendNotfiy(title,body,token);
+        String ?title;
+        FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
+          patModel = PatientModel.fromJson(value.data()!);
+          title = docModel.fullName;});
+        var body=text;
+        sendNotfiy(title!,body,token);
         emit(SendMessagesSuccessState());
       })
           .catchError((error) {
