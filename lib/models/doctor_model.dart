@@ -21,6 +21,8 @@ class DoctorModel
   String? degree;
   String?token;
   Timestamp?createdAt;
+  double?rate;
+  String?exprience;
 
   DoctorModel({
     this.fullName,
@@ -42,6 +44,8 @@ class DoctorModel
     this.degree,
     this.token,
     this.createdAt,
+    this.rate,
+    this.exprience,
   });
   DoctorModel.fromJson(Map<String,dynamic>json)
   {
@@ -64,6 +68,8 @@ class DoctorModel
     degree = json['degree'];
     token=json['token'];
     createdAt=json['createdAt'];
+    rate=json['rate'];
+    exprience=json['exprience'];
   }
 
   Map<String,dynamic> toMap()
@@ -88,6 +94,8 @@ class DoctorModel
       'degree':degree,
       'token':token,
       'createdAt':createdAt,
+      'rate':rate,
+      'exprience':exprience,
     };
   }
 }
