@@ -225,6 +225,9 @@ class RegisterCubit extends Cubit<RegisterStates>
         email: email,
         uId: uId,
         type: "patient",
+        status:'online',
+        name: fullName,
+        gender: gender,
       );
       FirebaseFirestore.instance.
       collection('user').
@@ -339,6 +342,9 @@ class RegisterCubit extends Cubit<RegisterStates>
         email: email,
         uId: uId,
         type: "doctor",
+        gender: gender,
+        status: 'online',
+        name:fullName,
       );
       FirebaseFirestore.instance.
       collection('user').
