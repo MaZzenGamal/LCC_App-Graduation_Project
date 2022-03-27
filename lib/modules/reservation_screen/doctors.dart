@@ -94,7 +94,7 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
                       style: TextStyle(fontSize: 18.0, height: 1.3,color: Colors.grey),
                     ),
                     RatingBarIndicator(
-                      rating: 2.6,
+                      rating: model.rate!,
                       itemBuilder: (context,index)=>Icon(
                         Icons.star,
                         color:Colors.amber,

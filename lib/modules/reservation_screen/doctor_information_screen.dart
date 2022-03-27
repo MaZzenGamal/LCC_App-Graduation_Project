@@ -14,7 +14,7 @@ class DoctorsInformation extends StatelessWidget {
   PatientModel? patModel;
   DoctorModel? docModel;
   int patientNumber=300;
-  int exprience=10;
+ //String exprience='10';
   DoctorsInformation({Key? key, this.docModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class DoctorsInformation extends StatelessWidget {
                                   style: TextStyle(fontSize: 20.0, height: 1.3,color: Colors.black,fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '${exprience} year+',
+                                  '${docModel!.exprience} year+',
         style: TextStyle(fontSize: 25.0, height: 1.3,color: Colors.grey,fontWeight: FontWeight.bold),
                                 ),
                               ],
