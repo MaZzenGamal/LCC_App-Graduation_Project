@@ -17,11 +17,12 @@ MERGED from [:sqflite] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite
 MERGED from [:webview_flutter_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\webview_flutter_android-2.8.3\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences_android-2.0.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:permission_handler_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\permission_handler_android-9.0.2+1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
 MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-8.0.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:onesignal_flutter] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\onesignal_flutter-3.3.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:restart_app] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\restart_app-1.1.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a35e7deafbbca66133ce715fee63e7b5\multidex-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\0a729947d9f2682586d5957414cbefca\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9a30143a20a029e68d2a2c8980fee508\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
@@ -334,8 +335,8 @@ MERGED from [:shared_preferences_android] C:\src\flutter\.pub-cache\hosted\pub.d
 MERGED from [:shared_preferences_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences_android-2.0.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\permission_handler_android-9.0.2+1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\permission_handler_android-9.0.2+1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-8:41
@@ -344,6 +345,8 @@ MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fl
 MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-8.0.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:onesignal_flutter] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\onesignal_flutter-3.3.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:onesignal_flutter] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\onesignal_flutter-3.3.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:restart_app] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\restart_app-1.1.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:restart_app] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\restart_app-1.1.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a35e7deafbbca66133ce715fee63e7b5\multidex-2.0.0\AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a35e7deafbbca66133ce715fee63e7b5\multidex-2.0.0\AndroidManifest.xml:20:5-43
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\0a729947d9f2682586d5957414cbefca\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
@@ -712,8 +715,8 @@ ADDED from [:image_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\ima
 		ADDED from [:image_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\image_picker-0.8.4+11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:17-67
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
-MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
-MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
+MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
+MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
 MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-80
 MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-80
 	android:name

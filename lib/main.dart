@@ -26,6 +26,7 @@ import 'modules/register/cubit/register_cubit.dart';
 import 'modules/register/register_screen1.dart';
 import 'modules/register/register_screen3.dart';
 import 'modules/reservation_screen/doctors.dart';
+import 'myTest/restart_screen.dart';
 import 'myTest/test_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,8 +35,20 @@ void main() async {
   //DioHelper.init();
   await CacheHelper.init();
 
+  // token = CacheHelper.getData(key: 'token');
   uId = CacheHelper.getData(key: 'uId');
-  runApp( MyApp());
+  // Widget widget;
+
+  // if(uId != null)
+  // {
+  //   widget = AppLayout();
+  // }else
+  // {
+  //   widget = LoginScreen();
+  // }
+  runApp(
+    RestartWidget(
+      child:MyApp()));
 }
 
 class MyApp extends StatefulWidget {

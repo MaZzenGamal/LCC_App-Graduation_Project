@@ -38,7 +38,6 @@ class LoginScreen extends StatelessWidget {
           LoginCubit.get(context).updateToken(userId: CacheHelper.getData(key: 'uId'));
           navigateAndFinish(context, const AppLayout());
         }
-
       },
       builder: (context,state){
         return Scaffold(

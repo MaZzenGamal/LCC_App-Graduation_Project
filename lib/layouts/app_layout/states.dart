@@ -4,7 +4,28 @@ class AppInitialState extends AppStates{}
 
 class AppBotNavState extends AppStates{}
 
-class SignOutState extends AppStates{}
+class SignOutLoadingState extends AppStates{}
+
+class SignOutSuccessState extends AppStates{}
+
+class SignOutErrorState extends AppStates{
+  final String error;
+  SignOutErrorState(this.error);
+}
+
+class SignOutTerminateSuccessState extends AppStates{}
+
+class SignOutTerminateErrorState extends AppStates{
+  final String error;
+  SignOutTerminateErrorState(this.error);
+}
+
+class SignOutClearSuccessState extends AppStates{}
+
+class SignOutClearErrorState extends AppStates{
+  final String error;
+  SignOutClearErrorState(this.error);
+}
 
 class GetPatientLoadingState extends AppStates{}
 
