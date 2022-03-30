@@ -34,6 +34,7 @@ class AppCubit extends Cubit<AppStates> {
   PatientModel patModel = PatientModel();
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
+  final firebase= FirebaseFirestore.instance;
 
   int currentIndex = 0;
 
@@ -168,7 +169,7 @@ class AppCubit extends Cubit<AppStates> {
   void getUserData() {
     if (type == "patient") {
       emit(GetPatientLoadingState());
-      FirebaseFirestore.instance.collection('patient').doc(uID).get().then((value) {
+      firebase.collection('patient').doc(uID).get().then((value) {
         print(value.data());
         patModel = PatientModel.fromJson(value.data()!);
         emit(GetPatientSuccessState());
@@ -178,7 +179,7 @@ class AppCubit extends Cubit<AppStates> {
       });
     }else if(type == "doctor"){
       emit(GetDoctorLoadingState());
-      FirebaseFirestore.instance.collection('doctor').doc(uID).get().then((value) {
+      firebase.collection('doctor').doc(uID).get().then((value) {
         print(value.data());
         docModel = DoctorModel.fromJson(value.data()!);
         emit(GetDoctorSuccessState());
@@ -201,7 +202,7 @@ class AppCubit extends Cubit<AppStates> {
   void getUsers() {
     if (type == "patient") {
       if (doctors.isEmpty) {
-        FirebaseFirestore.instance
+        firebase
             .collection("doctor")
             .orderBy('createdAt', descending: true).get()
             .then((value) {
@@ -220,7 +221,7 @@ class AppCubit extends Cubit<AppStates> {
     }
     else if (type == "doctor") {
       if (patients.isEmpty) {
-        FirebaseFirestore.instance
+        firebase
             .collection("patient")
             .orderBy('createdAt', descending: true).get()
             .then((value) {
@@ -246,7 +247,7 @@ class AppCubit extends Cubit<AppStates> {
   }) {
     String? name;
     String?photo;
-    FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+    firebase.collection('patient').doc(uId).get().then((value) {
       patModel = PatientModel.fromJson(value.data()!);
       name = patModel.fullName;
       photo=patModel.image;
@@ -262,7 +263,7 @@ class AppCubit extends Cubit<AppStates> {
       image: photo,
 
     );
-      FirebaseFirestore.instance
+    firebase
           .collection('comment')
           .doc(receiverId)
           .set(model.toMap())
@@ -278,7 +279,7 @@ class AppCubit extends Cubit<AppStates> {
   List<CommentModel> comments=[];
   void getComment(String uid){
     if (comments.isEmpty) {
-      FirebaseFirestore.instance.collection('comment').get().then((value) {
+      firebase.collection('comment').get().then((value) {
         value.docs.forEach((element) {
           //if (element == uid) {
             comments.add(CommentModel.fromJson(element.data()));
@@ -303,7 +304,7 @@ class AppCubit extends Cubit<AppStates> {
         text: text
     );
     if (type == "patient") {
-      FirebaseFirestore.instance
+      firebase
           .collection('patient')
           .doc(uID)
           .collection('chats')
@@ -316,7 +317,7 @@ class AppCubit extends Cubit<AppStates> {
           .catchError((error) {
         emit(SendMessagesErrorState());
       });
-      FirebaseFirestore.instance
+      firebase
           .collection('doctor')
           .doc(receiverId)
           .collection('chats')
@@ -325,7 +326,7 @@ class AppCubit extends Cubit<AppStates> {
           .add(model.toMap())
           .then((value) {
             String ?title;
-        FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
+            firebase.collection('patient').doc(uId).get().then((value) {
           patModel = PatientModel.fromJson(value.data()!);
            title = patModel.fullName;});
         var body=text;
@@ -337,7 +338,7 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
     else if (type == "doctor") {
-      FirebaseFirestore.instance
+      firebase
           .collection('doctor')
           .doc(uID)
           .collection('chats')
@@ -350,7 +351,7 @@ class AppCubit extends Cubit<AppStates> {
           .catchError((error) {
         emit(SendMessagesErrorState());
       });
-      FirebaseFirestore.instance
+      firebase
           .collection('patient')
           .doc(receiverId)
           .collection('chats')
@@ -359,7 +360,7 @@ class AppCubit extends Cubit<AppStates> {
           .add(model.toMap())
           .then((value) {
         String ?title;
-        FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
+        firebase.collection('doctor').doc(uId).get().then((value) {
           patModel = PatientModel.fromJson(value.data()!);
           title = docModel.fullName;});
         var body=text;
@@ -378,7 +379,7 @@ class AppCubit extends Cubit<AppStates> {
     required String receiverId,
   }) {
     if (type == "patient") {
-      FirebaseFirestore.instance
+      firebase
           .collection('patient')
           .doc(uID)
           .collection('chats')
@@ -395,7 +396,7 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
     else if (type == "doctor") {
-      FirebaseFirestore.instance
+      firebase
           .collection('doctor')
           .doc(uID)
           .collection('chats')
@@ -484,7 +485,7 @@ class AppCubit extends Cubit<AppStates> {
         specialization: specialization,
         regisNumber: regisNumber
     );
-    FirebaseFirestore.instance
+    firebase
         .collection('doctor')
         .doc(docModel.uId)
         .update(model.toMap())
@@ -578,7 +579,7 @@ class AppCubit extends Cubit<AppStates> {
         age: age,
         gender:gender,
     );
-    FirebaseFirestore.instance
+    firebase
         .collection('patient')
         .doc(patModel.uId)
         .update(model.toMap())
