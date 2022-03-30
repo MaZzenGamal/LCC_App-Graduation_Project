@@ -45,8 +45,17 @@ class LoginCubit extends Cubit<LoginStates> {
       );
       emit(LoginErrorState(error.toString()));
     });
-
   }
+  // void userLoginUser({
+  //   required String email,
+  //   required String password,
+  // }){
+  //   FirebaseFirestore.instance.terminate();
+  //   FirebaseFirestore.instance
+  //       .clearPersistence()
+  //       .then((value) => userLogin(email: email, password: password));
+  // }
+
 
   DoctorModel docModel = DoctorModel();
   PatientModel patModel= PatientModel();
@@ -55,71 +64,7 @@ class LoginCubit extends Cubit<LoginStates> {
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
 
-  void getUserData() {
-    if (type == "patient") {
-      emit(GetPatientLoadingState());
-      FirebaseFirestore.instance.collection('patient').doc(uId).get().then((value) {
-        print(value.data());
-        patModel = PatientModel.fromJson(value.data()!);
-        emit(GetPatientSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetPatientErrorState(error.toString()));
-      });
-    }else if(type == "doctor"){
-      emit(GetDoctorLoadingState());
-      FirebaseFirestore.instance.collection('doctor').doc(uId).get().then((value) {
-        print(value.data());
-        docModel = DoctorModel.fromJson(value.data()!);
-        emit(GetDoctorSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetDoctorErrorState(error.toString()));
-      });
-    }
-  }
 
-  void getUsers() {
-    //print ('${type}');
-    if (CacheHelper.getData(key: 'type') == 'patient') {
-      if (doctors.isEmpty) {
-        FirebaseFirestore.instance
-            .collection('doctor')
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            if (element.data()['uId'] != docModel.uId) {
-              doctors.add(DoctorModel.fromJson(element.data()));
-            }
-          });
-          emit(GetAllUsersSuccessLoginState());
-        })
-            .catchError((error) {
-          print(error.toString());
-          emit(GetAllUsersErrorLoginState(error.toString()));
-        });
-      }
-    }
-    else if (CacheHelper.getData(key: 'type') == 'doctor') {
-      if (patients.isEmpty) {
-        FirebaseFirestore.instance
-            .collection('patient')
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            if (element.data()['uId'] != patModel.uId) {
-              patients.add(PatientModel.fromJson(element.data()));
-            }
-          });
-          emit(GetAllUsersSuccessLoginState());
-        })
-            .catchError((error) {
-          print(error.toString());
-          emit(GetAllUsersErrorLoginState(error.toString()));
-        });
-      }
-    }
-  }
   Future<String> updateToken({required String userId}) async {
     String?currentToken=await FirebaseMessaging.instance.getToken();
     String type=CacheHelper.getData(key: 'type');
@@ -136,6 +81,30 @@ class LoginCubit extends Cubit<LoginStates> {
       return "Token Updated Successfully...";
     } on Exception catch (e) {
       return e.toString();
+    }
+  }
+
+  void getUserData() {
+    if (type == "patient") {
+      emit(GetPatientLoadingState());
+      FirebaseFirestore.instance.collection('patient').doc(uID).get().then((value) {
+        print(value.data());
+        patModel = PatientModel.fromJson(value.data()!);
+        emit(GetPatientSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetPatientErrorState(error.toString()));
+      });
+    }else if(type == "doctor"){
+      emit(GetDoctorLoadingState());
+      FirebaseFirestore.instance.collection('doctor').doc(uID).get().then((value) {
+        print(value.data());
+        docModel = DoctorModel.fromJson(value.data()!);
+        emit(GetDoctorSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(GetDoctorErrorState(error.toString()));
+      });
     }
   }
 

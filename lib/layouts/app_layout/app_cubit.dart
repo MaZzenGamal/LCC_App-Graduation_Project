@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,10 +75,69 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBotNavState());
   }
 
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    emit(SignOutState());
-  }
+  // Future<void> signOut() async {
+  //   emit(SignOutLoadingState());
+  //   // await FirebaseFirestore.instance.terminate().
+  //   // then((value) {
+  //   //   emit(SignOutTerminateSuccessState());
+  //   // }).catchError((error){
+  //   //   print(error.toString());
+  //   //   emit(SignOutTerminateErrorState(error));});
+  //   // await FirebaseFirestore.instance.clearPersistence().then((value) {
+  //   //   emit(SignOutClearSuccessState());
+  //   // }).catchError((error){
+  //   //   print(error.toString());
+  //   //   emit(SignOutClearErrorState(error));
+  //   // });
+  //   //await FirebaseMessaging.instance.deleteToken();
+  //   // late String table;
+  //   // if(type=='doctor') {
+  //   //   table='doctor';
+  //   // } else if(type=='patient') {
+  //   //   table='patient';
+  //   // }
+  //   // print(table);
+  //   // await FirebaseFirestore.instance.collection(table).get().then((value){
+  //   //   value.docs.forEach((element)async{
+  //   //     if(type=='patient'){
+  //   //       FirebaseFirestore.instance.collection('patient').doc(uID).get().then((value) {
+  //   //         print(value.data());
+  //   //         patModel = PatientModel.fromJson(value.data()!);
+  //   //       });
+  //   //       if(element.id==patModel.uId){
+  //   //         element.reference.update({'token':null});
+  //   //       }
+  //   //     }
+  //   //     else if(type=='doctor')
+  //   //     {
+  //   //       FirebaseFirestore.instance.collection('doctor').doc(uID).get().then((value) {
+  //   //         print(value.data());
+  //   //         docModel = DoctorModel.fromJson(value.data()!);
+  //   //       });
+  //   //       if(element.id==docModel.uId){
+  //   //         element.reference.update({'token':null});
+  //   //       }
+  //   //     }
+  //   //   });
+  //   // });
+  //   await FirebaseAuth.instance.signOut()
+  //       .then((value) {
+  //      emit(SignOutSuccessState());
+  //   }).catchError((error){
+  //     print(error.toString());
+  //     emit(SignOutErrorState(error));
+  //   });
+  // }
+  //
+  // // void signOut(context){
+  // //   CacheHelper.removeDate(
+  // //       key: 'uId',
+  // //   ).then((value){
+  // //     if(value){
+  // //       navigateAndFinish(context, LoginScreen());
+  // //     }
+  // //   });
+  // // }
 
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
@@ -104,6 +164,7 @@ class AppCubit extends Cubit<AppStates> {
       ),
     );
   }
+
   void getUserData() {
     if (type == "patient") {
       emit(GetPatientLoadingState());
@@ -212,6 +273,8 @@ class AppCubit extends Cubit<AppStates> {
         emit(SendCommentsErrorState(error));
       });
     }
+
+
   List<CommentModel> comments=[];
   void getComment(String uid){
     if (comments.isEmpty) {
