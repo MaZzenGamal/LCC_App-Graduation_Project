@@ -21,6 +21,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
   IconData suffixLogin = Icons.visibility;
   bool isPasswordLogin = true;
+  final firebase=FirebaseFirestore.instance;
   void changeLoginPasswordVisibility()
   {
     isPasswordLogin = !isPasswordLogin;
@@ -71,11 +72,11 @@ class LoginCubit extends Cubit<LoginStates> {
     try {
       if(type=="doctor")
       {
-        FirebaseFirestore.instance.collection('doctor').doc(userId).update({'token':currentToken});
+        firebase.collection('doctor').doc(userId).update({'token':currentToken});
       }
       else if(type=="patient")
       {
-        FirebaseFirestore.instance.collection('patient').doc(userId).update({'token':currentToken});
+        firebase.collection('patient').doc(userId).update({'token':currentToken});
       }
 
       return "Token Updated Successfully...";
@@ -87,7 +88,7 @@ class LoginCubit extends Cubit<LoginStates> {
   void getUserData() {
     if (type == "patient") {
       emit(GetPatientLoadingState());
-      FirebaseFirestore.instance.collection('patient').doc(uID).get().then((value) {
+      firebase.collection('patient').doc(uID).get().then((value) {
         print(value.data());
         patModel = PatientModel.fromJson(value.data()!);
         emit(GetPatientSuccessState());
@@ -97,7 +98,7 @@ class LoginCubit extends Cubit<LoginStates> {
       });
     }else if(type == "doctor"){
       emit(GetDoctorLoadingState());
-      FirebaseFirestore.instance.collection('doctor').doc(uID).get().then((value) {
+      firebase.collection('doctor').doc(uID).get().then((value) {
         print(value.data());
         docModel = DoctorModel.fromJson(value.data()!);
         emit(GetDoctorSuccessState());
