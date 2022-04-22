@@ -1,6 +1,7 @@
 abstract class AppStates{}
 
-class AppInitialState extends AppStates{}
+class AppInitialState extends AppStates{
+}
 
 class AppBotNavState extends AppStates{}
 
@@ -127,8 +128,22 @@ class SendCommentsErrorState extends AppStates{
   final String error;
   SendCommentsErrorState(this.error);
 }
-class getCommentsSuccessState extends AppStates{}
-class getCommentsErrorState extends AppStates{
+class GetCommentsSuccessState extends AppStates{}
+class GetCommentsErrorsState extends AppStates{
   final String error;
-  getCommentsErrorState(this.error);
+  GetCommentsErrorsState(this.error);
 }
+class UnReadMessages extends AppStates{}
+class ReadMessages extends AppStates{}
+class IncrementCount extends AppStates{}
+class SetCount extends AppStates{}
+class CreateCallSuccess extends AppStates{}
+class CreateCallError extends AppStates{
+  final String error;
+  CreateCallError(this.error);
+}
+class ChangeRemoteUid extends AppStates{}
+class SecondChangeOfRemoteUid extends AppStates{}
+class LocalUserJoin extends AppStates{}
+class RemoteUserJoin extends AppStates{}
+class RemoteUserLeave extends AppStates{}
