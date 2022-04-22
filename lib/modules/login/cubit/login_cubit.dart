@@ -85,28 +85,5 @@ class LoginCubit extends Cubit<LoginStates> {
     }
   }
 
-  void getUserData() {
-    if (type == "patient") {
-      emit(GetPatientLoadingState());
-      firebase.collection('patient').doc(uID).get().then((value) {
-        print(value.data());
-        patModel = PatientModel.fromJson(value.data()!);
-        emit(GetPatientSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetPatientErrorState(error.toString()));
-      });
-    }else if(type == "doctor"){
-      emit(GetDoctorLoadingState());
-      firebase.collection('doctor').doc(uID).get().then((value) {
-        print(value.data());
-        docModel = DoctorModel.fromJson(value.data()!);
-        emit(GetDoctorSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetDoctorErrorState(error.toString()));
-      });
-    }
-  }
 
 }
