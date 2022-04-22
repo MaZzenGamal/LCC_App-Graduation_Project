@@ -5,31 +5,30 @@ import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/shared/components/components.dart';
-
-import '../../shared/network/local/cash_helper.dart';
-import '../../shared/network/local/cash_helper.dart';
 import 'chat_details_screen.dart';
 class ChatScreen extends StatelessWidget {
+  const ChatScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(),
-          body: ConditionalBuilder(
-            condition: AppCubit.get(context).doctors.length > 0,
-            builder: (context)=>ListView.separated(
-                itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context,index),
-                separatorBuilder: (context, index) => myDivider(),
-                itemCount: AppCubit.get(context).doctors.length),
-            fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-          ),
+        return BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: ConditionalBuilder(
+                condition: AppCubit.get(context).doctors.isNotEmpty,
+                builder: (context)=>ListView.separated(
+                    itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context,index),
+                    separatorBuilder: (context, index) => myDivider(),
+                    itemCount: AppCubit.get(context).doctors.length),
+                fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
+              ),
+            );
+          },
         );
-      },
-    );
-  }
+      }
 }
 Widget buildChatItem(DoctorModel model,context,int index1) => InkWell(
   onTap: ()
@@ -61,8 +60,12 @@ Widget buildChatItem(DoctorModel model,context,int index1) => InkWell(
                   children: [
                     Text(
                       '${model.fullName}',
-                      style: TextStyle(fontSize: 18.0, height: 1.3),
+                      style: const TextStyle(fontSize: 18.0, height: 1.3),
                     ),
+                    if(AppCubit.get(context).answers['${model.uId}']==null)
+                      const Text("0")
+                    else
+                      Text('${AppCubit.get(context).answers[model.uId]}')
                   ],
                 ),
               ],

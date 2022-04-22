@@ -1,6 +1,6 @@
 //ignore_for_file: must_be_immutable
-import 'dart:convert';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,28 +10,33 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
+import 'package:graduation_project/modules/reservation_screen/doctors.dart';
+import 'package:graduation_project/shared/components/components.dart';
 import 'package:http/http.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import '../../myTest/videoCall.dart';
 import '../../shared/network/local/cash_helper.dart';
 class ChatDetailsScreen extends StatelessWidget {
   PatientModel? patModel;
   DoctorModel? docModel;
   int? index;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final firebase=FirebaseFirestore.instance;
+   String uID = CacheHelper.getData(key: 'uId');
 
 //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
 
   ChatDetailsScreen({Key? key, this.docModel,this.index}) : super(key: key);
 
   var messageController = TextEditingController();
-
-
   @override
   Widget build(BuildContext context) {
     return Builder(
         builder: (BuildContext context) {
           AppCubit.get(context).getMessage(receiverId: docModel!.uId!);
           return BlocConsumer<AppCubit, AppStates>(
-              listener: (context, state) {},
+              listener: (context, state) {
+              },
               builder: (context, state) {
                 return Scaffold(
                   appBar: AppBar(
@@ -60,7 +65,11 @@ class ChatDetailsScreen extends StatelessWidget {
                           icon: const Icon(
                               Icons.call
                           )),
-                      IconButton(onPressed: () {},
+                      IconButton(onPressed: () async {
+                        AppCubit.get(context).createCall();
+                        await [Permission.microphone, Permission.camera].request();
+                        navigateTo(context, VideoCallScreen(groupId:uID));
+                      },
                           icon: const Icon(
                               Icons.video_call
                           )),
@@ -123,17 +132,20 @@ class ChatDetailsScreen extends StatelessWidget {
                                   if(AppCubit.get(context).doctors[0]!=docModel!) {
                                     AppCubit.get(context).removeDoctor(index!);
                                     AppCubit.get(context).replaceDoctor(docModel!);
-                                    docModel!.createdAt!=Timestamp.now();
+                                    String docuid=docModel!.uId!;
+                                    firebase.collection('patient').doc(uID).update({'createdAt':Timestamp.now()});
+                                    firebase.collection('doctor').doc(docuid).update({'createdAt':Timestamp.now()});
                                   }
                                   print("id of user to send him ${docModel!.uId!}");
                                   var y=CacheHelper.getData(key: 'uId');
                                   print('sender id when logging ${y}');
                                   AppCubit.get(context).sendMessage(
                                       receiverId: docModel!.uId!,
-                                      dateTime: DateTime.now()
-                                          .toString(),
+                                      dateTime: DateTime.now().toString(),
                                       token: docModel!.token!,
-                                      text: messageController.text);
+                                      text: messageController.text,
+                                      name: docModel!.fullName!)
+                                  ;
                                 }
                                 messageController.text = '';
                               },

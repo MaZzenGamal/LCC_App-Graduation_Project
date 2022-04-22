@@ -1,4 +1,6 @@
 //ignore_for_file: must_be_immutable
+import 'package:date_format/date_format.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,10 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../../myTest/videoCall.dart';
+import '../../shared/components/components.dart';
+import '../../shared/network/local/cash_helper.dart';
 
 class ChatDetailsScreenDoctor extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
@@ -15,6 +21,9 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
   PatientModel? patModel;
   DoctorModel? docModel;
   int?index;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final firebase=FirebaseFirestore.instance;
+  var uID = CacheHelper.getData(key: 'uId');
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
 
   ChatDetailsScreenDoctor({Key? key, this.patModel,this.index}) : super(key: key);
@@ -23,11 +32,15 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
+    });*/
     return Builder(
         builder: (BuildContext context) {
           AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
           return BlocConsumer<AppCubit, AppStates>(
-              listener: (context, state) {},
+              listener: (context, state) {
+              },
               builder: (context, state) {
                 return Scaffold(
                   appBar: AppBar(
@@ -56,7 +69,11 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                           icon: const Icon(
                               Icons.call
                           )),
-                      IconButton(onPressed: () {},
+                      IconButton(onPressed: () async {
+                        AppCubit.get(context).createCall();
+                        await [Permission.microphone, Permission.camera].request();
+                        navigateTo(context, VideoCallScreen(groupId: uID,));
+                      },
                           icon: const Icon(
                               Icons.video_call
                           )),
@@ -118,14 +135,17 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                                   if(AppCubit.get(context).patients[0]!=patModel!){
                                     AppCubit.get(context).removePatient(index!);
                                     AppCubit.get(context).replacePatient(patModel!);
-                                    patModel!.createdAt!=Timestamp.now();
+                                    String patuid=patModel!.uId!;
+                                    firebase.collection('doctor').doc(uID).update({'createdAt':Timestamp.now()});
+                                    firebase.collection('patient').doc(patuid).update({'createdAt':Timestamp.now()});
                                   }
                                   AppCubit.get(context).sendMessage(
                                       receiverId: patModel!.uId!,
-                                      dateTime: DateTime.now()
-                                          .toString(),
+                                      dateTime: DateTime.now().toString(),
                                       token: patModel!.token!,
-                                      text: messageController.text);
+                                      text: messageController.text,
+                                      name:patModel!.fullName!
+                                  );
                                 }
                                 messageController.text = '';
                               },
