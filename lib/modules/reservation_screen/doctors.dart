@@ -9,41 +9,38 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../shared/components/components.dart';
 import 'doctor_information_screen.dart';
 class DoctorsScreen extends StatelessWidget {
-
+  const DoctorsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Scaffold(
-          //appBar: AppBar(),
-          body: Container(
-            constraints:const BoxConstraints.expand(),
-            decoration:const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/Abstract.jpg'),
-                    fit: BoxFit.cover)),
-            child: ConditionalBuilder(
-              condition: AppCubit
-                  .get(context).doctors.length > 0,
-              builder: (context) => Padding(
-                padding: EdgeInsets.only(top:50.0),
-                child: ListView.separated(
-                    itemBuilder: (context, index) =>
-                        buildDoctorItem(AppCubit
-                            .get(context)
-                            .doctors[index], context),
-                    itemCount: AppCubit
-                        .get(context)
-                        .doctors
-                        .length, separatorBuilder: (BuildContext context, int index)=>Container()),
+    return Builder(
+      builder: (context) {
+        AppCubit.get(context).getDoctors();
+        return BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Scaffold(
+              body: Container(
+                constraints:const BoxConstraints.expand(),
+                decoration:const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/Abstract.jpg'),
+                        fit: BoxFit.cover)),
+                child: ConditionalBuilder(
+                  condition: AppCubit.get(context).alldoctor.isNotEmpty,
+                  builder: (context)=>Padding(
+                    padding: const EdgeInsets.only(top:50.0),
+                    child: ListView.separated(
+                        itemBuilder: (context, index) => buildDoctorItem(AppCubit.get(context).alldoctor[index],context),
+                        separatorBuilder: (context, index) => Container(),
+                        itemCount: AppCubit.get(context).alldoctor.length),
+                  ),
+                  fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
+                ),
               ),
-              fallback: (context) =>
-              const Center(child: CircularProgressIndicator()),
-            ),
-          ),
+            );
+          },
         );
-      },
+      }
     );
   }
 }
@@ -61,7 +58,7 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
         color: Colors.grey[350],
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0,top:10.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0,top:10.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,21 +80,21 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
                   children: [
                     Text(
                       'Dr.${model.fullName}',
-                      style: TextStyle(fontSize: 18.0, height: 1.3,color: Colors.black,fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18.0, height: 1.3,color: Colors.black,fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '${model.specialization}',
-                      style: TextStyle(fontSize: 18.0, height: 1.3),
+                      style: const TextStyle(fontSize: 18.0, height: 1.3),
                     ),
                     Text(
                       '${model.phone}',
-                      style: TextStyle(fontSize: 18.0, height: 1.3,color: Colors.grey),
+                      style: const TextStyle(fontSize: 18.0, height: 1.3,color: Colors.grey),
                     ),
                     RatingBarIndicator(
-                      rating: model.rate!,
+                     rating:model.rate!,
                       itemBuilder: (context,index)=>Icon(
                         Icons.star,
-                        color:Colors.amber,
+                        color: HexColor('4E51BF'),
                       ),
                       itemSize :23.0,
                       unratedColor:Colors.grey[200],
