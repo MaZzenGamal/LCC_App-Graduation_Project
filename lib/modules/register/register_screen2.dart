@@ -254,7 +254,7 @@ class RegisterScreen2 extends StatelessWidget {
                                 print(cubit.phoneController.text);
                                 navigateTo(context, const RegisterScreen3());
                               }
-                              navigateTo(context, const RegisterScreen3());
+                             // navigateTo(context, const RegisterScreen3());
                             },
                             text: 'Next'),
                       ),

@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
-MERGED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
+MERGED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
 MERGED from [:cloud_firestore] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-2.5.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_auth] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-3.3.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_storage] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_storage-10.2.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
@@ -14,12 +14,13 @@ MERGED from [:image_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\im
 MERGED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_plugin_android_lifecycle-2.0.5\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite-1.3.2+4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-28:12
 MERGED from [:webview_flutter_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\webview_flutter_android-2.8.3\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences_android-2.0.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:permission_handler_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\permission_handler_android-9.0.2+1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-8.0.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:onesignal_flutter] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\onesignal_flutter-3.3.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:restart_app] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\restart_app-1.1.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -53,13 +54,13 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:20.0.2] C:\Us
 MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\57ea611542694d35688d99e3ac5a4b17\jetified-play-services-stats-17.0.2\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\620ef525a74e68563fec041d3225d230\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\ced0efc3d9a68006b6f4e94d9a24d813\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\4b82e8f8c069a644353efb8ee65fce15\media-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.3.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\81c0237e6e636fc56d94efbf32a2a6c9\appcompat-1.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:17:1-145:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e0475ac40226eb137089eb279cd6d5b9\jetified-play-services-auth-api-phone-17.4.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-safetynet:17.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\8088c39d1256d5fd9d30c4fcda918ee7\jetified-play-services-safetynet-17.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-database-collection:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9dc45767551c5e17f186e729170a7681\jetified-firebase-database-collection-18.0.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\f3d1e61e48a3c4c2b9f4d2ffc401af39\jetified-play-services-base-17.1.0\AndroidManifest.xml:17:1-29:12
-MERGED from [androidx.media:media:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\d10be366885a5c747e6d6ca9295b7b6c\media-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9475210b76bdfd49ca44aed29fd92245\jetified-play-services-cloud-messaging-17.0.0\AndroidManifest.xml:2:1-13:12
 MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\2b1e572b3be9ac55cbd2d19d47b6262a\jetified-firebase-iid-interop-17.1.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\1740c60b1ca92f8e77657d0ed37d9c23\jetified-firebase-measurement-connector-19.0.0\AndroidManifest.xml:17:1-25:12
@@ -108,9 +109,10 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\mazen\.gradle\caches\transform
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\5b607806852738e9303892f66487d1bf\lifecycle-livedata-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\0e01506ab7cd203e7ba4668c4754b75a\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e133ba24e5521a4aa81f9f54e8ed49b6\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.github.agorabuilder:iris-rtc:3.5.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70842a9c1b027b8785f0bc4d7314adb2\jetified-iris-rtc-3.5.2\AndroidManifest.xml:2:1-11:12
-MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\6602ac49eee69445bb7c4639273e42a4\jetified-grpc-android-1.41.0\AndroidManifest.xml:2:1-13:12
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\3eb8b6b1f9244e0eba2a4e47507cb463\jetified-threetenabp-1.2.3\AndroidManifest.xml:2:1-9:12
+MERGED from [io.agora.rtc:iris-rtc:3.6.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e90a5499a393a0f0c26d661f957baa56\jetified-iris-rtc-3.6.2\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70214b0904f5c8000648718594192d8b\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml:1:1-7:12
@@ -121,11 +123,11 @@ INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifes
 		INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml
-		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
 		INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
 		INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml
-		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-45:12
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:1-49:12
 		INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:2:11-69
@@ -133,8 +135,8 @@ uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:4:5-79
 MERGED from [:firebase_messaging] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_messaging-11.2.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-79
 MERGED from [:firebase_messaging] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_messaging-11.2.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-79
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-79
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-79
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
 MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:24:5-79
 MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:24:5-79
@@ -168,7 +170,7 @@ MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\mazen\.gradle\caches\transfor
 	android:name
 		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:4:22-76
 application
-ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:5:4-44:19
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:5:4-48:19
 MERGED from [:cloud_firestore] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-2.5.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:cloud_firestore] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-2.5.4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_auth] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-3.3.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
@@ -181,6 +183,8 @@ MERGED from [:firebase_core] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\f
 MERGED from [:firebase_core] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_core-1.13.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:image_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\image_picker-0.8.4+11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-17:19
 MERGED from [:image_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\image_picker-0.8.4+11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-17:19
+MERGED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-26:19
+MERGED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-26:19
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9a30143a20a029e68d2a2c8980fee508\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9a30143a20a029e68d2a2c8980fee508\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
 MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:48:5-133:19
@@ -255,6 +259,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ma
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9a801501bb5f2382e74c16e591fc436e\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a3aac45bd18a8238f43c912d3575bb63\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a3aac45bd18a8238f43c912d3575bb63\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\3eb8b6b1f9244e0eba2a4e47507cb463\jetified-threetenabp-1.2.3\AndroidManifest.xml:7:5-20
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\3eb8b6b1f9244e0eba2a4e47507cb463\jetified-threetenabp-1.2.3\AndroidManifest.xml:7:5-20
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\875654acb8fd75501dc33efa1bebb479\core-1.6.0\AndroidManifest.xml:24:18-86
 	android:label
@@ -266,7 +272,7 @@ MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\mazen\.gradle\caches\tra
 	android:usesCleartextTraffic
 		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:8:9-44
 activity#com.example.graduation_project.MainActivity
-ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:10:9-38:20
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:10:9-42:20
 	android:launchMode
 		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:12:13-43
 	android:hardwareAccelerated
@@ -301,12 +307,22 @@ category#android.intent.category.LAUNCHER
 ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:36:17-76
 	android:name
 		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:36:27-74
-meta-data#flutterEmbedding
-ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:41:9-43:33
-	android:value
-		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:43:13-30
+intent-filter#action:name:FLUTTER_NOTIFICATION_CLICK+category:name:android.intent.category.DEFAULT
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:38:13-41:29
+action#FLUTTER_NOTIFICATION_CLICK
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:39:17-68
 	android:name
-		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:42:13-44
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:39:25-66
+category#android.intent.category.DEFAULT
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:40:17-75
+	android:name
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:40:27-73
+meta-data#flutterEmbedding
+ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:45:9-47:33
+	android:value
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:47:13-30
+	android:name
+		ADDED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml:46:13-44
 uses-sdk
 INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\FLUTTER\graduation_project\android\app\src\main\AndroidManifest.xml
@@ -329,6 +345,8 @@ MERGED from [:flutter_plugin_android_lifecycle] C:\src\flutter\.pub-cache\hosted
 MERGED from [:flutter_plugin_android_lifecycle] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_plugin_android_lifecycle-2.0.5\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite-1.3.2+4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\sqflite-1.3.2+4\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:webview_flutter_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\webview_flutter_android-2.8.3\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:webview_flutter_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\webview_flutter_android-2.8.3\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_android] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\shared_preferences_android-2.0.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -339,8 +357,8 @@ MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\p
 MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:hexcolor] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\hexcolor-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-8:41
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-44
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-44
 MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-8.0.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\fluttertoast-8.0.9\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:onesignal_flutter] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\onesignal_flutter-3.3.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -407,6 +425,8 @@ MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\mazen\.gr
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\620ef525a74e68563fec041d3225d230\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\ced0efc3d9a68006b6f4e94d9a24d813\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\ced0efc3d9a68006b6f4e94d9a24d813\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\4b82e8f8c069a644353efb8ee65fce15\media-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\4b82e8f8c069a644353efb8ee65fce15\media-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.3.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\81c0237e6e636fc56d94efbf32a2a6c9\appcompat-1.3.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.3.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\81c0237e6e636fc56d94efbf32a2a6c9\appcompat-1.3.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:21:5-23:41
@@ -419,8 +439,6 @@ MERGED from [com.google.firebase:firebase-database-collection:18.0.0] C:\Users\m
 MERGED from [com.google.firebase:firebase-database-collection:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9dc45767551c5e17f186e729170a7681\jetified-firebase-database-collection-18.0.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\f3d1e61e48a3c4c2b9f4d2ffc401af39\jetified-play-services-base-17.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\f3d1e61e48a3c4c2b9f4d2ffc401af39\jetified-play-services-base-17.1.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media:media:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\d10be366885a5c747e6d6ca9295b7b6c\media-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.media:media:1.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\d10be366885a5c747e6d6ca9295b7b6c\media-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9475210b76bdfd49ca44aed29fd92245\jetified-play-services-cloud-messaging-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9475210b76bdfd49ca44aed29fd92245\jetified-play-services-cloud-messaging-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\2b1e572b3be9ac55cbd2d19d47b6262a\jetified-firebase-iid-interop-17.1.0\AndroidManifest.xml:5:5-44
@@ -517,12 +535,14 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\mazen\.g
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\0e01506ab7cd203e7ba4668c4754b75a\lifecycle-livedata-core-2.3.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e133ba24e5521a4aa81f9f54e8ed49b6\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e133ba24e5521a4aa81f9f54e8ed49b6\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.github.agorabuilder:iris-rtc:3.5.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70842a9c1b027b8785f0bc4d7314adb2\jetified-iris-rtc-3.5.2\AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.agorabuilder:iris-rtc:3.5.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70842a9c1b027b8785f0bc4d7314adb2\jetified-iris-rtc-3.5.2\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\6602ac49eee69445bb7c4639273e42a4\jetified-grpc-android-1.41.0\AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.41.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\6602ac49eee69445bb7c4639273e42a4\jetified-grpc-android-1.41.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\3eb8b6b1f9244e0eba2a4e47507cb463\jetified-threetenabp-1.2.3\AndroidManifest.xml:5:5-44
+MERGED from [com.jakewharton.threetenabp:threetenabp:1.2.3] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\3eb8b6b1f9244e0eba2a4e47507cb463\jetified-threetenabp-1.2.3\AndroidManifest.xml:5:5-44
+MERGED from [io.agora.rtc:iris-rtc:3.6.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e90a5499a393a0f0c26d661f957baa56\jetified-iris-rtc-3.6.2\AndroidManifest.xml:7:5-9:41
+MERGED from [io.agora.rtc:iris-rtc:3.6.2] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\e90a5499a393a0f0c26d661f957baa56\jetified-iris-rtc-3.6.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\199ac44baae0967b086c0283d62d870d\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70214b0904f5c8000648718594192d8b\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\70214b0904f5c8000648718594192d8b\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 INJECTED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml
@@ -537,8 +557,8 @@ uses-permission#android.permission.INTERNET
 ADDED from D:\FLUTTER\graduation_project\android\app\src\debug\AndroidManifest.xml:6:5-66
 MERGED from [:firebase_messaging] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_messaging-11.2.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-67
 MERGED from [:firebase_messaging] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_messaging-11.2.11\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-67
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-67
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-67
 MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:16:5-67
 MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:16:5-67
 MERGED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:23:5-67
@@ -717,8 +737,8 @@ uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
 MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
 MERGED from [:photo_manager] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\photo_manager-2.0.6\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-80
-MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-80
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-80
+MERGED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-80
 	android:name
 		ADDED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:22-77
 queries
@@ -733,36 +753,88 @@ data
 ADDED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-44
 	android:mimeType
 		ADDED from [:file_picker] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\file_picker-4.5.1\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:19-41
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-81
+MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:29:5-81
+MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:29:5-81
+MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:27:5-81
+MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:27:5-81
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:22-78
+uses-permission#android.permission.VIBRATE
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-66
+MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:23:5-66
+MERGED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:23:5-66
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:22-63
+uses-permission#android.permission.USE_FULL_SCREEN_INTENT
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-79
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:10:22-76
+receiver#com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:9-15:40
+	android:exported
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-97
+receiver#com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-25:20
+	android:exported
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-37
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-101
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED+action:name:android.intent.action.QUICKBOOT_POWERON+action:name:com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-24:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:17-79
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:25-76
+action#android.intent.action.MY_PACKAGE_REPLACED
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:17-84
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:25-81
+action#android.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:25-79
+action#com.htc.intent.action.QUICKBOOT_POWERON
+ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:17-82
+	android:name
+		ADDED from [:flutter_local_notifications] C:\src\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_local_notifications-9.4.0\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:25-79
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-75
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-75
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:10:22-72
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:8:22-72
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-71
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-71
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-68
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:10:22-68
 uses-permission#android.permission.CAMERA
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-65
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-65
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-62
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-62
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:14:5-80
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-80
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:14:22-77
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-77
 uses-permission#android.permission.BLUETOOTH
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-68
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:14:5-68
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:16:22-65
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:14:22-65
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:17:5-76
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-76
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:17:22-73
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:15:22-73
 uses-permission#android.permission.READ_PRIVILEGED_PHONE_STATE
-ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:19:5-21:47
+ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:17:5-19:47
 	tools:ignore
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:21:9-44
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-44
 	android:name
-		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:20:9-70
+		ADDED from [:agora_rtc_engine] D:\FLUTTER\graduation_project\build\agora_rtc_engine\intermediates\library_manifest\debug\AndroidManifest.xml:18:9-70
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9a30143a20a029e68d2a2c8980fee508\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
 	android:required
@@ -803,16 +875,6 @@ MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.0] C:\Use
 MERGED from [com.google.android.gms:play-services-cloud-messaging:17.0.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\9475210b76bdfd49ca44aed29fd92245\jetified-play-services-cloud-messaging-17.0.0\AndroidManifest.xml:11:5-82
 	android:name
 		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:17:22-79
-uses-permission#android.permission.VIBRATE
-ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:23:5-66
-	android:name
-		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:23:22-63
-uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:29:5-81
-MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:27:5-81
-MERGED from [androidx.work:work-runtime:2.7.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\c4c5480f715efc07f470a876670b3bdf\work-runtime-2.7.1\AndroidManifest.xml:27:5-81
-	android:name
-		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:29:22-78
 uses-permission#com.sec.android.provider.badge.permission.READ
 ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:31:5-86
 	android:name
@@ -981,14 +1043,6 @@ ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transfo
 		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:105:13-56
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON
 ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:107:13-110:29
-action#android.intent.action.BOOT_COMPLETED
-ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:108:17-79
-	android:name
-		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:108:25-76
-action#android.intent.action.QUICKBOOT_POWERON
-ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:109:17-82
-	android:name
-		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:109:25-79
 receiver#com.onesignal.UpgradeReceiver
 ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:112:9-118:20
 	android:exported
@@ -997,10 +1051,6 @@ ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transfo
 		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:113:13-57
 intent-filter#action:name:android.intent.action.MY_PACKAGE_REPLACED
 ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:115:13-117:29
-action#android.intent.action.MY_PACKAGE_REPLACED
-ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:116:17-84
-	android:name
-		ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:116:25-81
 activity#com.onesignal.NotificationOpenedReceiver
 ADDED from [com.onesignal:OneSignal:4.7.0] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\a4e4d9e6b6aa3430e7b7c5d36fd4b53e\jetified-OneSignal-4.7.0\AndroidManifest.xml:120:9-126:75
 	android:excludeFromRecents
@@ -1059,10 +1109,6 @@ ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\cac
 		ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:28:13-80
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:genericidp
 ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:33:13-43:29
-category#android.intent.category.DEFAULT
-ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:17-76
-	android:name
-		ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:27-73
 category#android.intent.category.BROWSABLE
 ADDED from [com.google.firebase:firebase-auth:21.0.1] C:\Users\mazen\.gradle\caches\transforms-2\files-2.1\48db3a26d0e210f3bf460c0f3f302962\jetified-firebase-auth-21.0.1\AndroidManifest.xml:37:17-78
 	android:name
