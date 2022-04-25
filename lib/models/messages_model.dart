@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-class MessagesModel
-{
+class MessagesModel {
   String? senderId;
   String? receiverId;
-  String? dateTime;
+  DateTime? dateTime;
   String? text;
   bool? read;
 
@@ -15,29 +14,27 @@ class MessagesModel
     this.text,
     this.read,
   });
-  MessagesModel.fromJson(Map<String,dynamic>json)
-  {
+  MessagesModel.fromJson(Map<String, dynamic> json) {
     senderId = json['senderId'];
     receiverId = json['receiverId'];
-    dateTime = json['dateTime'];
+    dateTime = DateTime.parse(json['dateTime']);
     text = json['text'];
-    read=json['read'];
+    read = json['read'];
   }
 
-  Map<String,dynamic> toMap()
-  {
+  Map<String, dynamic> toMap() {
     if (kDebugMode) {
       print("sender id in map $senderId");
     }
     if (kDebugMode) {
       print("receiver id in map $receiverId");
     }
-    return{
-      'senderId':senderId,
-      'receiverId':receiverId,
-      'dateTime':dateTime,
-      'text':text,
-      'read':read
+    return {
+      'senderId': senderId,
+      'receiverId': receiverId,
+      'dateTime': dateTime?.toIso8601String(),
+      'text': text,
+      'read': read
     };
   }
 }

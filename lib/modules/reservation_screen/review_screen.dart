@@ -65,24 +65,6 @@ class ReviewScreen extends StatelessWidget {
                      if (kDebugMode) {
                        print("the value of exist is $exist");
                      }
-                     /*if(exist)
-                         {
-                           await firebase.collection('doctor').doc(ReciverUid).collection('comments').doc(uID).get()
-                           .then((value){
-                             commModel=CommentModel.fromJson(value.data()!);
-                           });
-                           await firebase.collection('doctor').doc(ReciverUid).get().then((
-                               value) {
-                             docModel = DoctorModel.fromJson(value.data()!);
-                             double oldValue = docModel.allRateValue!;
-                             int number = docModel.allRateNumber!;
-                             double newvalue=oldValue + rateValue-commModel.rate!;
-                             firebase.collection('doctor').doc(ReciverUid).update({
-                               'allRateValue': newvalue,
-                               'rate': ((newvalue) / (5 * number)) * 5
-                             });
-                           });
-                         }*/
                      await firebase
                          .collection('doctor')
                          .doc(ReciverUid)
@@ -130,7 +112,7 @@ class ReviewScreen extends StatelessWidget {
                      });
                      AppCubit.get(context).sendComment(
                          receiverId: ReciverUid,
-                         dateTime: Timestamp.now(),
+                         dateTime: DateTime.now(),
                          text: reviewcontroller.text,
                          rate: rateValue);
                    }

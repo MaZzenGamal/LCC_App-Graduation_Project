@@ -11,7 +11,7 @@ class PatientModel
   String? gender;
   String? address;
   String?token;
-  Timestamp?createdAt;
+  DateTime?createdAt;
 
   PatientModel({
     this.fullName,
@@ -25,6 +25,8 @@ class PatientModel
     this.token,
     this.createdAt,
   });
+
+
   PatientModel.fromJson(Map<String,dynamic>json)
   {
     email = json['email'];
@@ -36,7 +38,7 @@ class PatientModel
     gender = json['gender'];
     address = json['address'];
     token=json['token'];
-    createdAt=json['createdAt'];
+   createdAt= DateTime.parse(json['createdAt']);
   }
 
   Map<String,dynamic> toMap()
@@ -51,7 +53,22 @@ class PatientModel
       'address':address,
       'gender':gender,
       'token':token,
-      'createdAt':createdAt,
+      'createdAt':createdAt?.toString(),
+    };
+  }
+  Map<String,dynamic> toJson()
+  {
+    return{
+      'fullName':fullName,
+      'email':email,
+      'phone':phone,
+      'uId':uId,
+      'image':image,
+      'age':age,
+      'address':address,
+      'gender':gender,
+      'token':token,
+      'createdAt':createdAt?.toString(),
     };
   }
 }

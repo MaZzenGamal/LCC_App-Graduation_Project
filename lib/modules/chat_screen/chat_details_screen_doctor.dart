@@ -1,5 +1,4 @@
 //ignore_for_file: must_be_immutable
-import 'package:date_format/date_format.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,13 +19,12 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   PatientModel? patModel;
   DoctorModel? docModel;
-  int?index;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final firebase=FirebaseFirestore.instance;
+  final firebase = FirebaseFirestore.instance;
   var uID = CacheHelper.getData(key: 'uId');
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
-
-  ChatDetailsScreenDoctor({Key? key, this.patModel,this.index}) : super(key: key);
+  ChatDetailsScreenDoctor({Key? key, this.patModel})
+      : super(key: key);
 
   var messageController = TextEditingController();
 
@@ -35,175 +33,165 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
     /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
       navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
     });*/
-    return Builder(
-        builder: (BuildContext context) {
-          AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
-          return BlocConsumer<AppCubit, AppStates>(
-              listener: (context, state) {
-              },
-              builder: (context, state) {
-                return Scaffold(
-                  appBar: AppBar(
-                    titleSpacing: 0.0,
-                    title: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 15.0,
-                          backgroundImage: NetworkImage(
-                            '${patModel!.image}',
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          '${patModel!.fullName}',
-                          style: const TextStyle(
-                              fontSize: 15.0
-                          ),
-                        )
-                      ],
-                    ),
-                    actions: [
-                      IconButton(onPressed: () {},
-                          icon: const Icon(
-                              Icons.call
-                          )),
-                      IconButton(onPressed: () async {
-                        AppCubit.get(context).createCall();
-                        await [Permission.microphone, Permission.camera].request();
-                        navigateTo(context, VideoCallScreen(groupId: uID,));
-                      },
-                          icon: const Icon(
-                              Icons.video_call
-                          )),
-                    ],
-                  ),
-                  body: Column(
-                    children: [
-                      Expanded(
-                        child: BuildCondition(
-                          condition: AppCubit.get(context).messages.isNotEmpty,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView.separated(
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  var message = AppCubit.get(context).messages[index];
-                                  if (AppCubit.get(context).uID == message.senderId) {
-                                    return buildMyMessages(message);
-                                  }
-                                  return buildMessages(message);
-                                },
-                                separatorBuilder: (context, index) => const SizedBox(height: 15.0,),
-                                itemCount: AppCubit.get(context).messages.length),
-                          ),
-                          fallback: (context) =>const Center(child: CircularProgressIndicator()),
-                        ),
+    return Builder(builder: (BuildContext context) {
+      AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
+      return BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Scaffold(
+              appBar: AppBar(
+                titleSpacing: 0.0,
+                title: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 15.0,
+                      backgroundImage: NetworkImage(
+                        '${patModel!.image}',
                       ),
-                      Padding(
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    Text(
+                      '${patModel!.fullName}',
+                      style: const TextStyle(fontSize: 15.0),
+                    )
+                  ],
+                ),
+                actions: [
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
+                  IconButton(
+                      onPressed: () async {
+                        AppCubit.get(context).createCall();
+                        await [Permission.microphone, Permission.camera]
+                            .request();
+                        navigateTo(
+                            context,
+                            VideoCallScreen(
+                              groupId: uID,
+                            ));
+                      },
+                      icon: const Icon(Icons.video_call)),
+                ],
+              ),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: BuildCondition(
+                      condition: AppCubit.get(context).messages.isNotEmpty,
+                      builder: (context) => Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.withOpacity(0.5),),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Row(
-                            children: [
-                              IconButton(onPressed: () {},
-                                  icon: const Icon(
-                                      Icons.add_circle
-                                  )),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets
-                                      .symmetric(
-                                      horizontal: 10.0),
-                                  child: TextFormField(
-                                    controller: messageController,
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'write your message...'
-                                    ),
-                                  ),
+                        child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var message =
+                                  AppCubit.get(context).messages[index];
+                              if (AppCubit.get(context).uID ==
+                                  message.senderId) {
+                                return buildMyMessages(message);
+                              }
+                              return buildMessages(message);
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 15.0,
                                 ),
+                            itemCount: AppCubit.get(context).messages.length),
+                      ),
+                      fallback: (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.add_circle)),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: TextFormField(
+                                controller: messageController,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'write your message...'),
                               ),
-                              IconButton(onPressed: () {
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
                                 if (messageController.text != '') {
-                                  if(AppCubit.get(context).patients[0]!=patModel!){
-                                    AppCubit.get(context).removePatient(index!);
-                                    AppCubit.get(context).replacePatient(patModel!);
-                                    String patuid=patModel!.uId!;
-                                    firebase.collection('doctor').doc(uID).update({'createdAt':Timestamp.now()});
-                                    firebase.collection('patient').doc(patuid).update({'createdAt':Timestamp.now()});
-                                  }
+                                  String patuid = patModel!.uId!;
+                                  firebase
+                                      .collection('doctor')
+                                      .doc(uID)
+                                      .update({'createdAt': DateTime.now().toString()});
+                                  firebase
+                                      .collection('patient')
+                                      .doc(patuid)
+                                      .update({'createdAt': DateTime.now().toString()});
                                   AppCubit.get(context).sendMessage(
-                                      receiverId: patModel!.uId!,
-                                      dateTime: DateTime.now().toString(),
-                                      token: patModel!.token!,
-                                      text: messageController.text,
-                                      name:patModel!.fullName!
+                                    receiverId: patModel!.uId!,
+                                    dateTime: DateTime.now(),
+                                    token: patModel!.token!,
+                                    text: messageController.text,
                                   );
                                 }
                                 messageController.text = '';
                               },
-                                  icon: const Icon(
-                                      Icons.send
-                                  ))
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }
-          );
-        }
-    );
+                              icon: const Icon(Icons.send))
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          });
+    });
   }
 }
 
-Widget buildMessages(MessagesModel model) =>Align(
-  alignment: AlignmentDirectional.centerStart,
-  child: Container(
-    decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: const BorderRadiusDirectional.only(
-          topStart: Radius.circular(10.0),
-          topEnd: Radius.circular(10.0),
-          bottomEnd: Radius.circular(10.0),
-        )
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 5.0,
-          horizontal: 10.0),
-      child: Text(
-          '${model.text}'),
-    ),
-  ),
-);
-Widget buildMyMessages(MessagesModel model) =>Align(
-  alignment: AlignmentDirectional.centerEnd,
-  child: Container(
-    decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.3),
-        borderRadius: const BorderRadiusDirectional.only(
-          topStart: Radius.circular(10.0),
-          topEnd: Radius.circular(10.0),
-          bottomStart: Radius.circular(10.0),
-        )
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: 5.0,
-          horizontal: 10.0),
-      child: Text(
-          '${model.text}'),
-    ),
-  ),
-);
-
+Widget buildMessages(MessagesModel model) => Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: const BorderRadiusDirectional.only(
+              topStart: Radius.circular(10.0),
+              topEnd: Radius.circular(10.0),
+              bottomEnd: Radius.circular(10.0),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+          child: Text('${model.text}'),
+        ),
+      ),
+    );
+Widget buildMyMessages(MessagesModel model) => Align(
+      alignment: AlignmentDirectional.centerEnd,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.3),
+            borderRadius: const BorderRadiusDirectional.only(
+              topStart: Radius.circular(10.0),
+              topEnd: Radius.circular(10.0),
+              bottomStart: Radius.circular(10.0),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+          child: Text('${model.text}'),
+        ),
+      ),
+    );

@@ -18,12 +18,12 @@ class DoctorModel
   String? endTime;
   String? daysOfWork;
   String? degree;
-  String? token;
-  Timestamp? createdAt;
-  double? rate;
-  int? exprience;
-  double? allRateValue;
-  int? allRateNumber;
+  String?token;
+  DateTime?createdAt;
+ double?rate;
+ int?exprience;
+ double?allRateValue;
+ int?allRateNumber;
   DoctorModel({
     this.fullName,
     this.email,
@@ -69,7 +69,7 @@ class DoctorModel
     daysOfWork = json['daysOfWork'];
     degree = json['degree'];
     token=json['token'];
-    createdAt=json['createdAt'];
+    createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
     exprience=json['exprience'];
     allRateNumber=json['allRateNumber'];
@@ -97,7 +97,35 @@ class DoctorModel
       'daysOfWork':daysOfWork,
       'degree':degree,
       'token':token,
-      'createdAt':createdAt,
+      'createdAt':createdAt?.toString(),
+      'rate':rate,
+      'exprience':exprience,
+      'allRateValue':allRateValue,
+      'allRateNumber':allRateNumber,
+    };
+  }
+  Map<String,dynamic> toJson()
+  {
+    return{
+      'fullName':fullName,
+      'email':email,
+      'phone':phone,
+      'uId':uId,
+      'image':image,
+      'age':age,
+      'address':address,
+      'gender':gender,
+      'university':university,
+      'regisNumber':regisNumber,
+      'specialization':specialization,
+      'certificates':certificates,
+      'price':price,
+      'startTime':startTime,
+      'endTime':endTime,
+      'daysOfWork':daysOfWork,
+      'degree':degree,
+      'token':token,
+      'createdAt':createdAt ,
       'rate':rate,
       'exprience':exprience,
       'allRateValue':allRateValue,
