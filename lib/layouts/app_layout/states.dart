@@ -133,6 +133,7 @@ class GetCommentsErrorsState extends AppStates{
   final String error;
   GetCommentsErrorsState(this.error);
 }
+class Updated extends AppStates{}
 class UnReadMessages extends AppStates{}
 class ReadMessages extends AppStates{}
 class IncrementCount extends AppStates{}
