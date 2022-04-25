@@ -55,12 +55,12 @@ class _MyAppState extends State<MyApp> {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context)=>MainCubit(),),
-        BlocProvider(create: (context)=>AppCubit()..getUsers()..getUserData()),
+        BlocProvider(create: (context)=>AppCubit()..getUserData()),
         BlocProvider(create: (context)=>LoginCubit()),
         BlocProvider(create: (context)=>RegisterCubit(),),
       ],
       child: FutureBuilder(
-          future: fireInit(),
+          future: fireInit(context),
     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
       return BlocConsumer<MainCubit, MainStates>(
         listener: (context, state) {},
