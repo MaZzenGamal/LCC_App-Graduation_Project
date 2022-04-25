@@ -12,28 +12,33 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return BlocConsumer<AppCubit, AppStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: ConditionalBuilder(
-                condition: AppCubit.get(context).doctors.isNotEmpty,
-                builder: (context)=>ListView.separated(
-                    itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context,index),
-                    separatorBuilder: (context, index) => myDivider(),
-                    itemCount: AppCubit.get(context).doctors.length),
-                fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-              ),
+        return Builder(
+          builder: (context) {
+            AppCubit.get(context).getUsers();
+            return BlocConsumer<AppCubit, AppStates>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: ConditionalBuilder(
+                    condition: AppCubit.get(context).doctors.isNotEmpty,
+                    builder: (context)=>ListView.separated(
+                        itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
+                        separatorBuilder: (context, index) => myDivider(),
+                        itemCount: AppCubit.get(context).doctors.length),
+                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
+                  ),
+                );
+              },
             );
-          },
+          }
         );
       }
 }
-Widget buildChatItem(DoctorModel model,context,int index1) => InkWell(
+Widget buildChatItem(DoctorModel model,context) => InkWell(
   onTap: ()
   {
-    navigateTo(context, ChatDetailsScreen(docModel: model,index:index1));
+    navigateTo(context, ChatDetailsScreen(docModel: model));
   } ,
   child: Padding(
     padding: const EdgeInsets.all(20.0),

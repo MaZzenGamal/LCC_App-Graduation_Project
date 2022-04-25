@@ -17,32 +17,37 @@ class ChatScreenDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(CacheHelper.getData(key: 'type'));
-        return BlocConsumer<AppCubit, AppStates>(
-          listener: (context, state) {
-          },
-          builder: (context, state) {
-            return Scaffold(
-              appBar: AppBar(
-              ),
-              body: ConditionalBuilder(
-                condition: AppCubit.get(context).patients.length > 0,
-                builder: (context)=>ListView.separated(
-                    itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context,index),
-                    separatorBuilder: (context, index) => myDivider(),
-                    itemCount: AppCubit.get(context).patients.length),
-                fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-              ),
+        return Builder(
+          builder: (context) {
+            AppCubit.get(context).getUsers();
+            return BlocConsumer<AppCubit, AppStates>(
+              listener: (context, state) {
+              },
+              builder: (context, state) {
+                return Scaffold(
+                  appBar: AppBar(
+                  ),
+                  body: ConditionalBuilder(
+                    condition: AppCubit.get(context).patients.length > 0,
+                    builder: (context)=>ListView.separated(
+                        itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
+                        separatorBuilder: (context, index) => myDivider(),
+                        itemCount: AppCubit.get(context).patients.length),
+                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
+                  ),
+                );
+              },
             );
-          },
+          }
         );
       }
 }
 
 
-Widget buildChatItem(PatientModel model,context, int index) => InkWell(
+Widget buildChatItem(PatientModel model,context) => InkWell(
   onTap: ()
   {
-    navigateTo(context, ChatDetailsScreenDoctor(patModel: model,index:index));
+    navigateTo(context, ChatDetailsScreenDoctor(patModel: model));
   } ,
   child: Padding(
     padding: const EdgeInsets.all(20.0),
