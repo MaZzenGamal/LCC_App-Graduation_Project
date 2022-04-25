@@ -283,6 +283,5 @@ Widget buildCommentItem(CommentModel model, context) => InkWell(
 String getTime(var time) {
   //final DateFormat formatter = DateFormat('dd/MM/yyyy, hh:mm:ss aa');  your date format here
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
-  var date = time.toDate();
-  return formatter.format(date);
+  return formatter.format(time);
 }
