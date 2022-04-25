@@ -15,19 +15,18 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:graduation_project/modules/home_screen/home_screen.dart';
 import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
-import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../models/comment_model.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
-
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
 
   static AppCubit get(context) => BlocProvider.of(context);
   DoctorModel docModel = DoctorModel();
   PatientModel patModel = PatientModel();
+  CommentModel commModel=CommentModel();
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
   final firebase = FirebaseFirestore.instance;
@@ -137,7 +136,6 @@ class AppCubit extends Cubit<AppStates> {
   // // }
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
-
   sendNotfiy(String title, String body, String token) async {
     print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
     await http.post(
@@ -157,6 +155,7 @@ class AppCubit extends Cubit<AppStates> {
           'data': <String, dynamic>{
             'status': 'done',
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'uidsender':uID,
           },
           'to': token,
         },
@@ -167,24 +166,25 @@ class AppCubit extends Cubit<AppStates> {
   void getUserData() {
     if (type == "patient") {
       emit(GetPatientLoadingState());
-      firebase.collection('patient').doc(uID).get().then((value) {
-        print(value.data());
-        patModel = PatientModel.fromJson(value.data()!);
+      firebase
+          .collection("patient")
+      .doc(uID)
+          .snapshots()
+          .listen((event) {
+        patModel = PatientModel.fromJson(event.data()!);
+        });
         emit(GetPatientSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetPatientErrorState(error.toString()));
-      });
-    } else if (type == "doctor") {
+      }
+    else if (type == "doctor") {
       emit(GetDoctorLoadingState());
-      firebase.collection('doctor').doc(uID).get().then((value) {
-        print(value.data());
-        docModel = DoctorModel.fromJson(value.data()!);
-        emit(GetDoctorSuccessState());
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetDoctorErrorState(error.toString()));
+      firebase
+          .collection("doctor")
+          .doc(uID)
+          .snapshots()
+          .listen((event) {
+        docModel = DoctorModel.fromJson(event.data()!);
       });
+      emit(GetDoctorSuccessState());
     }
   }
 
@@ -214,59 +214,51 @@ class AppCubit extends Cubit<AppStates> {
 
   void getUsers() {
     if (type == "patient") {
-      if (doctors.isEmpty) {
-        firebase
-            .collection("doctor")
-            .orderBy('createdAt', descending: true).get()
-            .then((value) {
-          value.docs.forEach((element) {
-            if (element.data()['uId'] != docModel.uId) {
-              doctors.add(DoctorModel.fromJson(element.data()));
-            }
-          });
-          emit(GetAllDoctorsSuccessState());
-        })
-            .catchError((error) {
-          print("the error is ${error.toString()}");
-          emit(GetAllDoctorsErrorState(error.toString()));
+      firebase
+          .collection("doctor")
+         // .orderBy('createdAt',descending: true)
+          .snapshots()
+          .listen((event) {
+        doctors= [];
+        event.docs.forEach((element) {
+          doctors.add(DoctorModel.fromJson(element.data()));
         });
-      }
+        emit(GetAllDoctorsSuccessState());
+      });
     }
     else if (type == "doctor") {
-      if (patients.isEmpty) {
-        firebase
-            .collection("patient")
-            .orderBy('createdAt', descending: true).get()
-            .then((value) {
-          value.docs.forEach((element) {
-            if (element.data()['uId'] != patModel.uId) {
-              patients.add(PatientModel.fromJson(element.data()));
-            }
-          });
-          emit(GetAllPatientsSuccessState());
-        })
-            .catchError((error) {
-          print("the error is ${error.toString()}");
-          emit(GetAllPatientsErrorState(error.toString()));
+      firebase
+          .collection("patient")
+          //.orderBy('createdAt',descending: true)
+          .snapshots()
+          .listen((event) {
+        patients= [];
+        event.docs.forEach((element) {
+          patients.add(PatientModel.fromJson(element.data()));
         });
-      }
+        emit(GetAllDoctorsSuccessState());
+      });
     }
   }
 
   Future<void> sendComment({
     required String receiverId,
-    required Timestamp dateTime,
+    required DateTime dateTime,
     required String text,
     required double rate,
-  }) async {
+  })  async {
     String? name;
     String?photo;
-    await firebase.collection('patient').doc(uID).get().then((value) {
-      patModel = PatientModel.fromJson(value.data()!);
-      name = patModel.fullName;
-      photo = patModel.image;
+    firebase
+        .collection("patient")
+        .doc(uID)
+        .snapshots()
+        .listen((event) {
+      patModel = PatientModel.fromJson(event.data()!);
+      print("pation model is $patModel");
     });
-
+    name = patModel.fullName;
+    photo = patModel.image;
     CommentModel model = CommentModel(
       receiverId: receiverId,
       senderId: uID,
@@ -342,10 +334,10 @@ class AppCubit extends Cubit<AppStates> {
   }
     void sendMessage({
       required String receiverId,
-      required String dateTime,
+      required DateTime dateTime,
       required String text,
       required String token,
-      required String name,
+
     }) {
       MessagesModel model = MessagesModel(
         dateTime: dateTime,
@@ -375,9 +367,9 @@ class AppCubit extends Cubit<AppStates> {
             .collection('messages')
             .add(model.toMap())
             .then((value) {
-          String title = name;
+          String? title =patModel.fullName;
           String body = text;
-          sendNotfiy(title, body, token);
+         sendNotfiy(title!, body, token);
           firebase.collection('doctor').doc(receiverId).update({'read': false});
           emit(SendMessagesSuccessState());
         })
@@ -407,9 +399,9 @@ class AppCubit extends Cubit<AppStates> {
             .collection('messages')
             .add(model.toMap())
             .then((value) {
-          String title = name;
+          String? title = docModel.fullName;
           String body = text;
-          sendNotfiy(title, body, token);
+          sendNotfiy(title!, body, token);
           firebase.collection('patient').doc(uID).update({'read': false});
           emit(SendMessagesSuccessState());
         })
@@ -418,7 +410,6 @@ class AppCubit extends Cubit<AppStates> {
         });
       }
     }
-
     List<MessagesModel> messages = [];
 
     void getMessage({
@@ -460,7 +451,7 @@ class AppCubit extends Cubit<AppStates> {
       }
     }
 
-    void replaceDoctor(DoctorModel docModel) {
+    /*void replaceDoctor(DoctorModel docModel) {
       doctors.insert(0, docModel);
       emit(ReplaceDoctorSuccessState());
     }
@@ -478,7 +469,7 @@ class AppCubit extends Cubit<AppStates> {
     void removePatient(int index) {
       patients.removeAt(index);
       emit(DeletePatientSuccessState());
-    }
+    }*/
 
     //var visible= RegisterCubit.get(context).visible1;
     File? profileImage;
@@ -629,12 +620,40 @@ class AppCubit extends Cubit<AppStates> {
           .collection('patient')
           .doc(patModel.uId)
           .update(model.toMap())
-          .then((value) {
+          .then((value) async {
         showToast(
             text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
+        await firebase.collection('doctor').get().then((value) {
+          value.docs.forEach((result) {
+            firebase.collection('comments').get().then((docs) {
+              docs.docs.forEach((element) {
+                commModel = CommentModel.fromJson(element.data());
+                print("the sender id is ${commModel.senderId}");
+                  CommentModel cmodel =CommentModel(
+                      fullName: name,
+                      message: commModel.message,
+                      createdAt: commModel.createdAt,
+                      receiverId: commModel.receiverId,
+                      senderId: commModel.senderId,
+                      image: commModel.image,
+                      rate: commModel.rate
+                  );
+                  firebase
+                      .collection('doctor').doc(commModel.receiverId)
+                      .collection('comments').doc(commModel.senderId).
+                  update(cmodel.toMap());
+              });
+            }).catchError((error){
+              print("the error is ${error.toString()}");
+            });
+          });
+          emit(Updated());
+        }).catchError((error){
+          print("the error is ${error.toString()}");
+        });
         emit(UpdatePatProfileSuccessState());
         getUserData();
-      }).catchError((error) {
+        }).catchError((error) {
         var index = (error.toString()).indexOf(']');
         String showError = (error.toString()).substring(index + 1);
         showToast(text: showError, state: ToastStates.ERROR);
@@ -672,6 +691,33 @@ class AppCubit extends Cubit<AppStates> {
           showToast(text: 'Profile image uploaded successfully',
               state: ToastStates.SUCCESS);
           emit(UploadPatProfileImageSuccessState());
+          firebase.collection('doctor').get().then((value) {
+            value.docs.forEach((result) {
+              firebase.collection('comments').get().then((docs) {
+                docs.docs.forEach((element) {
+                  commModel = CommentModel.fromJson(element.data());
+                  if(commModel.senderId==uID) {
+                    CommentModel cmodel =CommentModel(
+                        fullName: commModel.fullName,
+                        message: commModel.message,
+                        createdAt: commModel.createdAt,
+                        receiverId: commModel.receiverId,
+                        senderId: commModel.senderId,
+                        image: commModel.image,
+                        rate: commModel.rate
+                    );
+                    firebase
+                        .collection('doctor').doc(commModel.receiverId)
+                        .collection('comments').doc(commModel.senderId).
+                    update(cmodel.toMap());
+
+                  }
+                });
+              });
+            });
+          }).catchError((error){
+            print(error.toString());
+          });
           //emit(UploadProfileImageLoadingState2());
           profileImage = null;
         }).catchError((error) {
