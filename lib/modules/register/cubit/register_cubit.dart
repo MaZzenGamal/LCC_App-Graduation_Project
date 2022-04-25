@@ -181,7 +181,7 @@ class RegisterCubit extends Cubit<RegisterStates>
           gender: gender,
           address: address,
           token: tokenm!,
-          createdAt: Timestamp.now(),
+          createdAt: DateTime.now(),
         );
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
@@ -201,7 +201,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String address,
     required String age,
     required String token,
-    required Timestamp createdAt,
+    required DateTime createdAt,
   }){
     PatientModel model = PatientModel(
       email: email,
@@ -290,15 +290,9 @@ class RegisterCubit extends Cubit<RegisterStates>
           university: university,
           certificates: certificates,
           token: tokenm!,
-          createdAt: Timestamp.now(),
+          createdAt: DateTime.now(),
         );
-    }).catchError((error){
-      var index=(error.toString()).indexOf(']');
-      String showerror=(error.toString()).substring(index+1);
-      showToast(text: showerror, state: ToastStates.ERROR);
-      print(error);
-      emit(DoctorRegisterErrorState(error.toString()));
-    });
+      });
   }
 
   void doctorCreate({
@@ -314,7 +308,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String regisNumber,
     required String age,
     required String token,
-    required Timestamp createdAt,
+    required DateTime createdAt,
   }){
     DoctorModel model = DoctorModel(
         email: email,
@@ -331,6 +325,9 @@ class RegisterCubit extends Cubit<RegisterStates>
       university: university,
       token:token,
       createdAt:createdAt,
+      allRateNumber: 0,
+      allRateValue: 0.00001,
+      rate: 0.00001,
     );
     FirebaseFirestore.instance.
     collection('doctor').
