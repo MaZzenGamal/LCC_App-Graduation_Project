@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/layouts/app_layout/app_layout.dart';
 import 'package:graduation_project/models/navkey.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
@@ -17,6 +18,7 @@ import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'layouts/app_layout/app_cubit.dart';
 import 'modules/register/cubit/register_cubit.dart';
+import 'modules/reservation_screen/reservation_screen.dart';
 import 'myTest/restart_screen.dart';
 import 'notification_service.dart';
 Future<void>main() async {
@@ -72,7 +74,6 @@ class _MyAppState extends State<MyApp> {
               navigatorKey: NavKey?.navkey,
               routes:{
                 'profile':(context)=> SearchScreen(),
-
               },
               home:LoginScreen(),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
             ),

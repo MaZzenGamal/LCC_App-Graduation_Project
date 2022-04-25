@@ -331,6 +331,9 @@ class RegisterCubit extends Cubit<RegisterStates>
       university: university,
       token:token,
       createdAt:createdAt,
+      allRateNumber: 0,
+      allRateValue: 1.0,
+      rate: 3.0,
     );
     FirebaseFirestore.instance.
     collection('doctor').

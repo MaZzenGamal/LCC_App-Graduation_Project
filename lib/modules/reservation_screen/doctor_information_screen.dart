@@ -167,7 +167,7 @@ class DoctorsInformation extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemBuilder: (context, index) => buildCommentItem(
-                                AppCubit.get(context).comments[index], context),
+                                AppCubit.get(context).comments[index],AppCubit.get(context).patModel, context),
                             itemCount: AppCubit.get(context).comments.length,
                             separatorBuilder: (BuildContext context, int index) =>
                                 Container()),
@@ -202,7 +202,7 @@ class DoctorsInformation extends StatelessWidget {
   }
 }
 
-Widget buildCommentItem(CommentModel model, context) => InkWell(
+Widget buildCommentItem(CommentModel cModel,PatientModel patModel, context) => InkWell(
       onTap: () {
         //navigateTo(context,DoctorsInformation (docModel: model));
       },
@@ -212,7 +212,7 @@ Widget buildCommentItem(CommentModel model, context) => InkWell(
           CircleAvatar(
             radius: 35.0,
             backgroundImage: NetworkImage(
-              '${model.image}',
+              '${patModel.image}',
             ),
           ),
           const SizedBox(
@@ -226,7 +226,7 @@ Widget buildCommentItem(CommentModel model, context) => InkWell(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${model.fullName}',
+                    '${patModel.fullName}',
                     style: const TextStyle(
                         fontSize: 18.0,
                         height: 1.3,
@@ -236,7 +236,7 @@ Widget buildCommentItem(CommentModel model, context) => InkWell(
                   Row(
                     children: [
                       RatingBarIndicator(
-                        rating: model.rate!,
+                        rating: cModel.rate!,
                         itemBuilder: (context, index) => Icon(
                           Icons.star,
                           color: HexColor('4E51BF'),
@@ -258,12 +258,12 @@ Widget buildCommentItem(CommentModel model, context) => InkWell(
                         width: 10,
                       ),
                       Text(
-                        getTime(model.createdAt),
+                        getTime(cModel.createdAt),
                       ),
                     ],
                   ),
                   Text(
-                    '${model.message}',
+                    '${cModel.message}',
                   ),
                   /*Row(
                 children: [

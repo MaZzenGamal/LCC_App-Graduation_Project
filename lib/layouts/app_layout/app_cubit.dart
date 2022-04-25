@@ -28,6 +28,7 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
   DoctorModel docModel = DoctorModel();
   PatientModel patModel = PatientModel();
+  CommentModel commModel = CommentModel();
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
   final firebase = FirebaseFirestore.instance;
@@ -266,7 +267,6 @@ class AppCubit extends Cubit<AppStates> {
       name = patModel.fullName;
       photo = patModel.image;
     });
-
     CommentModel model = CommentModel(
       receiverId: receiverId,
       senderId: uID,
@@ -275,7 +275,6 @@ class AppCubit extends Cubit<AppStates> {
       createdAt: dateTime,
       fullName: name,
       image: photo,
-
     );
     firebase
         .collection('doctor')
@@ -288,6 +287,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(SendCommentsErrorState(error));
     });
   }
+
   List<CommentModel> comments = [];
   void getComment({
     required String receiverId,
@@ -302,10 +302,14 @@ class AppCubit extends Cubit<AppStates> {
         comments = [];
       event.docs.forEach((element) {
         comments.add(CommentModel.fromJson(element.data()));
+        commModel = CommentModel.fromJson(element.data());
+        // print('FFFFFFFFFFFFFFFFFFFFFFFFF');
+        // print(commModel.toString());
       });
       emit(GetCommentsSuccessState());
     });
     }
+
     late MessagesModel messModel;
   int count = 0;
   Map<String, int> answers = {};
@@ -529,7 +533,10 @@ class AppCubit extends Cubit<AppStates> {
           university: university,
           certificates: certificates,
           specialization: specialization,
-          regisNumber: regisNumber
+          regisNumber: regisNumber ,
+          allRateNumber: 0,
+          allRateValue: 1.3,
+          rate: 3.2,
       );
       firebase
           .collection('doctor')
@@ -625,6 +632,8 @@ class AppCubit extends Cubit<AppStates> {
         age: age,
         gender: gender,
       );
+      print('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+      print(patModel.email);
       firebase
           .collection('patient')
           .doc(patModel.uId)
@@ -632,8 +641,34 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         showToast(
             text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
+        CommentModel cModel =CommentModel(
+          senderId: commModel.senderId,
+          receiverId: commModel.receiverId,
+          image: commModel.image,
+          fullName: name,
+          message: commModel.message,
+          createdAt: commModel.createdAt,
+          rate: commModel.rate
+        );
+        print('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+        print(cModel.fullName);
+        print(commModel.senderId.toString());
+        print(commModel.receiverId);
+        print(commModel.image);
+
+        firebase.collection('doctor').
+        doc(commModel.receiverId).
+        collection('comments').
+        doc(commModel.senderId).
+        update(cModel.toMap()).then((value){
+          print('dooooooooooooooooooooooooooooone');
+        }).catchError((error){
+          print('shiiiiiiiiiiiiiiiit');
+          print(error.toString());
+        });
         emit(UpdatePatProfileSuccessState());
         getUserData();
+
       }).catchError((error) {
         var index = (error.toString()).indexOf(']');
         String showError = (error.toString()).substring(index + 1);

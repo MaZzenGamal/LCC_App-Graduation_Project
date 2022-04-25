@@ -13,17 +13,17 @@ class DoctorModel
   String? regisNumber;
   String? specialization;
   String? certificates;
-  int? price;
+  String? price;
   String? startTime;
   String? endTime;
   String? daysOfWork;
   String? degree;
-  String?token;
-  Timestamp?createdAt;
- double?rate;
- int?exprience;
- double?allRateValue;
- int?allRateNumber;
+  String? token;
+  Timestamp? createdAt;
+  double? rate;
+  int? exprience;
+  double? allRateValue;
+  int? allRateNumber;
   DoctorModel({
     this.fullName,
     this.email,

@@ -8,6 +8,7 @@ import 'package:graduation_project/layouts/app_layout/app_layout.dart';
 import 'package:graduation_project/modules/indicators_screen/Login_ind_screen.dart';
 import 'package:graduation_project/modules/register/cubit/register_cubit.dart';
 import 'package:graduation_project/modules/register/register_screen1.dart';
+import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';

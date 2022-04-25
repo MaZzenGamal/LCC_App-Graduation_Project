@@ -59,6 +59,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/modules/profile_screen/doctor_profile_screen.dart';
+import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
 import '../../layouts/app_layout/app_cubit.dart';
@@ -120,6 +121,21 @@ class SettingsScreen extends StatelessWidget {
             ),
             onTap:() {
               RestartWidget.restartApp(context);
+            }
+        ),
+        const Divider(),
+        ListTile(
+            leading: Icon(
+                Icons.medical_services_outlined
+            ),
+            title:const Text('Doctor Screen',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black
+              ),
+            ),
+            onTap:() {
+              navigateTo(context, DoctorsScreen());
             }
         ),
       ];
