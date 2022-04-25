@@ -4,7 +4,7 @@ class CommentModel
 {
   String? fullName;
   String? image;
-  Timestamp?createdAt;
+  DateTime?createdAt;
   double? rate;
   String?message;
   String? senderId;
@@ -24,7 +24,7 @@ class CommentModel
   {
     fullName = json['fullName'];
     image = json['image'];
-    createdAt=json['createdAt'];
+    createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
     message=json['message'];
     senderId=json['senderId'];
@@ -36,7 +36,7 @@ class CommentModel
     return{
       'fullName':fullName,
       'image':image,
-      'createdAt':createdAt,
+      'createdAt':createdAt?.toIso8601String(),
       'rate':rate,
       'message':message,
       'receiverId':receiverId,
