@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
             CacheHelper.saveData(key: 'uId', value: state.uId);
             LoginCubit.get(context).updateToken(
                 userId: CacheHelper.getData(key: 'uId'));
-           // navigateAndFinish(context, const AppLayout());
+          // navigateAndFinish(context, const AppLayout());
             navigateTo(context,const DoctorsScreen());
           }
         },
