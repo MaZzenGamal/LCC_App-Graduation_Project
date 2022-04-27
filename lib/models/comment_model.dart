@@ -12,8 +12,6 @@ class CommentModel
 
 
   CommentModel({
-    this.fullName,
-    this.image,
     this.createdAt,
     this.rate,
     this.message,
@@ -22,8 +20,6 @@ class CommentModel
   });
   CommentModel.fromJson(Map<String,dynamic>json)
   {
-    fullName = json['fullName'];
-    image = json['image'];
     createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
     message=json['message'];
@@ -34,8 +30,6 @@ class CommentModel
   Map<String,dynamic> toMap()
   {
     return{
-      'fullName':fullName,
-      'image':image,
       'createdAt':createdAt?.toIso8601String(),
       'rate':rate,
       'message':message,
