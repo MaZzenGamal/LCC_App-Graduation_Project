@@ -1,3 +1,4 @@
+
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../models/patient_model.dart';
 import '../../shared/components/components.dart';
 import 'doctor_information_screen.dart';
 class DoctorsScreen extends StatelessWidget {
@@ -129,3 +131,11 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
     ),
   ),
 );
+/*Future<DoctorModel>getphoto(String uid)async{
+  FirebaseFirestore.instance.collection('doctor').doc(uid)
+      .snapshots().listen((event) {
+    docModel = PatientModel.fromJson(event.data()!);
+  });
+  return patModel;
+
+}*/
