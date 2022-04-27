@@ -216,7 +216,7 @@ class AppCubit extends Cubit<AppStates> {
     if (type == "patient") {
       firebase
           .collection("doctor")
-         // .orderBy('createdAt',descending: true)
+         .orderBy('createdAt',descending: true)
           .snapshots()
           .listen((event) {
         doctors= [];
@@ -229,7 +229,7 @@ class AppCubit extends Cubit<AppStates> {
     else if (type == "doctor") {
       firebase
           .collection("patient")
-          //.orderBy('createdAt',descending: true)
+          .orderBy('createdAt',descending: true)
           .snapshots()
           .listen((event) {
         patients= [];
@@ -247,26 +247,12 @@ class AppCubit extends Cubit<AppStates> {
     required String text,
     required double rate,
   })  async {
-    String? name;
-    String?photo;
-    firebase
-        .collection("patient")
-        .doc(uID)
-        .snapshots()
-        .listen((event) {
-      patModel = PatientModel.fromJson(event.data()!);
-      print("pation model is $patModel");
-    });
-    name = patModel.fullName;
-    photo = patModel.image;
     CommentModel model = CommentModel(
       receiverId: receiverId,
       senderId: uID,
       message: text,
       rate: rate,
       createdAt: dateTime,
-      fullName: name,
-      image: photo,
 
     );
     firebase
@@ -281,9 +267,9 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
   List<CommentModel> comments = [];
-  void getComment({
+  Stream<void>? getComment({
     required String receiverId,
-  }) {
+  })  {
     comments=[];
       firebase
           .collection('doctor')
@@ -297,6 +283,7 @@ class AppCubit extends Cubit<AppStates> {
       });
       emit(GetCommentsSuccessState());
     });
+      return null;
     }
     late MessagesModel messModel;
   int count = 0;
@@ -623,34 +610,6 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) async {
         showToast(
             text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
-        await firebase.collection('doctor').get().then((value) {
-          value.docs.forEach((result) {
-            firebase.collection('comments').get().then((docs) {
-              docs.docs.forEach((element) {
-                commModel = CommentModel.fromJson(element.data());
-                print("the sender id is ${commModel.senderId}");
-                  CommentModel cmodel =CommentModel(
-                      fullName: name,
-                      message: commModel.message,
-                      createdAt: commModel.createdAt,
-                      receiverId: commModel.receiverId,
-                      senderId: commModel.senderId,
-                      image: commModel.image,
-                      rate: commModel.rate
-                  );
-                  firebase
-                      .collection('doctor').doc(commModel.receiverId)
-                      .collection('comments').doc(commModel.senderId).
-                  update(cmodel.toMap());
-              });
-            }).catchError((error){
-              print("the error is ${error.toString()}");
-            });
-          });
-          emit(Updated());
-        }).catchError((error){
-          print("the error is ${error.toString()}");
-        });
         emit(UpdatePatProfileSuccessState());
         getUserData();
         }).catchError((error) {
@@ -691,33 +650,6 @@ class AppCubit extends Cubit<AppStates> {
           showToast(text: 'Profile image uploaded successfully',
               state: ToastStates.SUCCESS);
           emit(UploadPatProfileImageSuccessState());
-          firebase.collection('doctor').get().then((value) {
-            value.docs.forEach((result) {
-              firebase.collection('comments').get().then((docs) {
-                docs.docs.forEach((element) {
-                  commModel = CommentModel.fromJson(element.data());
-                  if(commModel.senderId==uID) {
-                    CommentModel cmodel =CommentModel(
-                        fullName: commModel.fullName,
-                        message: commModel.message,
-                        createdAt: commModel.createdAt,
-                        receiverId: commModel.receiverId,
-                        senderId: commModel.senderId,
-                        image: commModel.image,
-                        rate: commModel.rate
-                    );
-                    firebase
-                        .collection('doctor').doc(commModel.receiverId)
-                        .collection('comments').doc(commModel.senderId).
-                    update(cmodel.toMap());
-
-                  }
-                });
-              });
-            });
-          }).catchError((error){
-            print(error.toString());
-          });
           //emit(UploadProfileImageLoadingState2());
           profileImage = null;
         }).catchError((error) {
