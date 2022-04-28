@@ -26,7 +26,7 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
   DoctorModel docModel = DoctorModel();
   PatientModel patModel = PatientModel();
-  CommentModel commModel=CommentModel();
+  CommentModel commModel = CommentModel();
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
   final firebase = FirebaseFirestore.instance;
@@ -266,6 +266,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(SendCommentsErrorState(error));
     });
   }
+
   List<CommentModel> comments = [];
   Stream<void>? getComment({
     required String receiverId,
@@ -507,7 +508,11 @@ class AppCubit extends Cubit<AppStates> {
           university: university,
           certificates: certificates,
           specialization: specialization,
-          regisNumber: regisNumber
+          regisNumber: regisNumber,
+          rate: 0.000001,
+          allRateValue: 0.00000001,
+          allRateNumber: 3
+
       );
       firebase
           .collection('doctor')

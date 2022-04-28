@@ -292,7 +292,13 @@ class RegisterCubit extends Cubit<RegisterStates>
           token: tokenm!,
           createdAt: DateTime.now(),
         );
-      });
+    }).catchError((error){
+      var index=(error.toString()).indexOf(']');
+      String showerror=(error.toString()).substring(index+1);
+      showToast(text: showerror, state: ToastStates.ERROR);
+      print(error);
+      emit(DoctorRegisterErrorState(error.toString()));
+    });
   }
 
   void doctorCreate({

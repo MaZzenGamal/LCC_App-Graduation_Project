@@ -63,6 +63,7 @@ dependencies:
   restart_app: ^1.1.0
   awesome_dialog: ^2.2.0
   agora_rtc_engine: ^5.1.0
+  date_picker_timeline: ^1.2.3
 
 
   #Firebase
@@ -148,6 +149,8 @@ flutter:
     - assets/images/register2.jpg
     - assets/images/Abstract.jpg
     - assets/images/red.jpg
+    - assets/images/default profile photo.png
+    - assets/images/loading photo.jpg
 
 
 

@@ -20,8 +20,7 @@ class RegisterScreen3 extends StatelessWidget {
 
       listener: (context,state){
         if(state is DoctorCreateSuccessState||state is PatientCreateSuccessState ){
-          //Navigator.pushReplacementNamed(context,'login');
-
+          navigateAndFinish(context, LoginScreen());
         }
       },
       builder: (context,state){
@@ -446,7 +445,6 @@ class RegisterScreen3 extends StatelessWidget {
                                    regisNumber: cubit.registrationNuController.text,
                                   certificates: cubit.certificateController.text
                                     );
-                               navigateAndFinish(context, LoginScreen());
                              }
                              if (cubit.doctor==false){
                                cubit.patientRegister(
@@ -458,7 +456,6 @@ class RegisterScreen3 extends StatelessWidget {
                                    gender: cubit.gender,
                                    address: cubit.addressController.text,
                                );
-                               navigateAndFinish(context, LoginScreen());
                              }
                            },
                            text: ('Next'),

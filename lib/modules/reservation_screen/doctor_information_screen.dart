@@ -12,9 +12,11 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../models/doctor_model.dart';
 import '../../models/patient_model.dart';
 import 'package:intl/intl.dart';
+
 import '../../shared/components/components.dart';
 
 class DoctorsInformation extends StatelessWidget {
+  PatientModel? patModel;
   DoctorModel? docModel;
   int patientNumber = 300;
   DoctorsInformation({Key? key, this.docModel}) : super(key: key);
@@ -212,8 +214,9 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
     builder: (BuildContext context, AsyncSnapshot<PatientModel> snapshot){
       if(snapshot.data==null){
         print("gggggggggggggggggg");
-      }
-      return InkWell(
+        return LinearProgressIndicator();
+      }else {
+        return InkWell(
         onTap: () {
           //navigateTo(context,DoctorsInformation (docModel: model));
         },
@@ -273,7 +276,10 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
           ],
         ),
       );
+      }
     });
+
+
 String getTime(var time) {
   //final DateFormat formatter = DateFormat('dd/MM/yyyy, hh:mm:ss aa');  your date format here
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
