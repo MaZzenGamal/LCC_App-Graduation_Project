@@ -19,6 +19,7 @@ class DoctorsScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             return Scaffold(
+              appBar: AppBar(),
               body: Container(
                 constraints:const BoxConstraints.expand(),
                 decoration:const BoxDecoration(

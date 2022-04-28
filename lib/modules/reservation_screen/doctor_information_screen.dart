@@ -167,7 +167,7 @@ class DoctorsInformation extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemBuilder: (context, index) => buildCommentItem(
-                                AppCubit.get(context).comments[index],AppCubit.get(context).patModel, context),
+                                AppCubit.get(context).comments[index], context),
                             itemCount: AppCubit.get(context).comments.length,
                             separatorBuilder: (BuildContext context, int index) =>
                                 Container()),
@@ -202,7 +202,7 @@ class DoctorsInformation extends StatelessWidget {
   }
 }
 
-Widget buildCommentItem(CommentModel cModel,PatientModel patModel, context) => InkWell(
+Widget buildCommentItem(CommentModel cModel, context) => InkWell(
       onTap: () {
         //navigateTo(context,DoctorsInformation (docModel: model));
       },
@@ -212,7 +212,7 @@ Widget buildCommentItem(CommentModel cModel,PatientModel patModel, context) => I
           CircleAvatar(
             radius: 35.0,
             backgroundImage: NetworkImage(
-              '${patModel.image}',
+              '${cModel.image}',
             ),
           ),
           const SizedBox(
@@ -226,7 +226,7 @@ Widget buildCommentItem(CommentModel cModel,PatientModel patModel, context) => I
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${patModel.fullName}',
+                    '${cModel.fullName}',
                     style: const TextStyle(
                         fontSize: 18.0,
                         height: 1.3,

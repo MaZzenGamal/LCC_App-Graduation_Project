@@ -174,6 +174,13 @@ class AppCubit extends Cubit<AppStates> {
           .listen((event) {
         patModel = PatientModel.fromJson(event.data()!);
         });
+      // firebase.collection('doctor').
+      // doc(commModel.receiverId).
+      // collection('comments').
+      // doc(uID).snapshots()
+      //     .listen((event) {
+      //   commModel = CommentModel.fromJson(event.data()!);
+      // });
         emit(GetPatientSuccessState());
       }
     else if (type == "doctor") {
@@ -281,6 +288,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(SendCommentsErrorState(error));
     });
   }
+
   List<CommentModel> comments = [];
   void getComment({
     required String receiverId,
@@ -295,11 +303,13 @@ class AppCubit extends Cubit<AppStates> {
         comments = [];
       event.docs.forEach((element) {
         comments.add(CommentModel.fromJson(element.data()));
-        commModel = CommentModel.fromJson(element.data());
+        print(element.data());
+        //commModel = CommentModel.fromJson(element.data());
         // print('FFFFFFFFFFFFFFFFFFFFFFFFF');
         // print(commModel.toString());
       });
-      emit(GetCommentsSuccessState());
+        print(commModel.message);
+        emit(GetCommentsSuccessState());
     });
     }
 
@@ -526,7 +536,11 @@ class AppCubit extends Cubit<AppStates> {
           university: university,
           certificates: certificates,
           specialization: specialization,
-          regisNumber: regisNumber
+          regisNumber: regisNumber,
+          rate: 0.000001,
+          allRateValue: 0.00000001,
+          allRateNumber: 3
+
       );
       firebase
           .collection('doctor')
@@ -601,74 +615,44 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
 
-    void updatePatProfile({
-      required String name,
-      required String phone,
-      required String age,
-      required String address,
-      required String gender,
-      String? image,
-    }) {
-      emit(UpdatePatProfileLoadingState());
-      PatientModel model = PatientModel(
-        fullName: name,
-        phone: phone,
-        email: patModel.email,
-        image: image ?? patModel.image,
-        uId: patModel.uId,
-        token: patModel.token,
-        createdAt: patModel.createdAt,
-        address: address,
-        age: age,
-        gender: gender,
-      );
-      print('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-      print(patModel.email);
-      firebase
-          .collection('patient')
-          .doc(patModel.uId)
-          .update(model.toMap())
-          .then((value) async {
-        showToast(
-            text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
-        await firebase.collection('doctor').get().then((value) {
-          value.docs.forEach((result) {
-            firebase.collection('comments').get().then((docs) {
-              docs.docs.forEach((element) {
-                commModel = CommentModel.fromJson(element.data());
-                print("the sender id is ${commModel.senderId}");
-                  CommentModel cmodel =CommentModel(
-                      fullName: name,
-                      message: commModel.message,
-                      createdAt: commModel.createdAt,
-                      receiverId: commModel.receiverId,
-                      senderId: commModel.senderId,
-                      image: commModel.image,
-                      rate: commModel.rate
-                  );
-                  firebase
-                      .collection('doctor').doc(commModel.receiverId)
-                      .collection('comments').doc(commModel.senderId).
-                  update(cmodel.toMap());
-              });
-            }).catchError((error){
-              print("the error is ${error.toString()}");
-            });
-          });
-          emit(Updated());
-        }).catchError((error){
-          print("the error is ${error.toString()}");
-        });
-        emit(UpdatePatProfileSuccessState());
-        getUserData();
-      }).catchError((error) {
-        var index = (error.toString()).indexOf(']');
-        String showError = (error.toString()).substring(index + 1);
-        showToast(text: showError, state: ToastStates.ERROR);
-        print(error);
-        emit(UpdatePatProfileErrorState(error));
-      });
-    }
+  void updatePatProfile({
+    required String name,
+    required String phone,
+    required String age,
+    required String address,
+    required String gender,
+    String? image,
+  }) {
+    emit(UpdatePatProfileLoadingState());
+    PatientModel model = PatientModel(
+      fullName: name,
+      phone: phone,
+      email: patModel.email,
+      image: image ?? patModel.image,
+      uId: patModel.uId,
+      token: patModel.token,
+      createdAt: patModel.createdAt,
+      address: address,
+      age: age,
+      gender: gender,
+    );
+    firebase
+        .collection('patient')
+        .doc(patModel.uId)
+        .update(model.toMap())
+        .then((value) {
+      showToast(
+          text: 'Profile Updated successfully', state: ToastStates.SUCCESS);
+      emit(UpdatePatProfileSuccessState());
+      getUserData();
+    }).catchError((error) {
+      var index = (error.toString()).indexOf(']');
+      String showError = (error.toString()).substring(index + 1);
+      showToast(text: showError, state: ToastStates.ERROR);
+      print(error);
+      emit(UpdatePatProfileErrorState(error));
+    });
+  }
 
     void uploadPatProfileImage({
       required String name,
@@ -743,4 +727,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(UploadPatProfileImageErrorState(error));
       });
     }
-  }
+
+
+
+}

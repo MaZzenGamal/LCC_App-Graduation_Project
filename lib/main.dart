@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
               routes:{
                 'profile':(context)=> SearchScreen(),
               },
-              home:LoginScreen(),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
+              home:AppLayout(),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
             ),
       );
     })
