@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder/conditional_builder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -208,7 +209,10 @@ class DoctorsInformation extends StatelessWidget {
 String Image = '';
 Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
     future: getPatient(model.senderId!),
-    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+    builder: (BuildContext context, AsyncSnapshot<PatientModel> snapshot){
+      if(snapshot.data==null){
+        print("gggggggggggggggggg");
+      }
       return InkWell(
         onTap: () {
           //navigateTo(context,DoctorsInformation (docModel: model));
@@ -218,7 +222,7 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
           children: [
             CircleAvatar(
               radius: 35.0,
-              backgroundImage: NetworkImage(Image),
+              backgroundImage: NetworkImage(snapshot.data!.image!),
             ),
             const SizedBox(
               width: 15.0,
@@ -231,7 +235,7 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      snapshot.data!.fullName!,
                       style: const TextStyle(
                           fontSize: 18.0,
                           height: 1.3,
@@ -275,11 +279,12 @@ String getTime(var time) {
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   return formatter.format(time);
 }
-
-var name = '';
-PatientModel patModel = PatientModel();
+ PatientModel patModel=PatientModel() ;
 Future<PatientModel> getPatient(String uid) async {
   DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(uid).get();
-  patModel=PatientModel.fromJson(documentSnapshot.data()!);
+  patModel=PatientModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+ if (kDebugMode) {
+   print("the data is ${patModel.fullName}");
+ }
   return patModel;
 }
