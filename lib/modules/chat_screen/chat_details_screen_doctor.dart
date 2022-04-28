@@ -30,11 +30,14 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PatientModel? args = ModalRoute.of(context)?.settings.arguments as PatientModel?;
+    print(args);
+    final _patModel = args ?? patModel;
     /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
       navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
     });*/
     return Builder(builder: (BuildContext context) {
-      AppCubit.get(context).getMessage(receiverId: patModel!.uId!);
+      AppCubit.get(context).getMessage(receiverId: _patModel?.uId as String);
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -46,14 +49,14 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                     CircleAvatar(
                       radius: 15.0,
                       backgroundImage: NetworkImage(
-                        '${patModel!.image}',
+                        '${_patModel!.image}',
                       ),
                     ),
                     const SizedBox(
                       width: 8.0,
                     ),
                     Text(
-                      '${patModel!.fullName}',
+                      '${_patModel.fullName}',
                       style: const TextStyle(fontSize: 15.0),
                     )
                   ],
@@ -132,7 +135,7 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                           IconButton(
                               onPressed: () {
                                 if (messageController.text != '') {
-                                  String patuid = patModel!.uId!;
+                                  String patuid = _patModel.uId!;
                                   firebase
                                       .collection('doctor')
                                       .doc(uID)
@@ -142,9 +145,9 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                                       .doc(patuid)
                                       .update({'createdAt': DateTime.now().toString()});
                                   AppCubit.get(context).sendMessage(
-                                    receiverId: patModel!.uId!,
+                                    receiverId: _patModel.uId!,
                                     dateTime: DateTime.now(),
-                                    token: patModel!.token!,
+                                    token: _patModel.token!,
                                     text: messageController.text,
                                   );
                                 }

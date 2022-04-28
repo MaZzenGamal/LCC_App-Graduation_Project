@@ -3,7 +3,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/layouts/app_layout/app_layout.dart';
 import 'package:graduation_project/models/navkey.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
@@ -17,8 +16,9 @@ import 'package:graduation_project/shared/cubit/main_states.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'layouts/app_layout/app_cubit.dart';
+import 'modules/chat_screen/chat_details_screen.dart';
+import 'modules/chat_screen/chat_details_screen_doctor.dart';
 import 'modules/register/cubit/register_cubit.dart';
-import 'modules/reservation_screen/reservation_screen.dart';
 import 'myTest/restart_screen.dart';
 import 'notification_service.dart';
 Future<void>main() async {
@@ -64,18 +64,25 @@ class _MyAppState extends State<MyApp> {
       child: FutureBuilder(
           future: fireInit(context),
     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+      final navkey= GlobalKey<NavigatorState>();
       return BlocConsumer<MainCubit, MainStates>(
         listener: (context, state) {},
         builder: (context, state) =>
             MaterialApp(
+              routes: {
+                'chatdoctor':(c)=>ChatDetailsScreenDoctor(),
+                'chatpatient':(c)=>ChatDetailsScreen(),
+              },
+              navigatorKey: navkey,
               debugShowCheckedModeBanner: false,
               theme: lightTheme,
               //darkTheme: darkTheme,
-              navigatorKey: NavKey?.navkey,
-              routes:{
-                'profile':(context)=> SearchScreen(),
-              },
-              home:AppLayout(),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
+              home:FutureBuilder(
+                future:fcmInit(navkey) ,
+                builder: (context,_) {
+                  return LoginScreen();
+                }
+              ),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
             ),
       );
     })
