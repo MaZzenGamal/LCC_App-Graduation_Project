@@ -214,8 +214,9 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
     builder: (BuildContext context, AsyncSnapshot<PatientModel> snapshot){
       if(snapshot.data==null){
         print("gggggggggggggggggg");
-      }
-      return InkWell(
+        return LinearProgressIndicator();
+      }else {
+        return InkWell(
         onTap: () {
           //navigateTo(context,DoctorsInformation (docModel: model));
         },
@@ -275,7 +276,10 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
           ],
         ),
       );
+      }
     });
+
+
 String getTime(var time) {
   //final DateFormat formatter = DateFormat('dd/MM/yyyy, hh:mm:ss aa');  your date format here
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
