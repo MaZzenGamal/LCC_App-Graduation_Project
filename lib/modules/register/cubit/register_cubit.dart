@@ -334,6 +334,8 @@ class RegisterCubit extends Cubit<RegisterStates>
       allRateNumber: 0,
       allRateValue: 0.00001,
       rate: 0.00001,
+      startTime: DateTime.parse("1990-01-01 00:00:00.000"),
+      endTime: DateTime.parse("1990-01-01 00:00:00.000"),
     );
     FirebaseFirestore.instance.
     collection('doctor').
