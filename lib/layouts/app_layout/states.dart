@@ -143,8 +143,14 @@ class CreateCallError extends AppStates{
   final String error;
   CreateCallError(this.error);
 }
+class ReservationErrorState extends AppStates{
+  final String error;
+  ReservationErrorState(this.error);
+}
+class ReservationSuccessState extends AppStates{}
 class ChangeRemoteUid extends AppStates{}
 class SecondChangeOfRemoteUid extends AppStates{}
 class LocalUserJoin extends AppStates{}
 class RemoteUserJoin extends AppStates{}
 class RemoteUserLeave extends AppStates{}
+class OnTimeChangeState extends AppStates{}
