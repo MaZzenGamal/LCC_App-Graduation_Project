@@ -33,10 +33,11 @@ class DoctorsInformation extends StatelessWidget {
             stream:AppCubit.get(context).checkHoliday() ,
             builder: (BuildContext context,_) {
               return StreamBuilder<void>(
-                  stream: AppCubit.get(context).getComment(receiverId: docModel!.uId!),
+                  stream:AppCubit.get(context).getComment(receiverId: docModel!.uId!),
                   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     return BlocConsumer<AppCubit, AppStates>(
-                      listener: (context, state) {},
+                      listener: (context, state) {
+                      },
                       builder: (context, state) {
                         return Scaffold(
                           appBar: AppBar(),
@@ -181,7 +182,7 @@ class DoctorsInformation extends StatelessWidget {
                                       padding: const EdgeInsets.all(5.0),
                                       child: DatePicker(
                                         DateTime.now(),
-                                        initialSelectedDate: DateTime.now(),
+                                        initialSelectedDate: AppCubit.get(context).dateSelectedValue,
                                         selectionColor: Colors.black,
                                         selectedTextColor: Colors.white,
                                         inactiveDates:AppCubit.get(context).dates,
@@ -206,7 +207,7 @@ class DoctorsInformation extends StatelessWidget {
                                   {
                                     AppCubit.get(context).patReservation(
                                       date: AppCubit.get(context).dateSelectedValue,
-                                       time:AppCubit.get(context).timeSelectedValue ,
+                                      time:AppCubit.get(context).timeSelectedValue ,
                                       doctorId: docModel!.uId!,);
                                     // print(formattedDate);
                                   },
@@ -260,38 +261,46 @@ class DoctorsInformation extends StatelessWidget {
       }
     );
   }
-  Widget timePicker(BuildContext context,DateTime workTime,String docId) => StreamBuilder(
-    stream: AppCubit.get(context).isExist(doctorId: docId,work: workTime),
-    builder: (context, _) {
-      return InkWell(
-        onTap:(){
-           AppCubit.get(context).onTimeChange(workTime);
-        },
-        child:Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              //color:HexColor('89CFF0'),
-              color:AppCubit.get(context).timeSelectedValue == workTime ? Colors.black : Colors.teal[100],
-            ),
+  Widget timePicker(BuildContext context,DateTime workTime,String docId) =>FutureBuilder(
+    future: AppCubit.get(context).isExist(doctorId: docId,work:workTime),
+      //stream: AppCubit.get(context).isExist(doctorId: docId,work:workTime),
+      builder: (context,AsyncSnapshot<bool>snap) {{
+          return InkWell(
+            onTap: () {
+              if(snap.data!=null&&snap.data==false){ AppCubit.get(context).onTimeChange(workTime);
+            }},
+
+            /*onTap: () {
+              AppCubit.get(context).onTimeChange(workTime);
+            },*/
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0,top:10.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(DateFormat('hh:mm').format(workTime),
-                    style: TextStyle(
-                        color: AppCubit.get(context).timeSelectedValue == workTime ? Colors.white : Colors.black
-                    ),
-                  )
-                ],
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  //color:HexColor('89CFF0'),
+                  //AppCubit.get(context).timeSelectedValue == workTime||
+                  color: snap.data! ? Colors.black : Colors.teal[100],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20.0, top: 10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('hh:mm').format(workTime),
+                        style: TextStyle(
+                            color: snap.data!||AppCubit.get(context).timeSelectedValue==workTime ? Colors.black : Colors.white
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      );
-    }
+          );
+        }
+      }
   );
 }
 Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
@@ -336,10 +345,11 @@ Widget buildCommentItem(CommentModel model, context) => FutureBuilder(
                         children: [
                           RatingBarIndicator(
                             rating: model.rate!,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: HexColor('4E51BF'),
-                            ),
+                            itemBuilder: (context, index) =>
+                                Icon(
+                                  Icons.star,
+                                  color: HexColor('4E51BF'),
+                                ),
                             itemSize: 15.0,
                             unratedColor: Colors.grey,
                             itemCount: 5,
