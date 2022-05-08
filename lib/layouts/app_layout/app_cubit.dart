@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
 import 'dart:io';
 import 'package:graduation_project/models/call_model.dart';
 import 'package:graduation_project/models/docRef_model.dart';
@@ -594,7 +596,7 @@ class AppCubit extends Cubit<AppStates> {
 //////////////////////////// RESERVATION ///////////////////////////////////////
 
   DateTime dateSelectedValue = DateTime.now();
-
+  //DateTime dateSelectedValue=DateTime.parse('2022-05-07 00:00:00.000');
   DateTime timeSelectedValue = DateTime.parse("1990-01-01 00:00");
   void onTimeChange(value) {
     timeSelectedValue = value;
@@ -615,6 +617,7 @@ class AppCubit extends Cubit<AppStates> {
         dates.add(dateIter);
       }
     }
+    return null;
   }
 
   List<DateTime> times = [];
@@ -635,42 +638,54 @@ class AppCubit extends Cubit<AppStates> {
       }
       times.add(timeIter);
     }
+    return null;
   }
-
-  bool exist = false;
   DocRefModel docrefmodel = DocRefModel();
+  bool exist=false;
   ReservationModel reservatiomModel = ReservationModel();
-  Stream<void>? isExist({required String doctorId, required DateTime work}) {
+ Future<bool> isExist({required String doctorId,required DateTime work}) async{
     print("vvvvvvvvvvvvvvvvv");
-    exist = false;
-    firebase
-        .collection("doctor")
-        .doc(doctorId)
-        .collection("reservation")
-        .snapshots()
-        .listen((event) {
-      event.docs.forEach((element) {
-        docrefmodel = DocRefModel.fromJson(element.data());
-        firebase
-            .collection('reservation')
-            .doc(docrefmodel.docRef)
-            .snapshots()
-            .listen((event) {
-          reservatiomModel = ReservationModel.fromJson(event.data()!);
-          if ((DateFormat('EEEE, MMM d, yyyy').format(reservatiomModel.date!) ==
-                  DateFormat('EEEE, MMM d, yyyy').format(dateSelectedValue)) &&
-              (DateFormat('hh:mm').format(reservatiomModel.time!) ==
-                  DateFormat('hh:mm').format(work))) {
-            exist = true;
-            print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee $exist");
-          } else {
-            print("noooooooooooooooooooooooooo");
-          }
-        });
-      });
-    });
-  }
+    exist=false;
+    late QuerySnapshot querySnapshot;
+    List<String> reservedDates = [];
+    List<String> doc=[];
+    List<ReservationModel> rese=[];
+      try {
+        querySnapshot =
+        await firebase.collection('doctor').doc(doctorId).collection(
+            'reservation').get();
+        querySnapshot.docs.forEach((element) {
+          docrefmodel =
+              DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+          doc.add(docrefmodel.docRef!);
 
+        });
+        print("the doc is $doc ");
+        for (String element in doc) {
+          DocumentSnapshot documentSnapshot = await firebase.collection(
+              'reservation').doc(element).get();
+          rese.add(ReservationModel.fromJson(
+              documentSnapshot.data()! as Map<String, dynamic>));
+          /* reservatiomModel = ReservationModel.fromJson(
+            documentSnapshot.data()! as Map<String, dynamic>);*/
+        }
+        print(rese);
+      }catch(_){print('errrrorrrrrrr');}
+
+    rese.forEach((element) {
+      print(element.date);
+      if (DateFormat('EEEE, MMM d, yyyy').format(element.date!) ==
+          DateFormat('EEEE, MMM d, yyyy').format(dateSelectedValue)) {
+        reservedDates.add(DateFormat('hh:mm:ss').format(element.time!));
+        print("the dates is $reservedDates");
+        print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      }
+    });
+
+      exist=reservedDates.contains(DateFormat('hh:mm:ss').format(work));
+      print("the time is$exist");
+      return exist;
+  }
   void patReservation({
     required DateTime date,
      required DateTime time,
@@ -681,7 +696,7 @@ class AppCubit extends Cubit<AppStates> {
       date: date,
       doctorId: doctorId,
       patientId: uID,
-       time: time
+      time:time,
     );
     firebase.collection('reservation').add(model.toMap()).then((docRef) {
       DocRefModel docRefModel = DocRefModel(
@@ -704,6 +719,12 @@ class AppCubit extends Cubit<AppStates> {
       emit(ReservationErrorState(error));
     });
   }
+  List<ReservationModel> completeReservations = [];
+  List<ReservationModel> upcomingReservations = [];
+  late DateTime reservationTime;
+  late String date;
+  late String time;
+ late DocumentSnapshot ds;
 }
 /*import 'dart:convert';
 import 'dart:io';
@@ -1463,3 +1484,178 @@ class AppCubit extends Cubit<AppStates> {
     }*/
 
     }*/
+/*
+            if (DateFormat('hh:mm').format(reservatiomModel.time!) ==
+          DateFormat('hh:mm').format(work)) {
+              exist = true;
+              print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee $exist");
+              print(reservatiomModel.time);
+              print(timeSelectedValue);
+              print(dateSelectedValue);
+              print(reservatiomModel.date);
+            } else {
+              exist = false;
+              print("noooooooooooooooooooooooooo");
+              print(reservatiomModel.time);
+              print(timeSelectedValue);
+              print(dateSelectedValue);
+              print(reservatiomModel.date);
+            }
+          }
+        });*/
+
+
+
+
+
+
+/*
+Stream<void>? getAllReservation(){
+    completeReservations=[];
+    upcomingReservations=[];
+    if(type=='patient')
+      {
+        print("vvvvvvvvvvvvvvvvv");
+        firebase
+            .collection("patient")
+            .doc(uID)
+            .collection("reservation")
+            .snapshots()
+            .listen((event) {
+          event.docs.forEach((element) async {
+            docrefmodel = DocRefModel.fromJson(element.data());
+          ds= await firebase.collection("reservation").doc(docrefmodel.docRef).get();
+                  if(ds.exists)
+                    {
+                      print("the document is ${ds.exists}");
+                      firebase
+                          .collection('reservation')
+                          .doc(docrefmodel.docRef)
+                          .snapshots()
+                          .listen((event) {
+                        reservatiomModel=ReservationModel.fromJson(event.data()!);
+                        date=DateFormat('EEEE, MMM d, yyyy').format(reservatiomModel.date!);
+                       // time=DateFormat('hh:mm:ss').format(reservatiomModel.time!);
+                        print("the date is $date");
+                        print("the time is $time");
+                        reservationTime=DateTime.parse('${DateFormat('yyyy-mm-dd').format(reservatiomModel.date!)} ${DateFormat('hh:mm:ss').format(reservatiomModel.time!)}');
+                        if(reservationTime.isAfter(DateTime.now())){
+                          upcomingReservations.add( ReservationModel.fromJson(event.data()!));
+                          print(upcomingReservations);
+                          print("true");
+
+                        }
+                        else{
+                          completeReservations.add( ReservationModel.fromJson(event.data()!));
+                          print("false");
+                        }
+                        //reservations.add( ReservationModel.fromJson(event.data()!));
+                      });
+
+                    }
+
+            });
+          });
+      }
+    return null;
+
+
+  }
+ */
+
+
+
+/*
+ firebase
+        .collection("doctor")
+        .doc(doctorId)
+        .collection("reservation")
+        .snapshots()
+        .listen((event){
+      event.docs.forEach((element)  async {
+        docrefmodel = DocRefModel.fromJson(element.data());
+         firebase
+            .collection('reservation')
+            .doc(docrefmodel.docRef)
+            .snapshots()
+            .listen((event) {
+          reservatiomModel = ReservationModel.fromJson(event.data()!);
+          print(reservatiomModel.date!.day);
+          print(dateSelectedValue.day);
+          if (DateFormat('EEEE, MMM d, yyyy').format(reservatiomModel.date!) ==
+              DateFormat('EEEE, MMM d, yyyy').format(dateSelectedValue)) {
+            print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            //print(reservatiomModel.date!);
+            reservedDates.add('nada');
+            print("nada is ${reservedDates.contains('nada')}");
+          }
+        });
+      });
+    });
+   print("nada is ${reservedDates.contains('nada')}");
+   exist=reservedDates.contains('nada');
+    return exist;
+ */
+
+/*
+DocRefModel docrefmodel = DocRefModel();
+  bool exist=false;
+  ReservationModel reservatiomModel = ReservationModel();
+  Future<bool> isExist({required String doctorId,required DateTime work})async {
+    print("vvvvvvvvvvvvvvvvv");
+    exist=false;
+    List<String> reservedDates = [];
+    List<String> doc=[];
+    QuerySnapshot querySnapshot=await firebase.collection('doctor').doc(doctorId).collection('reservation').get();
+   querySnapshot.docs.forEach((element) {
+     docrefmodel=DocRefModel.fromJson(element.data()as Map<String, dynamic>);
+     doc.add(docrefmodel.docRef!);
+   });
+   for(String  a in doc)  {
+     DocumentSnapshot documentSnapshot=await  firebase.collection('reservation').doc(a).get();
+     reservatiomModel=ReservationModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+     if ((DateFormat('EEEE, MMM d, yyyy').format(reservatiomModel.date!) ==
+         DateFormat('EEEE, MMM d, yyyy').format(dateSelectedValue))&&
+         DateFormat('hh:mm:ss').format(reservatiomModel.time!)==DateFormat('hh:mm:ss').format(work)
+     ) {
+       print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
+       //print(reservatiomModel.date!);
+       reservedDates.add('nada');
+       print("nada is ${reservedDates.contains('nada')}");
+       print(reservatiomModel.time);
+       print(timeSelectedValue);
+       print(work);
+       print(reservatiomModel.date);
+     }
+   };
+   exist=reservedDates.contains('nada');
+    print("nadaaaaaaaaaaaaa is ${exist}");
+   return exist;
+  }
+ */
+
+
+/*
+ /* doc.forEach((element) async {
+      firebase.collection('reservation').doc(element).get()
+        reservatiomModel=ReservationModel.fromJson(value.data()!);
+        if (DateFormat('EEEE, MMM d, yyyy').format(reservatiomModel.date!) ==
+            DateFormat('EEEE, MMM d, yyyy').format(dateSelectedValue)){
+          reservedDates.add(DateFormat('hh:mm:ss').format(reservatiomModel.time!));
+          print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
+          //print(reservatiomModel.date!);
+          /*reservedDates.add('nada');
+          print("nada is ${reservedDates.contains('nada')}");
+          print(reservatiomModel.date);
+          print(dateSelectedValue);*/
+        }
+       // print(reservatiomModel.date);
+       // print(dateSelectedValue);
+       // exist=reservedDates.contains(DateFormat('hh:mm:ss').format(work));
+       // print("nadaaaaaaaaaaaaa is ${exist}");
+        //return exist;
+    });
+    exist=reservedDates.contains(DateFormat('hh:mm:ss').format(work));
+    print("the time is$exist");
+    return exist; //reservedDates.contains('nada');*/
+ */
