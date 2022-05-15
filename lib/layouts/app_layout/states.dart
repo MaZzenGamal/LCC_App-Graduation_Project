@@ -154,3 +154,19 @@ class LocalUserJoin extends AppStates{}
 class RemoteUserJoin extends AppStates{}
 class RemoteUserLeave extends AppStates{}
 class OnTimeChangeState extends AppStates{}
+class OnDateChangeState extends AppStates{}
+class RemoveReservationSuccessState extends AppStates{}
+class InsertReservationSuccessState extends AppStates{}
+class UploadChatImageLoadingState extends AppStates{}
+class UploadChatImageSuccessState extends AppStates{}
+class UploadChatImageErrorState extends AppStates{
+  final String error;
+  UploadChatImageErrorState(this.error);
+
+}
+class UpdateReservationLoadingState extends AppStates{}
+class UpdateReservationSuccessState extends AppStates{}
+class UpdateReservationErrorState extends AppStates{
+  final String error;
+  UpdateReservationErrorState(this.error);
+}
