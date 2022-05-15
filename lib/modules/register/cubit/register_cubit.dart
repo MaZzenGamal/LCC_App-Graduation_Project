@@ -105,6 +105,7 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   String status = 'Single';
   bool chosenStatus = false;
+  bool check=false;
   void changeExpansionToSingle(){
     status = 'Single';
     chosenStatus = true;
@@ -171,18 +172,25 @@ class RegisterCubit extends Cubit<RegisterStates>
         email: email,
         password: password)
         .then((value)
-    {
-        patientCreate(
-          email: email,
-          fullName: fullName,
-          phone: phone,
-          uId: value.user!.uid,
-          age: age,
-          gender: gender,
-          address: address,
-          token: tokenm!,
-          createdAt: DateTime.now(),
-        );
+    async {
+     await checkExist(phone);
+     if(check==false){
+       patientCreate(
+         email: email,
+         fullName: fullName,
+         phone: phone,
+         uId: value.user!.uid,
+         age: age,
+         gender: gender,
+         address: address,
+         token: tokenm!,
+         createdAt: DateTime.now(),
+       );
+     }
+     else{
+       showToast(text: 'this phone number is already exists please choose one', state: ToastStates.ERROR);
+       emit(PhoneCreateErrorState());
+     }
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -276,7 +284,9 @@ class RegisterCubit extends Cubit<RegisterStates>
         email: email,
         password: password)
         .then((value)
-    {
+    async {
+      await checkExist(phone);
+      if(check==false) {
         doctorCreate(
           email: email,
           fullName: fullName,
@@ -292,6 +302,11 @@ class RegisterCubit extends Cubit<RegisterStates>
           token: tokenm!,
           createdAt: DateTime.now(),
         );
+      }
+      else{
+        showToast(text: 'this phone number is already exists please choose one', state: ToastStates.ERROR);
+        emit(PhoneCreateErrorState());
+      }
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -334,8 +349,8 @@ class RegisterCubit extends Cubit<RegisterStates>
       allRateNumber: 0,
       allRateValue: 0.00001,
       rate: 0.00001,
-      startTime: DateTime.parse("1990-01-01 00:00:00.000"),
-      endTime: DateTime.parse("1990-01-01 00:00:00.000"),
+      startTime: DateTime.parse("1990-02-02 00:00:00.000"),
+      endTime: DateTime.parse("1990-02-02 00:00:00.000"),
     );
     FirebaseFirestore.instance.
     collection('doctor').
@@ -371,16 +386,22 @@ class RegisterCubit extends Cubit<RegisterStates>
       emit(DoctorCreateErrorState(error.toString()));
     });
   }
-
-}
-
-Future<bool> checkExist(String phone) async {
-  try {
-    await FirebaseFirestore.instance.collection("phone/$phone").get().then((phone) {
+  Future<void> checkExist(String phone) async {
+    check=false;
+    late QuerySnapshot querySnapshot;
+    List<String> doc=[];
+    print("vvvvvvvvvvvvvvvvv");
+    querySnapshot =
+    await FirebaseFirestore.instance.collection('Phone').get();
+    querySnapshot.docs.forEach((element) {
+      PhoneModel phoneModel=PhoneModel.fromJson(element.data()! as Map<String,dynamic>);
+      if(phoneModel.phone==phone)
+        {
+          print("the phone is exists");
+          check=true;
+        }
     });
-    return true;
-  } catch (e) {
-    // If any error
-    return false;
   }
 }
+
+
