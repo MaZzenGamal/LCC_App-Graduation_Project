@@ -50,11 +50,11 @@ class DoctorProfileScreen extends StatelessWidget {
         certificateController.text=docModel.certificates!;
         if(docModel.startTime != null)
         {
-          startTimeController.text=DateFormat('hh:mm:ss').format(docModel.startTime!);
+          startTimeController.text=DateFormat('HH:mm:ss').format(docModel.startTime!);
         }
         if(docModel.endTime != null)
         {
-          endTimeController.text=DateFormat('hh:mm:ss').format(docModel.endTime!);
+          endTimeController.text=DateFormat('HH:mm:ss').format(docModel.endTime!);
         }
         return Scaffold(
           appBar: AppBar(
@@ -73,8 +73,8 @@ class DoctorProfileScreen extends StatelessWidget {
                         regisNumber: registrationNuController.text,
                         specialization: specializeController.text,
                         certificates: certificateController.text,
-                        startTime: DateTime.parse('1990-01-01 ${startTimeController.text}'),
-                        endTime:DateTime.parse('1990-01-01 ${ endTimeController.text}'),
+                        startTime: DateTime.parse('1990-02-02 ${startTimeController.text}'),
+                        endTime:DateTime.parse('1990-02-02 ${endTimeController.text}'),
                       );}
                     else{
                       cubit.uploadDocProfileImage(
