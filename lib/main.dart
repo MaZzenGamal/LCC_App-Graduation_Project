@@ -16,6 +16,7 @@ import 'package:graduation_project/shared/cubit/main_states.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'layouts/app_layout/app_cubit.dart';
+import 'layouts/app_layout/app_layout.dart';
 import 'modules/chat_screen/chat_details_screen.dart';
 import 'modules/chat_screen/chat_details_screen_doctor.dart';
 import 'modules/register/cubit/register_cubit.dart';
@@ -82,7 +83,7 @@ class _MyAppState extends State<MyApp> {
                 builder: (context,_) {
                   return LoginScreen();
                 }
-              ),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
+              ),
             ),
       );
     })
