@@ -3,12 +3,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation_project/models/navkey.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
-import 'package:graduation_project/modules/reservation_screen/doctor_information_screen.dart';
-import 'package:graduation_project/modules/reservation_screen/doctors.dart';
-import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/shared/block_observer.dart';
 import 'package:graduation_project/shared/components/conestants.dart';
 import 'package:graduation_project/shared/cubit/main_cubit.dart';
@@ -16,8 +12,8 @@ import 'package:graduation_project/shared/cubit/main_states.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
 import 'layouts/app_layout/app_cubit.dart';
-import 'modules/chat_screen/chat_details_screen.dart';
-import 'modules/chat_screen/chat_details_screen_doctor.dart';
+import 'modules/chat_screen/chat_patient_screen.dart';
+import 'modules/chat_screen/chat_doctor_screen.dart';
 import 'modules/register/cubit/register_cubit.dart';
 import 'myTest/restart_screen.dart';
 import 'notification_service.dart';
@@ -70,8 +66,8 @@ class _MyAppState extends State<MyApp> {
         builder: (context, state) =>
             MaterialApp(
               routes: {
-                'chatdoctor':(c)=>ChatDetailsScreenDoctor(),
-                'chatpatient':(c)=>ChatDetailsScreen(),
+                'chatdoctor':(c)=>ChatDoctorScreen(),
+                'chatpatient':(c)=>ChatPatientScreen(),
               },
               navigatorKey: navkey,
               debugShowCheckedModeBanner: false,
@@ -80,7 +76,7 @@ class _MyAppState extends State<MyApp> {
               home:FutureBuilder(
                 future:fcmInit(navkey) ,
                 builder: (context,_) {
-                  return LoginScreen();
+                  return LoginScreen(); //ShowPatientReservation(); ////LoginScreen(); //const AppLayout();//ReservationScreen();//LoginScreen();
                 }
               ),//DoctorsScreen(),//LoginScreen(), //LoginPage(),//LoginScreen(),//HomeTestScreen()//LoginScreen(),
             ),
