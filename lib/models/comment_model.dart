@@ -6,25 +6,22 @@ class CommentModel
   String? image;
   DateTime?createdAt;
   double? rate;
-  String?message;
+  String?comment;
   String? senderId;
-  String? receiverId;
 
 
   CommentModel({
     this.createdAt,
     this.rate,
-    this.message,
-    this.receiverId,
+    this.comment,
     this.senderId
   });
   CommentModel.fromJson(Map<String,dynamic>json)
   {
     createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
-    message=json['message'];
+    comment=json['comment'];
     senderId=json['senderId'];
-    receiverId=json['receiverId'];
   }
 
   Map<String,dynamic> toMap()
@@ -32,8 +29,7 @@ class CommentModel
     return{
       'createdAt':createdAt?.toIso8601String(),
       'rate':rate,
-      'message':message,
-      'receiverId':receiverId,
+      'comment':comment,
       'senderId':senderId,
     };
   }

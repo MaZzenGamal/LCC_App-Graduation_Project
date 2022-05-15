@@ -50,6 +50,8 @@ class DoctorsScreen extends StatelessWidget {
 Widget buildDoctorItem(DoctorModel model,context) => InkWell(
   onTap: ()
   {
+    AppCubit.get(context).dateSelectedValue=DateTime.now().weekday==5?DateTime.now().add(const Duration(days: 1)):DateTime.now();
+    AppCubit.get(context).timeSelectedValue=DateTime.parse("1990-01-01 00:00:00");
     navigateTo(context,DoctorsInformation (docModel: model));
   } ,
   child:Padding(
@@ -65,12 +67,12 @@ Widget buildDoctorItem(DoctorModel model,context) => InkWell(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
+           /* CircleAvatar(
               radius: 35.0,
               backgroundImage: NetworkImage(
                 '${model.image}',
               ),
-            ),
+            ),*/
             const SizedBox(
               width: 15.0,
             ),

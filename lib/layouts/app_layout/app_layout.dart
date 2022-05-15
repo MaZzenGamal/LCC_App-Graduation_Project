@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
-import 'package:graduation_project/modules/chat_screen/chat_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
-
-import '../../modules/chat_screen/chat_screen_doctor.dart';
+import '../../modules/chat_screen/chat_details_doctor_screen.dart';
+import '../../modules/chat_screen/chat_details_patient_screen.dart';
 import '../../shared/network/local/cash_helper.dart';
 import 'app_cubit.dart';
 
@@ -27,13 +26,13 @@ class AppLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: (){
-                    AppCubit.get(context).getUsers();
+                    //AppCubit.get(context).getUsers();
                     var type=CacheHelper.getData(key: 'type');
                     if(type=="patient") {
-                      navigateTo(context, ChatScreen());
+                      navigateTo(context, ChatDetailsDoctorScreen());
                     }
                     else if(type=="doctor") {
-                      navigateTo(context, const ChatScreenDoctor());
+                      navigateTo(context, const ChatDetailsPatientScreen());
                     }
                   },
                   icon: const Icon(

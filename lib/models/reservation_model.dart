@@ -2,19 +2,19 @@
 class ReservationModel
 {
   DateTime?date;
-  DateTime?time;
   String?doctorId;
   String?patientId;
+  String?reservationId;
   ReservationModel({
     this.date,
     this.doctorId,
-    this.time,
+    this.reservationId,
     this.patientId
   });
   ReservationModel.fromJson(Map<String,dynamic>json)
   {
     date=DateTime.parse(json['date']);
-    time=DateTime.parse(json['time']);
+    reservationId=json['reservationId'];
     doctorId=json['doctorId'];
     patientId=json['patientId'];
   }
@@ -23,9 +23,9 @@ class ReservationModel
   {
     return {
       'date': date.toString(),
-      'time': time.toString(),
       'doctorId': doctorId,
       'patientId':patientId,
+      'reservationId':reservationId,
     };
   }
 }

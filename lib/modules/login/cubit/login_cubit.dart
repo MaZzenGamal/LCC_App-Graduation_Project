@@ -84,6 +84,4 @@ class LoginCubit extends Cubit<LoginStates> {
       return e.toString();
     }
   }
-
-
 }

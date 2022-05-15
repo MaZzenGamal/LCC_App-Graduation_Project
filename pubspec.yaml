@@ -64,6 +64,8 @@ dependencies:
   awesome_dialog: ^2.2.0
   agora_rtc_engine: ^5.1.0
   date_picker_timeline: ^1.2.3
+  datetime_picker_formfield: ^2.0.0
+  tflite_flutter: ^0.9.0
 
 
   #Firebase
