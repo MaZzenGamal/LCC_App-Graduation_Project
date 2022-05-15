@@ -59,3 +59,4 @@ class DoctorCreateErrorState extends RegisterStates{
   final String error;
   DoctorCreateErrorState(this.error);
 }
+class PhoneCreateErrorState extends RegisterStates{}
