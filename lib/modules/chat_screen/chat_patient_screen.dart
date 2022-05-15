@@ -13,8 +13,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../myTest/videoCall.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
-
-class ChatDetailsScreenDoctor extends StatelessWidget {
+/////////////// patient in login this chat between patient and doctor
+class ChatPatientScreen extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
 
   PatientModel? patModel;
@@ -23,21 +23,23 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
   final firebase = FirebaseFirestore.instance;
   var uID = CacheHelper.getData(key: 'uId');
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
-  ChatDetailsScreenDoctor({Key? key, this.patModel})
+  ChatPatientScreen({Key? key, this.docModel})
       : super(key: key);
 
   var messageController = TextEditingController();
-
+late var size1;
   @override
   Widget build(BuildContext context) {
-    PatientModel? args = ModalRoute.of(context)?.settings.arguments as PatientModel?;
-    print(args);
-    final _patModel = args ?? patModel;
+     Size size = MediaQuery.of(context).size;
+    size1=size;
+    DoctorModel? args = ModalRoute.of(context)?.settings.arguments as DoctorModel?;
+      print(args);
+    final _docModel = args ?? docModel;
     /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
       navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
     });*/
     return Builder(builder: (BuildContext context) {
-      AppCubit.get(context).getMessage(receiverId: _patModel?.uId as String);
+      AppCubit.get(context).getMessage(receiverId: _docModel?.uId as String);
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -49,14 +51,14 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                     CircleAvatar(
                       radius: 15.0,
                       backgroundImage: NetworkImage(
-                        '${_patModel!.image}',
+                        '${_docModel!.image}',
                       ),
                     ),
                     const SizedBox(
                       width: 8.0,
                     ),
                     Text(
-                      '${_patModel.fullName}',
+                      '${_docModel.fullName}',
                       style: const TextStyle(fontSize: 15.0),
                     )
                   ],
@@ -88,21 +90,21 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
                               var message =
-                                  AppCubit.get(context).messages[index];
+                              AppCubit.get(context).messages[index];
                               if (AppCubit.get(context).uID ==
                                   message.senderId) {
-                                return buildMyMessages(message);
+                                return buildMyMessages(message,context);
                               }
-                              return buildMessages(message);
+                              return buildMessages(message,context);
                             },
                             separatorBuilder: (context, index) =>
-                                const SizedBox(
-                                  height: 15.0,
-                                ),
+                            const SizedBox(
+                              height: 15.0,
+                            ),
                             itemCount: AppCubit.get(context).messages.length),
                       ),
                       fallback: (context) =>
-                          const Center(child: CircularProgressIndicator()),
+                      const Center(child: CircularProgressIndicator()),
                     ),
                   ),
                   Padding(
@@ -117,16 +119,32 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Row(
                         children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.add_circle)),
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              const EdgeInsets.symmetric(horizontal: 10.0),
                               child: TextFormField(
                                 controller: messageController,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        String docuid = _docModel.uId!;
+                                        firebase
+                                            .collection('doctor')
+                                            .doc(uID)
+                                            .update({'createdAt': DateTime.now().toString()});
+                                        firebase
+                                            .collection('patient')
+                                            .doc(docuid)
+                                            .update({'createdAt': DateTime.now().toString()});
+                                        AppCubit.get(context).getChatImage(
+                                          receiverId: _docModel.uId!,
+                                          token: _docModel.token!,
+                                          dateTime:DateTime.now(),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.photo),
+                                    ),
                                     border: InputBorder.none,
                                     hintText: 'write your message...'),
                               ),
@@ -135,19 +153,19 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
                           IconButton(
                               onPressed: () {
                                 if (messageController.text != '') {
-                                  String patuid = _patModel.uId!;
+                                  String docuid = _docModel.uId!;
                                   firebase
                                       .collection('doctor')
                                       .doc(uID)
                                       .update({'createdAt': DateTime.now().toString()});
                                   firebase
                                       .collection('patient')
-                                      .doc(patuid)
+                                      .doc(docuid)
                                       .update({'createdAt': DateTime.now().toString()});
                                   AppCubit.get(context).sendMessage(
-                                    receiverId: _patModel.uId!,
+                                    receiverId: _docModel.uId!,
                                     dateTime: DateTime.now(),
-                                    token: _patModel.token!,
+                                    token: _docModel.token!,
                                     text: messageController.text,
                                   );
                                 }
@@ -164,9 +182,8 @@ class ChatDetailsScreenDoctor extends StatelessWidget {
           });
     });
   }
-}
-
-Widget buildMessages(MessagesModel model) => Align(
+  Widget buildMessages(MessagesModel model,BuildContext context){
+    return model.type=='text'?Align(
       alignment: AlignmentDirectional.centerStart,
       child: Container(
         decoration: BoxDecoration(
@@ -181,20 +198,97 @@ Widget buildMessages(MessagesModel model) => Align(
           child: Text('${model.text}'),
         ),
       ),
+    ): Container(
+      height: size1.height / 2.5,
+      width: size1.width,
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      alignment: AlignmentDirectional.centerStart,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ShowImage(
+              imageUrl:model.text!,
+            ),
+          ),
+        ),
+        child: Container(
+          height: size1.height / 2.5,
+          width: size1.width / 2,
+          decoration: BoxDecoration(border: Border.all()),
+          alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
+          child: model.text != ""
+              ? Image.network(
+            model.text!,
+            fit: BoxFit.cover,
+          )
+              : const CircularProgressIndicator(),
+        ),
+      ),
     );
-Widget buildMyMessages(MessagesModel model) => Align(
+
+  }
+  Widget buildMyMessages(MessagesModel model,BuildContext context){
+    return model.type=='text'?Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.3),
+            color: Colors.grey[300],
             borderRadius: const BorderRadiusDirectional.only(
               topStart: Radius.circular(10.0),
               topEnd: Radius.circular(10.0),
-              bottomStart: Radius.circular(10.0),
+              bottomEnd: Radius.circular(10.0),
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
           child: Text('${model.text}'),
         ),
       ),
+    ): Container(
+      height: size1.height / 2.5,
+      width: size1.width,
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      alignment: AlignmentDirectional.centerEnd,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ShowImage(
+              imageUrl:model.text!,
+            ),
+          ),
+        ),
+        child: Container(
+          height: size1.height / 2.5,
+          width: size1.width / 2,
+          decoration: BoxDecoration(border: Border.all()),
+          alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
+          child: model.text != ""
+              ? Image.network(
+            model.text!,
+            fit: BoxFit.cover,
+          )
+              : const CircularProgressIndicator(),
+        ),
+      ),
     );
+
+  }
+}
+class ShowImage extends StatelessWidget {
+  final String imageUrl;
+
+  const ShowImage({required this.imageUrl, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.black,
+        child: Image.network(imageUrl),
+      ),
+    );
+  }
+}
