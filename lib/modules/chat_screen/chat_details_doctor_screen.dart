@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +19,32 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
               listener: (context, state) {},
               builder: (context, state) {
                 return Scaffold(
-                  appBar: AppBar(),
+                  appBar: AppBar(
+                    title: const Text('Chat'),
+                  ),
                   body: ConditionalBuilder(
-                    condition: AppCubit.get(context).doctors.isNotEmpty,
-                    builder: (context)=>ListView.separated(
-                        itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
-                        separatorBuilder: (context, index) => myDivider(),
-                        itemCount: AppCubit.get(context).doctors.length),
+                    condition: state is! GetAllDoctorsLoadingState,
+                    builder: (context){
+                      return BuildCondition(
+                        condition: AppCubit.get(context).doctors.isNotEmpty,
+                        builder:(context)=>ListView.separated(
+                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
+                            separatorBuilder: (context, index) => myDivider(),
+                            itemCount: AppCubit.get(context).doctors.length) ,
+                        fallback: (context)=> Center(child:RichText(
+                          text:const TextSpan(
+                            style: TextStyle(color: Colors.grey),
+                            children: <TextSpan>[
+                              TextSpan(text: '"You don\'t have doctors to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
+                              TextSpan(text: 'To communicate with doctors :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                              TextSpan(text: '1- You must book an appointment first\n',),
+                              TextSpan(text: '2- Wait for your reservation time\n',),
+                            ]
+                          ) ,
+                        )
+                        ) ,
+                      );
+                      },
                     fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
                   ),
                 );

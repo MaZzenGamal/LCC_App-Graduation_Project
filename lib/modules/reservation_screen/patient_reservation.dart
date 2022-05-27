@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,9 @@ import 'package:graduation_project/modules/reservation_screen/doctor_information
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import '../../../models/doctor_model.dart';
-
 import '../../shared/components/components.dart';
+
+
 class ShowPatientReservation extends StatelessWidget {
   ShowPatientReservation({Key? key}) : super(key: key);
   @override
@@ -30,20 +32,23 @@ class ShowPatientReservation extends StatelessWidget {
                   length: _kTabs.length,
                   child: Scaffold(
                       appBar: AppBar(
+                        leading:const Icon(
+                          Icons.swipe,
+                          color: Colors.grey,
+                        ),
                         title: const Text(
-                          'Schedule',
+                          'swipe for edit or cancel',
                           style: TextStyle(
-                              fontSize: 25.0,
-                              height: 1.3,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 15.0,
+                              color: Colors.grey,
+                              ),
                         ),
                         bottom: TabBar(
                           tabs: _kTabs,
                           unselectedLabelColor: Colors.grey,
                           indicator: ShapeDecoration(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: radius, topLeft: radius)),
-                              color: Colors.red
+                              color: HexColor('ff92a4')
                           ),
                           labelColor:HexColor('FFE6D6'),
                           onTap:(index){
@@ -57,44 +62,38 @@ class ShowPatientReservation extends StatelessWidget {
                         child: TabBarView(
                           children: <Widget>[
                             ConditionalBuilder(
-                              condition: AppCubit.get(context)
-                                  .upcomingReservations
-                                  .isNotEmpty,
-                              builder: (context) => ListView.separated(
-                                itemBuilder: (context, index) => showReservation(
-                                    context,
-                                    AppCubit.get(context)
-                                        .upcomingReservations[index],
-                                    index),
-                                itemCount: AppCubit.get(context)
-                                    .upcomingReservations
-                                    .length,
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                    Container(),
+                              condition: state is! GetPatUpComingReservationLoadingState ,
+                              builder: (context) =>BuildCondition(
+                                condition:AppCubit.get(context).upcomingReservations.isNotEmpty,
+                                builder:(context)=> ListView.separated(
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: showReservation(context, AppCubit.get(context).upcomingReservations[index], index),
+                                  ),
+                                  itemCount: AppCubit.get(context).upcomingReservations.length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) => const SizedBox(height: 10.0,),
+                                ),
+                                fallback:(context)=> const Center(child:  Text('You don\'t have upcomming reservations ',
+                                  style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(
-                                  child: CircularProgressIndicator()),
+                              fallback: (context) => const Center(child: CircularProgressIndicator()),
                             ),
                             ConditionalBuilder(
-                              condition: AppCubit.get(context)
-                                  .completeReservations
-                                  .isNotEmpty,
-                              builder: (context) => ListView.separated(
-                                itemBuilder: (context, index) => showReservation(
-                                    context,
-                                    AppCubit.get(context)
-                                        .completeReservations[index],
-                                    index),
-                                itemCount: AppCubit.get(context)
-                                    .completeReservations
-                                    .length,
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                    Container(),
+                              condition: state is! GetPatCompletedReservationLoadingState ,
+                              builder: (context) =>BuildCondition(
+                                condition: AppCubit.get(context).completeReservations.isNotEmpty ,
+                                builder:(context) => ListView.separated(
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: showReservation(context, AppCubit.get(context).completeReservations[index],index),),
+                                  itemCount: AppCubit.get(context).completeReservations.length,
+                                  separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10.0,),
+                                ),
+                                fallback:(context) => const Center(child:  Text('You don\'t have completed reservations ',
+                                  style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(
-                                  child: CircularProgressIndicator()),
+                              fallback: (context) => const Center(child: CircularProgressIndicator()),
                             )
                           ],
                         ),
@@ -122,105 +121,53 @@ class ShowPatientReservation extends StatelessWidget {
                 {
                   isDisable=true;
                 }
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    //color:HexColor('89CFF0'),
-                    color: Colors.grey[350],
-                  ),
-                  child: isDisable==true?Dismissible(
-                    key: UniqueKey(),
-                    onDismissed:(DismissDirection dir) {
-                      dir==DismissDirection.startToEnd?
-                        AppCubit.get(context)
-                            .removeReservation(index: index, model: resvModel):
-                      AppCubit.get(context).reservationId=resvModel.reservationId!;
-                      navigateTo(context,DoctorsInformation(docModel:snap.data ));
-                    },
-                    background:Container(
+              return Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  //color:HexColor('89CFF0'),
+                    color: HexColor('C0C1E8').withOpacity(0.6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor('C0C1E8').withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        blurStyle: BlurStyle.outer,
+                        offset:const Offset(0, 7), // changes position of shadow
+                      ),]
+                ),
+                child: isDisable==true?Dismissible(
+                  key: UniqueKey(),
+                  onDismissed:(DismissDirection dir) {
+                    dir==DismissDirection.startToEnd?
+                      AppCubit.get(context)
+                          .removeReservation(index: index, model: resvModel):
+                    AppCubit.get(context).reservationId=resvModel.reservationId!;
+                    navigateTo(context,DoctorsInformation(docModel:snap.data ));
+                  },
+                  background:Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      child: const Icon(Icons.delete),
                     ),
-                    secondaryBackground: Container(
-                      color: Colors.green,
-                      alignment: Alignment.centerRight,
-                      child: const Icon(Icons.edit),
+                    alignment: Alignment.centerLeft,
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Icon(Icons.delete),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 25.0,
-                              backgroundImage: NetworkImage(snap.data!.image!),
-                            ),
-                            const SizedBox(
-                              width: 15.0,
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Dr.${snap.data!.fullName!}',
-                                  style: const TextStyle(
-                                      fontSize: 25.0,
-                                      height: 1.3,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  snap.data!.specialization!,
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      height: 1.3,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 1.3),
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.calendar_today_sharp,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          DateFormat('EEEE, MMM d')
-                                              .format(resvModel.date!),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.timer,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          DateFormat('hh:mm')
-                                              .format(resvModel.date!),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ]),
+                  ),
+                  secondaryBackground: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blue,
                     ),
-                  ):
-                  Padding(
+                    alignment: Alignment.centerRight,
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(Icons.edit),
+                    ),
+                  ),
+                  child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,8 +236,77 @@ class ShowPatientReservation extends StatelessWidget {
                           ),
                         ]),
                   ),
-
+                ):
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage: NetworkImage(snap.data!.image!),
+                        ),
+                        const SizedBox(
+                          width: 15.0,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Dr.${snap.data!.fullName!}',
+                              style: const TextStyle(
+                                  fontSize: 25.0,
+                                  height: 1.3,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              snap.data!.specialization!,
+                              style: const TextStyle(
+                                  fontSize: 20.0,
+                                  height: 1.3,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 1.3),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_today_sharp,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      DateFormat('EEEE, MMM d')
+                                          .format(resvModel.date!),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.timer,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      DateFormat('hh:mm')
+                                          .format(resvModel.date!),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
                 ),
+
               );
             }
           });

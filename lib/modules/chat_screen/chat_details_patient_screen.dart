@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 
 import 'package:flutter/material.dart';
@@ -26,13 +27,30 @@ class ChatDetailsPatientScreen extends StatelessWidget {
               builder: (context, state) {
                 return Scaffold(
                   appBar: AppBar(
+                    title: const Text('Chat'),
                   ),
                   body: ConditionalBuilder(
-                    condition: AppCubit.get(context).patients.length > 0,
-                    builder: (context)=>ListView.separated(
-                        itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
-                        separatorBuilder: (context, index) => myDivider(),
-                        itemCount: AppCubit.get(context).patients.length),
+                    condition:state is! GetAllPatientsLoadingState ,
+                    builder: (context)=>BuildCondition(
+                      condition:AppCubit.get(context).patients.isNotEmpty ,
+                      builder:(context)=> ListView.separated(
+                          itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
+                          separatorBuilder: (context, index) => myDivider(),
+                          itemCount: AppCubit.get(context).patients.length),
+                      fallback:(context)=> Center(child:RichText(
+                        text:const TextSpan(
+                            style: TextStyle(color: Colors.grey),
+                            children: <TextSpan>[
+                              TextSpan(text: '"You don\'t have patients to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
+                              TextSpan(text: 'To communicate with patients :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                              TextSpan(text: '1- They must book an appointment first\n',),
+                              TextSpan(text: '2- Wait for their reservation time\n',),
+                            ]
+                        ) ,
+                      )
+                      ) ,
+                    ),
+
                     fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
                   ),
                 );
