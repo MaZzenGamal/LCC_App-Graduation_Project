@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graduation_project/models/call_model.dart';
 import 'package:graduation_project/models/docRef_model.dart';
@@ -23,6 +22,7 @@ import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../models/comment_model.dart';
+import '../../modules/reservation_screen/doctor_reservation.dart';
 import '../../modules/reservation_screen/patient_reservation.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
@@ -37,14 +37,14 @@ class AppCubit extends Cubit<AppStates> {
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
   final firebase = FirebaseFirestore.instance;
-
   int currentIndex = 0;
-
+  Widget screen=ShowPatientReservation();
   List<String> titles = ['Home', 'Search', 'Settings'];
-  List<Widget> screens = const [
-    HomeScreen(),
-    SearchScreen(),
-    SettingsScreen(),
+  List<Widget> screens = [
+    const HomeScreen(),
+    const SearchScreen(),
+    CacheHelper.getData(key: 'type')=='patient'?ShowPatientReservation():ShowDoctorReservation(),
+    const SettingsScreen(),
   ];
 
   List<BottomNavigationBarItem> bottomItems = const [
@@ -71,7 +71,7 @@ class AppCubit extends Cubit<AppStates> {
 
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
-  sendNotfiy(String title, String body, String token) async {
+  sendNotfiy(String title, String body, String token,String option) async {
     print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
     await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -91,6 +91,7 @@ class AppCubit extends Cubit<AppStates> {
             'status': 'done',
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
             'uidsender': uID,
+            'option':option
           },
           'to': token,
         },
@@ -255,35 +256,22 @@ class AppCubit extends Cubit<AppStates> {
   late MessagesModel messModel;
   int count = 0;
   Map<String, int> answers = {};
-  void createCall() {
+  void createCall({
+  required String receiverId,
+    required String senderId
+
+}) {
     CallsModel model = CallsModel(
       channelName: uID,
+      receiverId:receiverId,
+      senderId: senderId,
     );
-    if (type == "patient") {
-      FirebaseFirestore.instance
-          .collection('patient')
-          .doc(uID)
-          .collection('calls')
-          .doc(uID)
-          .set(model.toMap())
-          .then((value) {
-        emit(CreateCallSuccess());
-      }).catchError((error) {
-        emit(CreateCallError(error.toString()));
-      });
-    } else if (type == "doctor") {
-      FirebaseFirestore.instance
-          .collection('doctor')
-          .doc(uID)
-          .collection('calls')
-          .doc(uID)
-          .set(model.toMap())
-          .then((value) {
-        emit(CreateCallSuccess());
-      }).catchError((error) {
-        emit(CreateCallError(error.toString()));
-      });
-    }
+    firebase.collection('calls').doc(senderId).set(model.toMap())
+        .then((value) {
+      emit(CreateCallSuccess());
+    }).catchError((error) {
+      emit(CreateCallError(error.toString()));
+    });
   }
 
   void sendMessage({
@@ -322,7 +310,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = patModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token);
+        sendNotfiy(title!, body, token,'chat');
         firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -352,7 +340,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = docModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token);
+        sendNotfiy(title!, body, token,'chat');
         firebase.collection('patient').doc(uID).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -421,7 +409,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = patModel.fullName;
               String body = model.text!;
-              sendNotfiy(title!, body, token);
+              sendNotfiy(title!, body, token,'chat');
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
@@ -451,7 +439,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = docModel.fullName;
               String body =model.text! ;
-              sendNotfiy(title!, body, token);
+              sendNotfiy(title!, body, token,'chat');
               firebase.collection('patient').doc(uID).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
@@ -932,7 +920,7 @@ class AppCubit extends Cubit<AppStates> {
       }
 
       rese.forEach((element) {
-        if (element.doctorId == doctorId && element.patientId == uID) {
+        if (element.doctorId == doctorId && element.patientId == uID&&(element.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())) {
           existpatient = true;
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
         }
