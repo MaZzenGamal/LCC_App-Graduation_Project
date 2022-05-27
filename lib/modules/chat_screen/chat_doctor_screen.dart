@@ -129,18 +129,9 @@ class ChatDoctorScreen extends StatelessWidget {
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         String docuid = _patModel.uId!;
-                                        firebase
-                                            .collection('doctor')
-                                            .doc(uID)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        firebase
-                                            .collection('patient')
-                                            .doc(docuid)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        AppCubit.get(context).getChatImage(
-                                          receiverId: _patModel.uId!,
-                                          token: _patModel.token!,
-                                          dateTime:DateTime.now(),
+                                        firebase.collection('doctor').doc(uID).update({'createdAt': DateTime.now().toString()});
+                                        firebase.collection('patient').doc(docuid).update({'createdAt': DateTime.now().toString()});
+                                        AppCubit.get(context).getChatImage(receiverId: _patModel.uId!, token: _patModel.token!, dateTime:DateTime.now(),
                                         );
                                       },
                                       icon: const Icon(Icons.photo),
@@ -154,14 +145,8 @@ class ChatDoctorScreen extends StatelessWidget {
                               onPressed: () {
                                 if (messageController.text != '') {
                                   String docuid = _patModel.uId!;
-                                  firebase
-                                      .collection('doctor')
-                                      .doc(uID)
-                                      .update({'createdAt': DateTime.now().toString()});
-                                  firebase
-                                      .collection('patient')
-                                      .doc(docuid)
-                                      .update({'createdAt': DateTime.now().toString()});
+                                  firebase.collection('doctor').doc(uID).update({'createdAt': DateTime.now().toString()});
+                                  firebase.collection('patient').doc(docuid).update({'createdAt': DateTime.now().toString()});
                                   AppCubit.get(context).sendMessage(
                                     receiverId: _patModel.uId!,
                                     dateTime: DateTime.now(),

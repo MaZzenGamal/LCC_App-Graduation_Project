@@ -47,22 +47,17 @@ class GetDoctorErrorState extends AppStates
   final String error;
   GetDoctorErrorState(this.error);
 }
+class GetAllDoctorsLoadingState extends AppStates{}
 
 class GetAllDoctorsSuccessState extends AppStates{}
 
-class GetAllDoctorsErrorState extends AppStates
-{
-  final String error;
-  GetAllDoctorsErrorState(this.error);
-}
+class GetAllDoctorsErrorState extends AppStates {}
+
+class GetAllPatientsLoadingState extends AppStates{}
 
 class GetAllPatientsSuccessState extends AppStates{}
 
-class GetAllPatientsErrorState extends AppStates
-{
-  final String error;
-  GetAllPatientsErrorState(this.error);
-}
+class GetAllPatientsErrorState extends AppStates {}
 
 class SendMessagesSuccessState extends AppStates{}
 
@@ -123,50 +118,105 @@ class UploadPatProfileImageErrorState extends AppStates{
 }
 
 class UpdateProfileAgeValueState extends AppStates{}
+
 class SendCommentsSuccessState extends AppStates{}
+
 class SendCommentsErrorState extends AppStates{
   final String error;
   SendCommentsErrorState(this.error);
 }
+
+class GetCommentsLoadingState extends AppStates{}
+
 class GetCommentsSuccessState extends AppStates{}
+
+class GetCommentsZeroState extends AppStates{}
+
 class GetCommentsErrorsState extends AppStates{
   final String error;
   GetCommentsErrorsState(this.error);
 }
+
 class Updated extends AppStates{}
+
 class UnReadMessages extends AppStates{}
+
 class ReadMessages extends AppStates{}
+
 class IncrementCount extends AppStates{}
+
 class SetCount extends AppStates{}
+
 class CreateCallSuccess extends AppStates{}
+
 class CreateCallError extends AppStates{
   final String error;
   CreateCallError(this.error);
 }
+
 class ReservationErrorState extends AppStates{
   final String error;
   ReservationErrorState(this.error);
 }
+
 class ReservationSuccessState extends AppStates{}
+
 class ChangeRemoteUid extends AppStates{}
+
 class SecondChangeOfRemoteUid extends AppStates{}
+
 class LocalUserJoin extends AppStates{}
+
 class RemoteUserJoin extends AppStates{}
+
 class RemoteUserLeave extends AppStates{}
+
 class OnTimeChangeState extends AppStates{}
+
 class OnDateChangeState extends AppStates{}
+
 class RemoveReservationSuccessState extends AppStates{}
+
 class InsertReservationSuccessState extends AppStates{}
+
 class UploadChatImageLoadingState extends AppStates{}
+
 class UploadChatImageSuccessState extends AppStates{}
+
 class UploadChatImageErrorState extends AppStates{
   final String error;
   UploadChatImageErrorState(this.error);
 
 }
 class UpdateReservationLoadingState extends AppStates{}
+
 class UpdateReservationSuccessState extends AppStates{}
+
 class UpdateReservationErrorState extends AppStates{
   final String error;
   UpdateReservationErrorState(this.error);
 }
+
+class GetPatUpComingReservationLoadingState extends AppStates{}
+
+class GetPatUpComingReservationSuccessState extends AppStates{}
+
+class GetPatUpComingReservationErrorState extends AppStates{}
+
+class GetPatCompletedReservationLoadingState extends AppStates{}
+
+class GetPatCompletedReservationSuccessState extends AppStates{}
+
+class GetPatCompletedReservationErrorState extends AppStates{}
+
+class GetDocUpComingReservationLoadingState extends AppStates{}
+
+class GetDocUpComingReservationSuccessState extends AppStates{}
+
+class GetDocUpComingReservationErrorState extends AppStates{}
+
+class GetDocCompletedReservationLoadingState extends AppStates{}
+
+class GetDocCompletedReservationSuccessState extends AppStates{}
+
+class GetDocCompletedReservationErrorState extends AppStates{}
