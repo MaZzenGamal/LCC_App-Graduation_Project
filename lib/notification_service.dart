@@ -6,11 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
-import 'package:graduation_project/modules/chat_screen/chat_doctor_screen.dart';
-import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
-import 'package:graduation_project/modules/chat_screen/chat_patient_screen.dart';
-import 'models/navkey.dart';
+import 'package:permission_handler/permission_handler.dart';
 var type = CacheHelper.getData(key: 'type');
 PatientModel patModel=PatientModel();
 DoctorModel docModel=DoctorModel();
@@ -21,7 +18,6 @@ Future<FirebaseApp> fireInit(BuildContext context) async {
   FirebaseMessaging.instance;
   return fireApp;
 }
-
 Future<void>fcmInit(GlobalKey<NavigatorState> navkey)async{
 
 // Flutter local notification plugin
@@ -117,20 +113,43 @@ Future<void> _onClick({
   required GlobalKey<NavigatorState> navkey,
 }) async {
   var navigate=message.data['uidsender'];
+  var option=message.data['option'];
   print("the $navigate");
-  if(type=='patient'){
-    FirebaseFirestore.instance.collection('doctor').doc(navigate).snapshots()
-        .listen((event) {
-      docModel = DoctorModel.fromJson(event.data()!);
-    });
-    navkey.currentState!.pushNamed('chatpatient',arguments:docModel);
+  if(option=='video') {
+    await [Permission.microphone, Permission.camera]
+        .request();
+    navkey.currentState!.pushNamed('videoScreen',arguments:navigate );
+  }
+  else if(option=='audio') {
+    await [Permission.microphone]
+        .request();
+    navkey.currentState!.pushNamed('audioScreen',arguments:navigate );
+  }
+  else if(type=='patient') {
+    try {
+      await FirebaseFirestore.instance.collection('doctor').doc(navigate)
+          .snapshots()
+          .listen((event) {
+        docModel = DoctorModel.fromJson(event.data()!);
+      });
+      navkey.currentState!.pushNamed('chatpatient', arguments: docModel);
+    }catch(c){
+      print("error");
+
+    }
   }
   else{
-    FirebaseFirestore.instance.collection('patient').doc(navigate).snapshots()
-        .listen((event) {
-      patModel = PatientModel.fromJson(event.data()!);
-    });
-    navkey.currentState!.pushNamed('chatdoctor',arguments:patModel);
+    try{
+      await  FirebaseFirestore.instance.collection('patient').doc(navigate).get().then((value){
+        patModel = PatientModel.fromJson(value.data()!);
+      });
+
+      navkey.currentState!.pushNamed('chatdoctor',arguments:patModel);
+
+    }catch(c){
+      print("erroe");
+
+    }
   }
 }
 
