@@ -10,6 +10,7 @@ import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../myTest/audioCall.dart';
 import '../../myTest/videoCall.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
@@ -40,6 +41,7 @@ late var size1;
     });*/
     return Builder(builder: (BuildContext context) {
       AppCubit.get(context).getMessage(receiverId: _docModel?.uId as String);
+      AppCubit.get(context).getUserData();
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -64,18 +66,54 @@ late var size1;
                   ],
                 ),
                 actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
+                  IconButton(onPressed: () async{
+                    if(_docModel.inCall!) {
+                      showToast(text:'Doctor is in another call please try later', state: ToastStates.ERROR);
+                    }
+                    else{
+                      AppCubit.get(context).createCall(
+                          receiverId: _docModel.uId!,
+                          senderId: uID
+                      );
+                      await [Permission.microphone]
+                          .request();
+                      navigateTo(
+                          context,
+                          AudioCallScreen(
+                            groupId: uID,
+                          ));
+                      AppCubit.get(context).sendNotfiy('${AppCubit
+                          .get(context)
+                          .patModel
+                          .fullName}', 'you have a new call', _docModel.token!,
+                          'audio');
+                    }
+                  }, icon: const Icon(Icons.call)),
                   IconButton(
                       onPressed: () async {
-                        AppCubit.get(context).createCall();
-                        await [Permission.microphone, Permission.camera]
-                            .request();
-                        navigateTo(
-                            context,
-                            VideoCallScreen(
-                              groupId: uID,
-                            ));
-                      },
+                        if(_docModel.inCall!) {
+                          showToast(text:'Doctor is in another call please try later', state: ToastStates.ERROR);
+                        }
+                        else
+                          {
+                            AppCubit.get(context).createCall(
+                                receiverId: _docModel.uId!,
+                                senderId: uID
+                            );
+                            await [Permission.microphone, Permission.camera]
+                                .request();
+                            navigateTo(
+                                context,
+                                VideoCallScreen(
+                                  groupId: uID,
+                                ));
+                            AppCubit.get(context).sendNotfiy('${AppCubit
+                                .get(context)
+                                .docModel
+                                .fullName}', 'you have a new call', _docModel
+                                .token!, 'audio');
+                          }
+                        },
                       icon: const Icon(Icons.video_call)),
                 ],
               ),

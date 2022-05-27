@@ -1,4 +1,6 @@
 //ignore_for_file: must_be_immutable
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,9 +12,11 @@ import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../myTest/audioCall.dart';
 import '../../myTest/videoCall.dart';
 import '../../shared/components/components.dart';
 import '../../shared/network/local/cash_helper.dart';
+import 'package:http/http.dart' as http;
 /////////////// doctor in login this chat between doctor and patient
 class ChatDoctorScreen extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
@@ -33,154 +37,195 @@ class ChatDoctorScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     size1=size;
     PatientModel? args = ModalRoute.of(context)?.settings.arguments as PatientModel?;
-    print(args);
+    print("arguments are $args");
     final _patModel = args ?? patModel;
     /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
       navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
     });*/
-    return Builder(builder: (BuildContext context) {
-      AppCubit.get(context).getMessage(receiverId: _patModel?.uId as String);
-      return BlocConsumer<AppCubit, AppStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return Scaffold(
-              appBar: AppBar(
-                titleSpacing: 0.0,
-                title: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 15.0,
-                      backgroundImage: NetworkImage(
-                        '${_patModel!.image}',
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      '${_patModel.fullName}',
-                      style: const TextStyle(fontSize: 15.0),
-                    )
-                  ],
-                ),
-                actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
-                  IconButton(
-                      onPressed: () async {
-                        AppCubit.get(context).createCall();
-                        await [Permission.microphone, Permission.camera]
-                            .request();
-                        navigateTo(
-                            context,
-                            VideoCallScreen(
-                              groupId: uID,
-                            ));
-                      },
-                      icon: const Icon(Icons.video_call)),
-                ],
-              ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: BuildCondition(
-                      condition: AppCubit.get(context).messages.isNotEmpty,
-                      builder: (context) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var message =
-                              AppCubit.get(context).messages[index];
-                              if (AppCubit.get(context).uID ==
-                                  message.senderId) {
-                                return buildMyMessages(message,context);
-                              }
-                              return buildMessages(message,context);
-                            },
-                            separatorBuilder: (context, index) =>
-                            const SizedBox(
-                              height: 15.0,
-                            ),
-                            itemCount: AppCubit.get(context).messages.length),
-                      ),
-                      fallback: (context) =>
-                      const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: TextFormField(
-                                controller: messageController,
-                                decoration: InputDecoration(
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        String docuid = _patModel.uId!;
-                                        firebase
-                                            .collection('doctor')
-                                            .doc(uID)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        firebase
-                                            .collection('patient')
-                                            .doc(docuid)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        AppCubit.get(context).getChatImage(
-                                          receiverId: _patModel.uId!,
-                                          token: _patModel.token!,
-                                          dateTime:DateTime.now(),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.photo),
-                                    ),
-                                    border: InputBorder.none,
-                                    hintText: 'write your message...'),
-                              ),
-                            ),
+
+      return Builder(
+        builder: (context) {
+          AppCubit.get(context).getMessage(receiverId: _patModel?.uId as String);
+          AppCubit.get(context).getUserData();
+          return BlocConsumer<AppCubit, AppStates>(
+              listener: (context, state) {
+              },
+              builder: (context, state) {
+
+                return Scaffold(
+                  appBar: AppBar(
+                    titleSpacing: 0.0,
+                    title: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 15.0,
+                          backgroundImage: NetworkImage(
+                            '${_patModel!.image}',
                           ),
-                          IconButton(
-                              onPressed: () {
-                                if (messageController.text != '') {
-                                  String docuid = _patModel.uId!;
-                                  firebase
-                                      .collection('doctor')
-                                      .doc(uID)
-                                      .update({'createdAt': DateTime.now().toString()});
-                                  firebase
-                                      .collection('patient')
-                                      .doc(docuid)
-                                      .update({'createdAt': DateTime.now().toString()});
-                                  AppCubit.get(context).sendMessage(
-                                    receiverId: _patModel.uId!,
-                                    dateTime: DateTime.now(),
-                                    token: _patModel.token!,
-                                    text: messageController.text,
-                                  );
-                                }
-                                messageController.text = '';
-                              },
-                              icon: const Icon(Icons.send))
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          '${_patModel.fullName}',
+                          style: const TextStyle(fontSize: 15.0),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            );
-          });
-    });
+                    actions: [
+                      IconButton(onPressed: () async{
+                        if(_patModel.inCall!) {
+                          showToast(text:'patient is in another call please try later', state: ToastStates.ERROR);
+                        }
+                        else{
+                          AppCubit.get(context).createCall(
+                              receiverId: _patModel.uId!,
+                              senderId: uID
+                          );
+                          await [Permission.microphone]
+                              .request();
+                          navigateTo(
+                              context,
+                              AudioCallScreen(
+                                groupId: uID,
+                              ));
+                          AppCubit.get(context).sendNotfiy('${AppCubit
+                              .get(context)
+                              .docModel
+                              .fullName}', 'you have a new call', _patModel
+                              .token!, 'audio');
+                        }
+                        }, icon: const Icon(Icons.call)),
+                      IconButton(
+                          onPressed: () async {
+                            if(_patModel.inCall!) {
+                              showToast(text:'patient is in another call please try later', state: ToastStates.ERROR);
+                            }
+                            else{
+                              AppCubit.get(context).createCall(
+                                  receiverId: _patModel.uId!,
+                                  senderId: uID
+                              );
+                              await [Permission.microphone, Permission.camera]
+                                  .request();
+                              navigateTo(
+                                  context,
+                                  VideoCallScreen(
+                                    groupId: uID,
+                                  ));
+                              AppCubit.get(context).sendNotfiy('${AppCubit
+                                  .get(context)
+                                  .docModel
+                                  .fullName}', 'you have a new call', _patModel
+                                  .token!, 'video');
+                            }
+                            },
+                          icon: const Icon(Icons.video_call)),
+                    ],
+                  ),
+                  body: Column(
+                    children: [
+                      Expanded(
+                        child: BuildCondition(
+                          condition: AppCubit.get(context).messages.isNotEmpty,
+                          builder: (context) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var message =
+                                  AppCubit.get(context).messages[index];
+                                  if (AppCubit.get(context).uID ==
+                                      message.senderId) {
+                                    return buildMyMessages(message,context);
+                                  }
+                                  return buildMessages(message,context);
+                                },
+                                separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 15.0,
+                                ),
+                                itemCount: AppCubit.get(context).messages.length),
+                          ),
+                          fallback: (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: TextFormField(
+                                    controller: messageController,
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          onPressed: () {
+                                            String docuid = _patModel.uId!;
+                                            firebase
+                                                .collection('doctor')
+                                                .doc(uID)
+                                                .update({'createdAt': DateTime.now().toString()});
+                                            firebase
+                                                .collection('patient')
+                                                .doc(docuid)
+                                                .update({'createdAt': DateTime.now().toString()});
+                                            AppCubit.get(context).getChatImage(
+                                              receiverId: _patModel.uId!,
+                                              token: _patModel.token!,
+                                              dateTime:DateTime.now(),
+                                            );
+                                          },
+                                          icon: const Icon(Icons.photo),
+                                        ),
+                                        border: InputBorder.none,
+                                        hintText: 'write your message...'),
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    if (messageController.text != '') {
+                                      String docuid = _patModel.uId!;
+                                      firebase
+                                          .collection('doctor')
+                                          .doc(uID)
+                                          .update({'createdAt': DateTime.now().toString()});
+                                      firebase
+                                          .collection('patient')
+                                          .doc(docuid)
+                                          .update({'createdAt': DateTime.now().toString()});
+                                      AppCubit.get(context).sendMessage(
+                                        receiverId: _patModel.uId!,
+                                        dateTime: DateTime.now(),
+                                        token: _patModel.token!,
+                                        text: messageController.text,
+                                      );
+                                    }
+                                    messageController.text = '';
+                                  },
+                                  icon: const Icon(Icons.send))
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
+        }
+      );
   }
   Widget buildMessages(MessagesModel model,BuildContext context){
     return model.type=='text'?Align(
