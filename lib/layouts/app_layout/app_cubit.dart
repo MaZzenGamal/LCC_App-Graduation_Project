@@ -2,10 +2,13 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graduation_project/models/call_model.dart';
 import 'package:graduation_project/models/docRef_model.dart';
 import 'package:graduation_project/models/reservation_model.dart';
+import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,7 @@ import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../models/comment_model.dart';
+import '../../modules/machine_connection/connection.dart';
 import '../../modules/reservation_screen/doctor_reservation.dart';
 import '../../modules/reservation_screen/patient_reservation.dart';
 import '../../shared/components/components.dart';
@@ -37,41 +41,33 @@ class AppCubit extends Cubit<AppStates> {
   var uID = CacheHelper.getData(key: 'uId');
   var type = CacheHelper.getData(key: 'type');
   final firebase = FirebaseFirestore.instance;
-  int currentIndex = 0;
-  Widget screen=ShowPatientReservation();
-  List<String> titles = ['Home', 'Search', 'Settings'];
-  List<Widget> screens = [
+
+  int currentIndex = 2;
+  List<String> titles = ['Check', 'Search', 'Home','Schedule','settings'];
+  List<Widget> screens =  [
+    const Connection(),
+    const DoctorsScreen(),
     const HomeScreen(),
-    const SearchScreen(),
-    CacheHelper.getData(key: 'type')=='patient'?ShowPatientReservation():ShowDoctorReservation(),
+    CacheHelper.getData(key: 'type')=='patient'? ShowPatientReservation() : ShowDoctorReservation(),
     const SettingsScreen(),
   ];
-
-  List<BottomNavigationBarItem> bottomItems = const [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.search,
-        ),
-        label: 'search'),
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.settings,
-        ),
-        label: 'settings'),
-  ];
-
-  void changeBotNavBar(int index) {
+  var kPages = <String, IconData>{
+    'check': Icons.image_search,
+    'search': Icons.search,
+    'home': Icons.home,
+    'schedule': Icons.schedule,
+    'settings': Icons.settings,
+  };
+  TabStyle tabStyle = TabStyle.reactCircle;
+  void changeBotNavBar(index){
     currentIndex = index;
-    if (index == 1) {
-      const SearchScreen();
-    }
     emit(AppBotNavState());
   }
 
+
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
-  sendNotfiy(String title, String body, String token,String option) async {
+  sendNotfiy(String title, String body, String token) async {
     print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
     await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -91,7 +87,6 @@ class AppCubit extends Cubit<AppStates> {
             'status': 'done',
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
             'uidsender': uID,
-            'option':option
           },
           'to': token,
         },
@@ -144,6 +139,7 @@ class AppCubit extends Cubit<AppStates> {
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
     if(type=='patient'){
+      emit(GetAllDoctorsLoadingState());
       doctors=[];
       print("all doctors are $doctors");
       print("vvvvvvvvvvvvvvvvv");
@@ -169,14 +165,17 @@ class AppCubit extends Cubit<AppStates> {
           DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(resvModel.doctorId).get();
           DoctorModel model=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
           print(model.fullName);
+          emit(GetAllDoctorsSuccessState());
           doctors.add(model);
           print("the mameeeeeeeeeee is ${doctors[i++].fullName}");
           print("the i is $i");
           print(doctors.length);
         }
       }
+      emit(GetAllDoctorsErrorState());
     }
     else if(type=='doctor'){
+      emit(GetAllPatientsLoadingState());
       patients=[];
       print("vvvvvvvvvvvvvvvvv");
       querySnapshot =
@@ -198,6 +197,7 @@ class AppCubit extends Cubit<AppStates> {
         if(resvModel.date!.isBefore(DateTime.now())||resvModel.date==DateTime.now()){
           DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(resvModel.patientId).get();
           PatientModel model=PatientModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+          emit(GetAllPatientsSuccessState());
           patients.add(model);
           patients.sort((a, b) {
             return a.createdAt!.compareTo(b.createdAt!);
@@ -205,6 +205,7 @@ class AppCubit extends Cubit<AppStates> {
           print("tttttttttttttttttttt");
         }
       }
+      emit(GetAllPatientsErrorState());
     }
   }
 
@@ -237,6 +238,7 @@ class AppCubit extends Cubit<AppStates> {
   Stream<void>? getComment({
     required String receiverId,
   }) {
+    emit(GetCommentsLoadingState());
     comments = [];
     firebase
         .collection('doctor')
@@ -250,28 +252,42 @@ class AppCubit extends Cubit<AppStates> {
       });
       emit(GetCommentsSuccessState());
     });
+    emit(GetCommentsZeroState());
     return null;
   }
 
   late MessagesModel messModel;
   int count = 0;
   Map<String, int> answers = {};
-  void createCall({
-  required String receiverId,
-    required String senderId
-
-}) {
+  void createCall() {
     CallsModel model = CallsModel(
       channelName: uID,
-      receiverId:receiverId,
-      senderId: senderId,
     );
-    firebase.collection('calls').doc(senderId).set(model.toMap())
-        .then((value) {
-      emit(CreateCallSuccess());
-    }).catchError((error) {
-      emit(CreateCallError(error.toString()));
-    });
+    if (type == "patient") {
+      FirebaseFirestore.instance
+          .collection('patient')
+          .doc(uID)
+          .collection('calls')
+          .doc(uID)
+          .set(model.toMap())
+          .then((value) {
+        emit(CreateCallSuccess());
+      }).catchError((error) {
+        emit(CreateCallError(error.toString()));
+      });
+    } else if (type == "doctor") {
+      FirebaseFirestore.instance
+          .collection('doctor')
+          .doc(uID)
+          .collection('calls')
+          .doc(uID)
+          .set(model.toMap())
+          .then((value) {
+        emit(CreateCallSuccess());
+      }).catchError((error) {
+        emit(CreateCallError(error.toString()));
+      });
+    }
   }
 
   void sendMessage({
@@ -310,7 +326,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = patModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token,'chat');
+        sendNotfiy(title!, body, token);
         firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -340,7 +356,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = docModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token,'chat');
+        sendNotfiy(title!, body, token);
         firebase.collection('patient').doc(uID).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -409,7 +425,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = patModel.fullName;
               String body = model.text!;
-              sendNotfiy(title!, body, token,'chat');
+              sendNotfiy(title!, body, token);
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
@@ -439,7 +455,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = docModel.fullName;
               String body =model.text! ;
-              sendNotfiy(title!, body, token,'chat');
+              sendNotfiy(title!, body, token);
               firebase.collection('patient').doc(uID).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
@@ -920,7 +936,7 @@ class AppCubit extends Cubit<AppStates> {
       }
 
       rese.forEach((element) {
-        if (element.doctorId == doctorId && element.patientId == uID&&(element.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())) {
+        if (element.doctorId == doctorId && element.patientId == uID) {
           existpatient = true;
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
         }
@@ -953,10 +969,10 @@ class AppCubit extends Cubit<AppStates> {
         }).catchError((error) {
           emit(ReservationErrorState(error));
         });
+        showToast(text: 'Reservation booked successfully', state: ToastStates.SUCCESS);
       }
       else {
-        showToast(text: 'you already have an appointment with this doctor',
-            state: ToastStates.ERROR);
+        showToast(text: 'you already have an appointment with this doctor', state: ToastStates.ERROR);
       }
     }
     reservationId=" ";
@@ -984,18 +1000,17 @@ class AppCubit extends Cubit<AppStates> {
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
    if(type=='patient'){
+     emit(GetPatUpComingReservationLoadingState());
      doctors=[];
      print("vvvvvvvvvvvvvvvvv");
      querySnapshot =
-           await firebase.collection('patient').doc(uID).collection(
-           'reservation').get();
+           await firebase.collection('patient').doc(uID).collection('reservation').get();
        querySnapshot.docs.forEach((element) {
-         docrefmodel =
-             DocRefModel.fromJson(element.data() as Map<String, dynamic>);
-         doc.add(docrefmodel.docRef!);
-       });
+         docrefmodel = DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+         doc.add(docrefmodel.docRef!);});
        print("the doc is $doc ");
-       for (String element in doc) {
+     emit(GetPatUpComingReservationErrorState());
+     for (String element in doc) {
          print("hhhhhhhhhhhhhhhhhhhh");
          DocumentSnapshot documentSnapshot = await firebase.collection(
              'reservation').doc(element).get();
@@ -1003,27 +1018,29 @@ class AppCubit extends Cubit<AppStates> {
          print("the data is${resvModel.date!}");
          print("DateTime is ${DateTime.now()}");
          if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-           upcomingReservations.add(ReservationModel.fromJson(
-               documentSnapshot.data()! as Map<String, dynamic>));
+           upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
            upcomingReservations.sort();
            upcomingReservations.sort((a, b) {
              return b.date!.compareTo(a.date!);
            });
            print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
+           emit(GetPatUpComingReservationSuccessState());
          }
          else
            {
-             completeReservations.add(ReservationModel.fromJson(
-                 documentSnapshot.data()! as Map<String, dynamic>));
+             emit(GetPatCompletedReservationLoadingState());
+             completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
              completeReservations.sort();
              completeReservations.sort((a, b) {
                return b.date!.compareTo(a.date!);
              });
              print("tttttttttttttttttttt$completeReservations");
+             emit(GetPatCompletedReservationSuccessState());
            }
        }
    }
    else if(type=='doctor'){
+     emit(GetDocUpComingReservationLoadingState());
      doctors=[];
      print("vvvvvvvvvvvvvvvvv");
      querySnapshot =
@@ -1035,31 +1052,32 @@ class AppCubit extends Cubit<AppStates> {
        doc.add(docrefmodel.docRef!);
      });
      print("the doc is $doc ");
+     emit(GetDocUpComingReservationErrorState());
      for (String element in doc) {
        print("hhhhhhhhhhhhhhhhhhhh");
-       DocumentSnapshot documentSnapshot = await firebase.collection(
-           'reservation').doc(element).get();
+       DocumentSnapshot documentSnapshot = await firebase.collection('reservation').doc(element).get();
        ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()as Map<String,dynamic>);
        print("the data is${resvModel.date!}");
        print("DateTime is ${DateTime.now()}");
        if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-         upcomingReservations.add(ReservationModel.fromJson(
-             documentSnapshot.data()! as Map<String, dynamic>));
+         upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
          upcomingReservations.sort();
          upcomingReservations.sort((a, b) {
            return b.date!.compareTo(a.date!);
          });
          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
+         emit(GetDocUpComingReservationSuccessState());
        }
        else
        {
-         completeReservations.add(ReservationModel.fromJson(
-             documentSnapshot.data()! as Map<String, dynamic>));
+         emit(GetDocCompletedReservationLoadingState());
+         completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
          completeReservations.sort();
          completeReservations.sort((a, b) {
            return b.date!.compareTo(a.date!);
          });
          print("tttttttttttttttttttt$completeReservations");
+         emit(GetDocCompletedReservationSuccessState());
        }
      }
    }

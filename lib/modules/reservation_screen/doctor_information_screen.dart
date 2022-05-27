@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
@@ -44,7 +45,7 @@ class DoctorsInformation extends StatelessWidget {
                             appBar: AppBar(),
                             body: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.all(20.0),
+                                padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,10 +55,10 @@ class DoctorsInformation extends StatelessWidget {
                                       width: double.infinity,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
-                                        /*image: DecorationImage(
+                                        image: DecorationImage(
                                           image: NetworkImage(docModel!.image!),
                                           //image: NetworkImage("https://picsum.photos/id/237/200/300"),
-                                          fit: BoxFit.cover),*/
+                                          fit: BoxFit.cover),
                                       ),
                                     ),
                                     const SizedBox(
@@ -95,7 +96,7 @@ class DoctorsInformation extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius
                                                   .circular(30),
-                                              color: HexColor('FFE6D6'),
+                                              color: HexColor('ffe9ce'),
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(
@@ -103,7 +104,7 @@ class DoctorsInformation extends StatelessWidget {
                                               child: Column(
                                                 children: [
                                                   const Text(
-                                                    'Patient',
+                                                    'Patients',
                                                     style: TextStyle(
                                                         fontSize: 20.0,
                                                         height: 1.3,
@@ -131,7 +132,7 @@ class DoctorsInformation extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius
                                                   .circular(30),
-                                              color: HexColor('B5B9CE'),
+                                              color: HexColor('ffdd83'),
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.all(
@@ -190,23 +191,28 @@ class DoctorsInformation extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 15),
                                     ///////////////////////////////////////////////////////////////////////////////////////////////////
+                                    myDivider(),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    const Text('If you like to book a reservation',style:TextStyle(fontWeight: FontWeight.bold) ,),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              20.0),
-                                          color: Colors.teal[100]
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          color: HexColor('ff92a4')
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(5.0),
                                         child: DatePicker(
                                           DateTime.now(),
-                                          initialSelectedDate: AppCubit
-                                              .get(context)
-                                              .dateSelectedValue,
+                                          initialSelectedDate: AppCubit.get(context).dateSelectedValue,
                                           selectionColor: Colors.black,
                                           selectedTextColor: Colors.white,
-                                          inactiveDates: AppCubit
-                                              .get(context).dates,
+                                          inactiveDates: AppCubit.get(context).dates,
+                                          deactivatedColor: Colors.blueGrey,
                                           onDateChange: (date) {
                                             // New date selected
                                             AppCubit.get(context).timeSelectedValue =DateTime.parse("1990-01-01 00:00:00");
@@ -229,10 +235,7 @@ class DoctorsInformation extends StatelessWidget {
                                         scrollDirection: Axis.horizontal,
                                         separatorBuilder: (context, index) =>
                                             Container(),
-                                        itemCount: AppCubit
-                                            .get(context)
-                                            .times
-                                            .length,),
+                                        itemCount: AppCubit.get(context).times.length,),
                                     ),
                                     defaultButton(function: () {
                                       print("yhe date is ${AppCubit.get(context).timeSelectedValue}");
@@ -242,75 +245,62 @@ class DoctorsInformation extends StatelessWidget {
                                         showToast(text: 'you should choose valid an appointment ', state: ToastStates.ERROR);
                                       }
                                       else {
-                                        String date = DateFormat('yyyy-MM-dd')
-                                            .format(AppCubit
-                                            .get(context)
-                                            .dateSelectedValue);
+                                        String date = DateFormat('yyyy-MM-dd').format(AppCubit.get(context).dateSelectedValue);
                                         print(date);
-                                        String time = DateFormat('HH:mm:ss')
-                                            .format(AppCubit
-                                            .get(context)
-                                            .timeSelectedValue);
-
+                                        String time = DateFormat('HH:mm:ss').format(AppCubit.get(context).timeSelectedValue);
                                         print(time);
-                                        DateTime appoinment = DateTime.parse(
-                                            '${date} ${time}');
+                                        DateTime appoinment = DateTime.parse('${date} ${time}');
                                         print(appoinment);
-                                        AppCubit.get(context).patReservation(
-                                          date: appoinment,
-                                          doctorId: docModel!.uId!,
-                                        );
-                                        // print(formattedDate);
+                                        AppCubit.get(context).patReservation(date: appoinment, doctorId: docModel!.uId!,);
                                       } },
                                         text: 'Submit'),
-                                    const SizedBox(height: 15),
+                                    const SizedBox(height: 10),
+                                    myDivider(),
+                                    const SizedBox(height: 10),
+                                    const Text('Comments',style:TextStyle(fontWeight: FontWeight.bold) ),
+                                    const SizedBox(height: 10),
                                     ConditionalBuilder(
-                                      condition: AppCubit
-                                          .get(context)
-                                          .comments
-                                          .isNotEmpty,
-                                      builder: (context) =>
-                                          ListView.separated(
+                                      condition: state is! GetCommentsLoadingState,
+                                      builder: (context) =>BuildCondition(
+                                        condition: AppCubit.get(context).comments.isNotEmpty ,
+                                        builder:(context)=> SizedBox(
+                                          height: 230,
+                                          child: ListView.separated(
                                               scrollDirection: Axis.vertical,
                                               shrinkWrap: true,
-                                              itemBuilder: (context, index) =>
-                                                  buildCommentItem(
-                                                      AppCubit
-                                                          .get(context)
-                                                          .comments[index],
-                                                      context),
-                                              itemCount: AppCubit
-                                                  .get(context)
-                                                  .comments
-                                                  .length,
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                  int index) =>
-                                                  Container()),
-                                      fallback: (context) =>
-                                      const Center(
-                                          child: CircularProgressIndicator()),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        navigateTo(
-                                            context,
-                                            ReviewScreen(
-                                              ReciverUid: docModel!.uId!,
-                                            ));
-                                      },
-                                      child: Text(
-                                        'Please Write Your Review',
-                                        style: TextStyle(
-                                            fontSize: 17.0,
-                                            height: 1.3,
-                                            color: HexColor('4E51BF'),
-                                            fontWeight: FontWeight.bold),
+                                              itemBuilder: (context, index) => buildCommentItem(AppCubit.get(context).comments[index], context),
+                                              itemCount: AppCubit.get(context).comments.length,
+                                              separatorBuilder: (BuildContext context, int index) => Container()),
+                                        ),
+                                        fallback:(context)=>  Center(
+                                          child: RichText(
+                                            text:const TextSpan(
+                                                style: TextStyle(color: Colors.grey),
+                                                children: <TextSpan>[
+                                                  TextSpan(text: '   "No comments, yet"\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                                                  TextSpan(text: 'Be the first to write a review ',style:TextStyle(fontSize:13.0 )),
+                                                ]
+                                            ) ,
+                                          ),
+                                        ) ,
                                       ),
-                                    ),
+                                      fallback: (context) => const Center(child: CircularProgressIndicator()),),
+                                    TextButton(
+                                        onPressed: (){
+                                          navigateTo(
+                                              context,
+                                              ReviewScreen(
+                                                ReciverUid: docModel!.uId!,
+                                              ));
+                                        },
+                                        child: Text(
+                                          'Please Write Your Review...',
+                                          style: TextStyle(
+                                              fontSize: 17.0,
+                                              height: 1.3,
+                                              color: HexColor('4E51BF'),
+                                              fontWeight: FontWeight.bold),
+                                        ),),
                                   ],
                                 ),
                               ),
@@ -366,7 +356,7 @@ class DoctorsInformation extends StatelessWidget {
                 //color:HexColor('89CFF0'),
                 //AppCubit.get(context).timeSelectedValue == workTime||
                 // color: snap.data! ? Colors.black : Colors.teal[100],
-                color:AppCubit.get(context).timeSelectedValue == workTime&&snap.data==false? Colors.black : snap.data!? Colors.grey[200] : Colors.teal[100],
+                color:AppCubit.get(context).timeSelectedValue == workTime&&snap.data==false? Colors.black : snap.data!? Colors.grey[200] : HexColor('ff92a4'),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(

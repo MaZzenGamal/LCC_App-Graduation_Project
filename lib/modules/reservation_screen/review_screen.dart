@@ -1,3 +1,4 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,8 @@ import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import 'doctor_information_screen.dart';
 
 class ReviewScreen extends StatelessWidget {
   String ReciverUid;
@@ -29,178 +32,194 @@ class ReviewScreen extends StatelessWidget {
       builder: (context, state) {
          return Scaffold(
              appBar: AppBar(
-               title: InkWell(
-                 onTap: () async {
-                   if (rateValue == 0 && reviewcontroller.text.isNotEmpty) {
-                     showToast(
-                         text: 'please select valid rate',
-                         state: ToastStates.ERROR);
-                     if (kDebugMode) {
-                       print("please select valid rate");
-                     }
-                   } else if (rateValue != 0 && reviewcontroller.text.isEmpty) {
-                     showToast(
-                         text: 'please write valid review',
-                         state: ToastStates.ERROR);
-
-                     if (kDebugMode) {
-                       print("please write valid review");
-                     }
-                   } else if (rateValue == 0 && reviewcontroller.text.isEmpty) {
-                     showToast(
-                         text: 'please write valid review and choose valid rate',
-                         state: ToastStates.ERROR);
-                     if (kDebugMode) {
-                       print("please write valid review and choose valid rate");
-                     }
-                   } else {
-                     showToast(
-                         text: 'thanks for your review',
-                         state: ToastStates.SUCCESS);
-                     if (kDebugMode) {
-                       print("thanks for your review");
-                     }
-                     ;
-                     bool exist = await checkExist(ReciverUid);
-                     if (kDebugMode) {
-                       print("the value of exist is $exist");
-                     }
-                     await firebase
-                         .collection('doctor')
-                         .doc(ReciverUid)
-                         .collection('comments')
-                         .doc(uID)
-                         .get()
-                         .then((doc) {
-                       if (doc.exists) {
-                         print("document exit");
-                         firebase.collection('doctor').doc(ReciverUid).collection('comments').doc(uID).get().then((value) {
-                           commModel = CommentModel.fromJson(value.data()!);
-                           firebase
-                               .collection('doctor')
-                               .doc(ReciverUid)
-                               .get()
-                               .then((value) {
-                             docModel = DoctorModel.fromJson(value.data()!);
-                             double oldValue = docModel.allRateValue!;
-                             int number = docModel.allRateNumber!;
-                             print("the old rate is ${commModel.rate}");
-                             firebase.collection('doctor').doc(ReciverUid).update({
-                               'allRateValue': (oldValue + rateValue-commModel.rate!),
-                               'rate': ((oldValue + rateValue-commModel.rate!) / (5 * (number))) * 5
-                             });
-                           });
-                         });
-                       }
-                       else {
-                         print("document not existtttttttttttt");
-                         firebase
-                             .collection('doctor')
-                             .doc(ReciverUid)
-                             .get()
-                             .then((value) {
-                           docModel = DoctorModel.fromJson(value.data()!);
-                           double oldValue = docModel.allRateValue!;
-                           int number = docModel.allRateNumber!;
-                           firebase.collection('doctor').doc(ReciverUid).update({
-                             'allRateValue': oldValue + rateValue,
-                             'allRateNumber':number+1,
-                             'rate': ((oldValue + rateValue) / (5 * (number+1))) * 5
-                           });
-                         });
-                       }
-                     });
-                     AppCubit.get(context).sendComment(
-                         receiverId: ReciverUid,
-                         dateTime: DateTime.now(),
-                         text: reviewcontroller.text,
-                         rate: rateValue);
-                   }
-                 },
-                 child: Container(
-                   alignment: Alignment.topRight,
-                   child: Text(
-                     "POST",
-                     style: TextStyle(
-                         fontSize: 18.0,
-                         height: 1.3,
-                         color: HexColor('655FB0'),
-                         fontWeight: FontWeight.bold),
-                   ),
-                 ),
-               ),
+               title: Text('Comments'),
              ),
-             body: Container(
-               constraints:const BoxConstraints.expand(),
-               decoration:const BoxDecoration(
-                   image: DecorationImage(
-                       image: AssetImage('assets/images/red.jpg'),
-                       fit: BoxFit.cover)),
-               child: SingleChildScrollView(
-                 child: Padding(
-                   padding:
-                       const EdgeInsets.symmetric(vertical: 100.0, horizontal: 30.0),
-                   child: Column(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       const Text('Choose Your Rate',
-                           style: TextStyle(
-                               fontSize: 18.0,
-                               height: 1.3,
-                               color: Colors.black,
-                               fontWeight: FontWeight.bold)),
-                       const SizedBox(
-                         height: 15,
+             body: SingleChildScrollView(
+               child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: [
+                     const Text('Select your rate',
+                         style: TextStyle(
+                             fontSize: 18.0,
+                             color: Colors.black,
+                             fontWeight: FontWeight.bold)),
+                     const SizedBox(
+                       height: 15,
+                     ),
+                     RatingBar.builder(
+                       initialRating: 0,
+                       direction: Axis.horizontal,
+                       allowHalfRating: true,
+                       unratedColor: HexColor('ffe9ce'),
+                       itemCount: 5,
+                       itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                       itemBuilder: (context, _) => Icon(
+                         Icons.star,
+                         color: HexColor('4E51BF'),
                        ),
-                       RatingBar.builder(
-                         initialRating: 0,
-                         direction: Axis.horizontal,
-                         allowHalfRating: true,
-                         unratedColor: Colors.grey,
-                         itemCount: 5,
-                         itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                         itemBuilder: (context, _) => Icon(
-                           Icons.star,
-                           color: HexColor('655FB0'),
+                       onRatingUpdate: (rating) {
+                         rateValue = rating;
+                         if (kDebugMode) {
+                           print(rating);
+                         }
+                       },
+                     ),
+                     const SizedBox(
+                       height: 15,
+                     ),
+                     Container(
+                       decoration: BoxDecoration(
+                         border: Border.all(
+                           color: HexColor('ffe9ce'),
                          ),
-                         onRatingUpdate: (rating) {
-                           rateValue = rating;
-                           if (kDebugMode) {
-                             print(rating);
-                           }
-                         },
+                         borderRadius: BorderRadius.circular(10.0),
                        ),
-                       const SizedBox(
-                         height: 30,
-                       ),
-                       const Text('Write Your Review',
-                           style: TextStyle(
-                               fontSize: 18.0,
-                               height: 1.3,
-                               color: Colors.black,
-                               fontWeight: FontWeight.bold)),
-                       const SizedBox(
-                         height: 30,
-                       ),
-                       TextFormField(
-                         controller: reviewcontroller,
-                         keyboardType: TextInputType.text,
-                         decoration: InputDecoration(
-                           border: OutlineInputBorder(
-                             borderSide:
-                                 BorderSide(color: HexColor('4E51BF'), width: 2.0),
-                             borderRadius: BorderRadius.circular(50.0),
+                       clipBehavior: Clip.antiAliasWithSaveLayer,
+                       child: Row(
+                         children: [
+                           Expanded(
+                             child: Padding(
+                               padding:
+                               const EdgeInsets.symmetric(horizontal: 10.0),
+                               child: TextFormField(
+                                 controller: reviewcontroller,
+                                 decoration: const InputDecoration(
+                                     border: InputBorder.none,
+                                     hintText: 'Write your review...'),
+                               ),
+                             ),
                            ),
-                           focusedBorder: OutlineInputBorder(
-                             borderSide:
-                                 BorderSide(color: HexColor('4E51BF'), width: 2.0),
-                             borderRadius: BorderRadius.circular(50.0),
-                           ),
+                           Container(
+                             color: HexColor('4E51BF'),
+                             child: IconButton(
+                                 onPressed: () async {
+                                   if (rateValue == 0 && reviewcontroller.text.isNotEmpty) {
+                                     showToast(
+                                         text: 'please select valid rate',
+                                         state: ToastStates.ERROR);
+                                     if (kDebugMode) {
+                                       print("please select valid rate");
+                                     }
+                                   } else if (rateValue != 0 && reviewcontroller.text.isEmpty) {
+                                     showToast(
+                                         text: 'please write valid review',
+                                         state: ToastStates.ERROR);
+
+                                     if (kDebugMode) {
+                                       print("please write valid review");
+                                     }
+                                   } else if (rateValue == 0 && reviewcontroller.text.isEmpty) {
+                                     showToast(
+                                         text: 'please write valid review and choose valid rate',
+                                         state: ToastStates.ERROR);
+                                     if (kDebugMode) {
+                                       print("please write valid review and choose valid rate");
+                                     }
+                                   } else {
+                                     if (kDebugMode) {
+                                       print("thanks for your review");
+                                     }
+                                     bool exist = await checkExist(ReciverUid);
+                                     if (kDebugMode) {
+                                       print("the value of exist is $exist");
+                                     }
+                                     await firebase
+                                         .collection('doctor')
+                                         .doc(ReciverUid)
+                                         .collection('comments')
+                                         .doc(uID)
+                                         .get()
+                                         .then((doc) {
+                                       if (doc.exists) {
+                                         print("document exit");
+                                         firebase.collection('doctor').doc(ReciverUid).collection('comments').doc(uID).get().then((value) {
+                                           commModel = CommentModel.fromJson(value.data()!);
+                                           firebase
+                                               .collection('doctor')
+                                               .doc(ReciverUid)
+                                               .get()
+                                               .then((value) {
+                                             docModel = DoctorModel.fromJson(value.data()!);
+                                             double oldValue = docModel.allRateValue!;
+                                             int number = docModel.allRateNumber!;
+                                             print("the old rate is ${commModel.rate}");
+                                             firebase.collection('doctor').doc(ReciverUid).update({
+                                               'allRateValue': (oldValue + rateValue-commModel.rate!),
+                                               'rate': ((oldValue + rateValue-commModel.rate!) / (5 * (number))) * 5
+                                             });
+                                           });
+                                         });
+                                       }
+                                       else {
+                                         print("document not existtttttttttttt");
+                                         firebase
+                                             .collection('doctor')
+                                             .doc(ReciverUid)
+                                             .get()
+                                             .then((value) {
+                                           docModel = DoctorModel.fromJson(value.data()!);
+                                           double oldValue = docModel.allRateValue!;
+                                           int number = docModel.allRateNumber!;
+                                           firebase.collection('doctor').doc(ReciverUid).update({
+                                             'allRateValue': oldValue + rateValue,
+                                             'allRateNumber':number+1,
+                                             'rate': ((oldValue + rateValue) / (5 * (number+1))) * 5
+                                           });
+                                         });
+                                       }
+                                     });
+                                     AppCubit.get(context).sendComment(
+                                         receiverId: ReciverUid,
+                                         dateTime: DateTime.now(),
+                                         text: reviewcontroller.text,
+                                         rate: rateValue);
+                                     showToast(
+                                         text: 'thanks for your review',
+                                         state: ToastStates.SUCCESS);
+                                   }
+                                 },
+                                 icon: const Icon(Icons.send,color: Colors.white,)),
+                           )
+                         ],
+                       ),
+                     ),
+                     const SizedBox(
+                       height: 15,
+                     ),
+                     myDivider(),
+                     const SizedBox(
+                       height: 15,
+                     ),
+                     ConditionalBuilder(
+                       condition: state is! GetCommentsLoadingState,
+                       builder: (context) =>BuildCondition(
+                         condition: AppCubit.get(context).comments.isNotEmpty ,
+                         builder:(context)=> SizedBox(
+                           height: 400,
+                           child: ListView.separated(
+                               scrollDirection: Axis.vertical,
+                               shrinkWrap: true,
+                               itemBuilder: (context, index) => buildCommentItem(AppCubit.get(context).comments[index], context),
+                               itemCount: AppCubit.get(context).comments.length,
+                               separatorBuilder: (BuildContext context, int index) => Container()),
                          ),
+                         fallback:(context)=>  Center(
+                           child: RichText(
+                             text:const TextSpan(
+                                 style: TextStyle(color: Colors.grey),
+                                 children: <TextSpan>[
+                                   TextSpan(text: '   "No comments, yet"\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                                   TextSpan(text: 'Be the first to write a review ',style:TextStyle(fontSize:13.0 )),
+                                 ]
+                             ) ,
+                           ),
+                         ) ,
                        ),
-                     ],
-                   ),
+                       fallback: (context) => const Center(child: CircularProgressIndicator()),),
+                   ],
                  ),
                ),
              ),
