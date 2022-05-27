@@ -109,9 +109,9 @@ late var size1;
                                 ));
                             AppCubit.get(context).sendNotfiy('${AppCubit
                                 .get(context)
-                                .docModel
+                                .patModel
                                 .fullName}', 'you have a new call', _docModel
-                                .token!, 'audio');
+                                .token!, 'video');
                           }
                         },
                       icon: const Icon(Icons.video_call)),
