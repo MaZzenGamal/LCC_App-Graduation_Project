@@ -12,6 +12,7 @@ class PatientModel
   String? address;
   String?token;
   DateTime?createdAt;
+  bool? inCall;
 
   PatientModel({
     this.fullName,
@@ -24,6 +25,7 @@ class PatientModel
     this.address,
     this.token,
     this.createdAt,
+    this.inCall,
   });
 
 
@@ -39,6 +41,7 @@ class PatientModel
     address = json['address'];
     token=json['token'];
    createdAt= DateTime.parse(json['createdAt']);
+   inCall=json['inCall'];
   }
 
   Map<String,dynamic> toMap()
@@ -54,6 +57,7 @@ class PatientModel
       'gender':gender,
       'token':token,
       'createdAt':createdAt?.toString(),
+      'inCall':inCall,
     };
   }
   Map<String,dynamic> toJson()
@@ -69,6 +73,7 @@ class PatientModel
       'gender':gender,
       'token':token,
       'createdAt':createdAt?.toString(),
+      'inCall':inCall,
     };
   }
 }

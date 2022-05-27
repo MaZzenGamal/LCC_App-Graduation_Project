@@ -24,6 +24,7 @@ class DoctorModel
   int?experience;
   double?allRateValue;
   int?allRateNumber;
+  bool?inCall;
   DoctorModel({
     this.fullName,
     this.email,
@@ -47,7 +48,8 @@ class DoctorModel
     this.rate,
     this.experience,
     this.allRateNumber,
-    this.allRateValue
+    this.allRateValue,
+    this.inCall,
   });
   DoctorModel.fromJson(Map<String,dynamic>json)
   {
@@ -74,6 +76,7 @@ class DoctorModel
     experience=json['experience'];
     allRateNumber=json['allRateNumber'];
     allRateValue=json['allRateValue'];
+    inCall=json['inCall'];
   }
 
   Map<String,dynamic> toMap()
@@ -102,6 +105,7 @@ class DoctorModel
       'experience':experience,
       'allRateValue':allRateValue,
       'allRateNumber':allRateNumber,
+      'inCall':inCall,
     };
   }
   Map<String,dynamic> toJson()
@@ -130,6 +134,7 @@ class DoctorModel
       'experience':experience,
       'allRateValue':allRateValue,
       'allRateNumber':allRateNumber,
+      'inCall':inCall,
     };
   }
 }
