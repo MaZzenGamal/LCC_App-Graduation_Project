@@ -15,7 +15,10 @@ import 'layouts/app_layout/app_cubit.dart';
 import 'modules/chat_screen/chat_patient_screen.dart';
 import 'modules/chat_screen/chat_doctor_screen.dart';
 import 'modules/register/cubit/register_cubit.dart';
+import 'modules/reservation_screen/patient_reservation.dart';
+import 'myTest/audioCall.dart';
 import 'myTest/restart_screen.dart';
+import 'myTest/videoCall.dart';
 import 'notification_service.dart';
 Future<void>main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,6 +71,9 @@ class _MyAppState extends State<MyApp> {
               routes: {
                 'chatdoctor':(c)=>ChatDoctorScreen(),
                 'chatpatient':(c)=>ChatPatientScreen(),
+                'videoScreen':(c)=>VideoCallScreen(),
+                'audioScreen':(c)=>AudioCallScreen(),
+                'showPatientReservation':(c)=>ShowPatientReservation()
               },
               navigatorKey: navkey,
               debugShowCheckedModeBanner: false,
