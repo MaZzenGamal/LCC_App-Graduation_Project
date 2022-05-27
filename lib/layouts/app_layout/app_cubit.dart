@@ -67,7 +67,7 @@ class AppCubit extends Cubit<AppStates> {
 
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
-  sendNotfiy(String title, String body, String token) async {
+  sendNotfiy(String title, String body, String token,String option) async {
     print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
     await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -87,6 +87,7 @@ class AppCubit extends Cubit<AppStates> {
             'status': 'done',
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
             'uidsender': uID,
+            'option':option,
           },
           'to': token,
         },
@@ -259,14 +260,16 @@ class AppCubit extends Cubit<AppStates> {
   late MessagesModel messModel;
   int count = 0;
   Map<String, int> answers = {};
-  void createCall() {
+  void createCall({
+    String? receiverId,
+    String? senderId
+  }) {
     CallsModel model = CallsModel(
       channelName: uID,
+      senderId:senderId,
+      receiverId: receiverId
     );
-    if (type == "patient") {
       FirebaseFirestore.instance
-          .collection('patient')
-          .doc(uID)
           .collection('calls')
           .doc(uID)
           .set(model.toMap())
@@ -275,19 +278,6 @@ class AppCubit extends Cubit<AppStates> {
       }).catchError((error) {
         emit(CreateCallError(error.toString()));
       });
-    } else if (type == "doctor") {
-      FirebaseFirestore.instance
-          .collection('doctor')
-          .doc(uID)
-          .collection('calls')
-          .doc(uID)
-          .set(model.toMap())
-          .then((value) {
-        emit(CreateCallSuccess());
-      }).catchError((error) {
-        emit(CreateCallError(error.toString()));
-      });
-    }
   }
 
   void sendMessage({
@@ -326,7 +316,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = patModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token);
+        sendNotfiy(title!, body, token,'chat');
         firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -356,7 +346,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         String? title = docModel.fullName;
         String body = text;
-        sendNotfiy(title!, body, token);
+        sendNotfiy(title!, body, token,'chat');
         firebase.collection('patient').doc(uID).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
@@ -425,7 +415,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = patModel.fullName;
               String body = model.text!;
-              sendNotfiy(title!, body, token);
+              sendNotfiy(title!, body, token,'chat');
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
@@ -455,7 +445,7 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               String? title = docModel.fullName;
               String body =model.text! ;
-              sendNotfiy(title!, body, token);
+              sendNotfiy(title!, body, token,'chat');
               firebase.collection('patient').doc(uID).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
