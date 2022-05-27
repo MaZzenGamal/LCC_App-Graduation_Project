@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CommentModel
 {
-  String? fullName;
-  String? image;
   DateTime?createdAt;
   double? rate;
   String?comment;
