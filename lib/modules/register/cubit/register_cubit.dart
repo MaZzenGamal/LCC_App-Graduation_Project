@@ -222,6 +222,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       address:address,
       token:token,
       createdAt:createdAt,
+      inCall: false,
     );
     FirebaseFirestore.instance.
     collection('patient').
@@ -351,6 +352,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       rate: 0.00001,
       startTime: DateTime.parse("1990-02-02 00:00:00.000"),
       endTime: DateTime.parse("1990-02-02 00:00:00.000"),
+      inCall: false,
     );
     FirebaseFirestore.instance.
     collection('doctor').
