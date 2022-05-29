@@ -8,6 +8,7 @@ import '../../modules/chat_screen/chat_details_doctor_screen.dart';
 import '../../modules/chat_screen/chat_details_patient_screen.dart';
 import '../../modules/reservation_screen/doctor_reservation.dart';
 import '../../modules/reservation_screen/patient_reservation.dart';
+import '../../modules/search_screen/search_screen.dart';
 import '../../shared/network/local/cash_helper.dart';
 import 'app_cubit.dart';
 
@@ -29,6 +30,14 @@ class AppLayout extends StatelessWidget {
             ),
            // titleSpacing: 0,
             actions: [
+              IconButton(
+                  onPressed: (){
+                    navigateTo(context,SearchScreen());
+
+                  },
+                  icon: const Icon(
+                      Icons.search_outlined,
+                  )),
               IconButton(
                   onPressed: (){
                     //AppCubit.get(context).getUsers();
