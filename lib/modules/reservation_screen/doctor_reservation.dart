@@ -6,13 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/reservation_model.dart';
-import 'package:graduation_project/modules/reservation_screen/doctor_information_screen.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import '../../../models/doctor_model.dart';
-
 import '../../models/patient_model.dart';
-import '../../shared/components/components.dart';
 class ShowDoctorReservation extends StatelessWidget {
   ShowDoctorReservation({Key? key}) : super(key: key);
   @override
@@ -118,17 +114,17 @@ class ShowDoctorReservation extends StatelessWidget {
               return Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  //color:HexColor('89CFF0'),
+                    borderRadius: BorderRadius.circular(30),
+                    //color:HexColor('89CFF0'),
                     color: HexColor('C0C1E8').withOpacity(0.6),
                     boxShadow: [
-                BoxShadow(
-                color: HexColor('C0C1E8').withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 10,
-                blurStyle: BlurStyle.outer,
-                offset:const Offset(0, 7), // changes position of shadow
-              ),]
+                      BoxShadow(
+                        color: HexColor('C0C1E8').withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        blurStyle: BlurStyle.outer,
+                        offset:const Offset(0, 7), // changes position of shadow
+                      ),]
                 ),
                 child: isDisable==true?Dismissible(
                   direction: DismissDirection.startToEnd,

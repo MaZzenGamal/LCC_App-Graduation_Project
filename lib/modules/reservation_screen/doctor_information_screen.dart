@@ -1,5 +1,4 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/foundation.dart';
@@ -28,8 +27,8 @@ class DoctorsInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     //navigatorKey=navigateTo(context,DoctorsInformation() );
     return StreamBuilder(
-      stream:AppCubit.get(context).timeOfWork(startTime: docModel!.startTime!, endTime:docModel!.endTime!),
-      builder: (BuildContext context,_) {
+        stream:AppCubit.get(context).timeOfWork(startTime: docModel!.startTime!, endTime:docModel!.endTime!),
+        builder: (BuildContext context,_) {
           return StreamBuilder(
               stream: AppCubit.get(context).checkHoliday(),
               builder: (BuildContext context, _) {
@@ -56,9 +55,9 @@ class DoctorsInformation extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
                                         image: DecorationImage(
-                                          image: NetworkImage(docModel!.image!),
-                                          //image: NetworkImage("https://picsum.photos/id/237/200/300"),
-                                          fit: BoxFit.cover),
+                                            image: NetworkImage(docModel!.image!),
+                                            //image: NetworkImage("https://picsum.photos/id/237/200/300"),
+                                            fit: BoxFit.cover),
                                       ),
                                     ),
                                     const SizedBox(
@@ -286,21 +285,21 @@ class DoctorsInformation extends StatelessWidget {
                                       ),
                                       fallback: (context) => const Center(child: CircularProgressIndicator()),),
                                     TextButton(
-                                        onPressed: (){
-                                          navigateTo(
-                                              context,
-                                              ReviewScreen(
-                                                ReciverUid: docModel!.uId!,
-                                              ));
-                                        },
-                                        child: Text(
-                                          'Please Write Your Review...',
-                                          style: TextStyle(
-                                              fontSize: 17.0,
-                                              height: 1.3,
-                                              color: HexColor('4E51BF'),
-                                              fontWeight: FontWeight.bold),
-                                        ),),
+                                      onPressed: (){
+                                        navigateTo(
+                                            context,
+                                            ReviewScreen(
+                                              ReciverUid: docModel!.uId!,
+                                            ));
+                                      },
+                                      child: Text(
+                                        'Please Write Your Review...',
+                                        style: TextStyle(
+                                            fontSize: 17.0,
+                                            height: 1.3,
+                                            color: HexColor('4E51BF'),
+                                            fontWeight: FontWeight.bold),
+                                      ),),
                                   ],
                                 ),
                               ),
@@ -311,7 +310,7 @@ class DoctorsInformation extends StatelessWidget {
                     });
               }
           );
-      }
+        }
     );
   }
   Widget timePicker(BuildContext context,DateTime workTime,String docId) =>FutureBuilder(
@@ -458,4 +457,3 @@ String getTime(var time) {
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   return formatter.format(time);
 }
-
