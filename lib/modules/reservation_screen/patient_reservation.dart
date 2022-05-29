@@ -11,8 +11,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import '../../../models/doctor_model.dart';
 import '../../shared/components/components.dart';
-
-
 class ShowPatientReservation extends StatelessWidget {
   ShowPatientReservation({Key? key}) : super(key: key);
   @override
@@ -39,9 +37,9 @@ class ShowPatientReservation extends StatelessWidget {
                         title: const Text(
                           'swipe for edit or cancel',
                           style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.grey,
-                              ),
+                            fontSize: 15.0,
+                            color: Colors.grey,
+                          ),
                         ),
                         bottom: TabBar(
                           tabs: _kTabs,
@@ -62,7 +60,7 @@ class ShowPatientReservation extends StatelessWidget {
                         child: TabBarView(
                           children: <Widget>[
                             ConditionalBuilder(
-                              condition: state is! GetPatUpComingReservationLoadingState ,
+                              condition:state is! GetPatUpComingReservationLoadingState ,
                               builder: (context) =>BuildCondition(
                                 condition:AppCubit.get(context).upcomingReservations.isNotEmpty,
                                 builder:(context)=> ListView.separated(
@@ -80,7 +78,7 @@ class ShowPatientReservation extends StatelessWidget {
                               fallback: (context) => const Center(child: CircularProgressIndicator()),
                             ),
                             ConditionalBuilder(
-                              condition: state is! GetPatCompletedReservationLoadingState ,
+                              condition:state is! GetPatCompletedReservationLoadingState ,
                               builder: (context) =>BuildCondition(
                                 condition: AppCubit.get(context).completeReservations.isNotEmpty ,
                                 builder:(context) => ListView.separated(
@@ -118,14 +116,14 @@ class ShowPatientReservation extends StatelessWidget {
                 isDisable=false;
               }
               else
-                {
-                  isDisable=true;
-                }
+              {
+                isDisable=true;
+              }
               return Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  //color:HexColor('89CFF0'),
+                    borderRadius: BorderRadius.circular(20),
+                    //color:HexColor('89CFF0'),
                     color: HexColor('C0C1E8').withOpacity(0.6),
                     boxShadow: [
                       BoxShadow(
@@ -140,8 +138,8 @@ class ShowPatientReservation extends StatelessWidget {
                   key: UniqueKey(),
                   onDismissed:(DismissDirection dir) {
                     dir==DismissDirection.startToEnd?
-                      AppCubit.get(context)
-                          .removeReservation(index: index, model: resvModel):
+                    AppCubit.get(context)
+                        .removeReservation(index: index, model: resvModel):
                     AppCubit.get(context).reservationId=resvModel.reservationId!;
                     navigateTo(context,DoctorsInformation(docModel:snap.data ));
                   },
