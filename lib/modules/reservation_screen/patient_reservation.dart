@@ -89,6 +89,7 @@ class ShowPatientReservation extends StatelessWidget {
                                   separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10.0,),
                                 ),
                                 fallback:(context) => const Center(child:  Text('You don\'t have completed reservations ',
+
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
                               fallback: (context) => const Center(child: CircularProgressIndicator()),
