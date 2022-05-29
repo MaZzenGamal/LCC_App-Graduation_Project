@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graduation_project/models/call_model.dart';
 import 'package:graduation_project/models/docRef_model.dart';
@@ -19,7 +18,6 @@ import 'package:graduation_project/models/messages_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:graduation_project/modules/home_screen/home_screen.dart';
-import 'package:graduation_project/modules/search_screen/search_screen.dart';
 import 'package:graduation_project/modules/settings_screen/settings_screen.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,18 +133,20 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetAllDoctorsSuccessState());
     });
   }
-
   Future<void> getUsers()async{
+    upcomingReservations=[];
+    completeReservations=[];
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
-    if(type=='patient'){
-      emit(GetAllDoctorsLoadingState());
-      doctors=[];
-      print("all doctors are $doctors");
+    if(type=='patient') {
+     // emit(GetAllDoctorsLoadingState());
+      doctors = [];
+      //emit(GetAllDoctorsLoadingState());
       print("vvvvvvvvvvvvvvvvv");
       querySnapshot =
-          await firebase.collection('patient').doc(uID).collection(
-          'reservation').get();
+      await firebase.collection('patient').doc(uID)
+          .collection('reservation')
+          .get();
       querySnapshot.docs.forEach((element) {
         docrefmodel =
             DocRefModel.fromJson(element.data() as Map<String, dynamic>);
@@ -157,31 +157,45 @@ class AppCubit extends Cubit<AppStates> {
         print("hhhhhhhhhhhhhhhhhhhh");
         DocumentSnapshot documentSnapshot = await firebase.collection(
             'reservation').doc(element).get();
-        ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()!as Map<String,dynamic>);
+        ReservationModel resvModel = ReservationModel.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
         print("the data is${resvModel.date!}");
         print("DateTime is ${DateTime.now()}");
-        print("trueeeeeeeeeeeeeeee");
-        if((resvModel.date!).isBefore(DateTime.now())||resvModel.date==DateTime.now()){
-          print("tttttttttttttttttttt");
-          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(resvModel.doctorId).get();
-          DoctorModel model=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-          print(model.fullName);
-          emit(GetAllDoctorsSuccessState());
-          doctors.add(model);
-          print("the mameeeeeeeeeee is ${doctors[i++].fullName}");
-          print("the i is $i");
-          print(doctors.length);
+        if((resvModel.date!).isBefore(DateTime.now())||(resvModel.date!)==(DateTime.now())) {
+          DocumentSnapshot documentSnapshot = await firebase.collection(
+              'doctor').doc(resvModel.doctorId).get();
+          DoctorModel docModel = DoctorModel.fromJson(
+              documentSnapshot.data() as Map<String, dynamic>);
+           doctors.add(docModel);
+          print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
+          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$doctors");
         }
       }
-      emit(GetAllDoctorsErrorState());
+      List<DoctorModel> dupicate=doctors;
+      for(int i=0;i<doctors.length;i++)
+        {
+          for(int j=0;j<dupicate.length;j++)
+            {
+              if(i!=j)
+                {
+                  if(doctors[i].uId==dupicate[j].uId)
+                    {
+                      dupicate.removeAt(j);
+                    }
+                }
+            }
+        }
+      doctors=dupicate.toList();
     }
-    else if(type=='doctor'){
-      emit(GetAllPatientsLoadingState());
-      patients=[];
+    else if(type=='doctor') {
+     // emit(GetAllPatientsLoadingState());
+      patients = [];
+      //emit(GetAllPatientsLoadingState());
       print("vvvvvvvvvvvvvvvvv");
       querySnapshot =
-      await firebase.collection('doctor').doc(uID).collection(
-          'reservation').get();
+      await firebase.collection('doctor').doc(uID)
+          .collection('reservation')
+          .get();
       querySnapshot.docs.forEach((element) {
         docrefmodel =
             DocRefModel.fromJson(element.data() as Map<String, dynamic>);
@@ -192,21 +206,35 @@ class AppCubit extends Cubit<AppStates> {
         print("hhhhhhhhhhhhhhhhhhhh");
         DocumentSnapshot documentSnapshot = await firebase.collection(
             'reservation').doc(element).get();
-        ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()as Map<String,dynamic>);
+        ReservationModel resvModel = ReservationModel.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
         print("the data is${resvModel.date!}");
         print("DateTime is ${DateTime.now()}");
-        if(resvModel.date!.isBefore(DateTime.now())||resvModel.date==DateTime.now()){
-          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(resvModel.patientId).get();
-          PatientModel model=PatientModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-          emit(GetAllPatientsSuccessState());
-          patients.add(model);
-          patients.sort((a, b) {
-            return a.createdAt!.compareTo(b.createdAt!);
-          });
-          print("tttttttttttttttttttt");
+        if((resvModel.date!).isBefore(DateTime.now())||(resvModel.date!)==(DateTime.now())) {
+          DocumentSnapshot documentSnapshot = await firebase.collection(
+              'patient').doc(resvModel.patientId).get();
+          PatientModel patModel = PatientModel.fromJson(
+              documentSnapshot.data() as Map<String, dynamic>);
+            patients.add(patModel);
+          print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
+          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
         }
       }
-      emit(GetAllPatientsErrorState());
+      List<PatientModel> dupicate=patients;
+      for(int i=0;i<patients.length;i++)
+      {
+        for(int j=0;j<dupicate.length;j++)
+        {
+          if(i!=j)
+          {
+            if(patients[i].uId==dupicate[j].uId)
+            {
+              dupicate.removeAt(j);
+            }
+          }
+        }
+      }
+      patients=dupicate.toList();
     }
   }
 
@@ -924,9 +952,8 @@ class AppCubit extends Cubit<AppStates> {
       } catch (_) {
         print('errrrorrrrrrr');
       }
-
       rese.forEach((element) {
-        if (element.doctorId == doctorId && element.patientId == uID) {
+        if (element.doctorId == doctorId && element.patientId == uID&&((element.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now()))) {
           existpatient = true;
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeeee");
         }
@@ -989,88 +1016,78 @@ class AppCubit extends Cubit<AppStates> {
     completeReservations=[];
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
-   if(type=='patient'){
-     emit(GetPatUpComingReservationLoadingState());
-     doctors=[];
-     print("vvvvvvvvvvvvvvvvv");
-     querySnapshot =
-           await firebase.collection('patient').doc(uID).collection('reservation').get();
-       querySnapshot.docs.forEach((element) {
-         docrefmodel = DocRefModel.fromJson(element.data() as Map<String, dynamic>);
-         doc.add(docrefmodel.docRef!);});
-       print("the doc is $doc ");
-     emit(GetPatUpComingReservationErrorState());
-     for (String element in doc) {
-         print("hhhhhhhhhhhhhhhhhhhh");
-         DocumentSnapshot documentSnapshot = await firebase.collection(
-             'reservation').doc(element).get();
-         ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()as Map<String,dynamic>);
-         print("the data is${resvModel.date!}");
-         print("DateTime is ${DateTime.now()}");
-         if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-           upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
-           upcomingReservations.sort();
-           upcomingReservations.sort((a, b) {
-             return b.date!.compareTo(a.date!);
-           });
-           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
-           emit(GetPatUpComingReservationSuccessState());
-         }
-         else
-           {
-             emit(GetPatCompletedReservationLoadingState());
-             completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
-             completeReservations.sort();
-             completeReservations.sort((a, b) {
-               return b.date!.compareTo(a.date!);
-             });
-             print("tttttttttttttttttttt$completeReservations");
-             emit(GetPatCompletedReservationSuccessState());
-           }
-       }
-   }
-   else if(type=='doctor'){
-     emit(GetDocUpComingReservationLoadingState());
-     doctors=[];
-     print("vvvvvvvvvvvvvvvvv");
-     querySnapshot =
-     await firebase.collection('doctor').doc(uID).collection(
-         'reservation').get();
-     querySnapshot.docs.forEach((element) {
-       docrefmodel =
-           DocRefModel.fromJson(element.data() as Map<String, dynamic>);
-       doc.add(docrefmodel.docRef!);
-     });
-     print("the doc is $doc ");
-     emit(GetDocUpComingReservationErrorState());
-     for (String element in doc) {
-       print("hhhhhhhhhhhhhhhhhhhh");
-       DocumentSnapshot documentSnapshot = await firebase.collection('reservation').doc(element).get();
-       ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()as Map<String,dynamic>);
-       print("the data is${resvModel.date!}");
-       print("DateTime is ${DateTime.now()}");
-       if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-         upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
-         upcomingReservations.sort();
-         upcomingReservations.sort((a, b) {
-           return b.date!.compareTo(a.date!);
-         });
-         print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
-         emit(GetDocUpComingReservationSuccessState());
-       }
-       else
-       {
-         emit(GetDocCompletedReservationLoadingState());
-         completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
-         completeReservations.sort();
-         completeReservations.sort((a, b) {
-           return b.date!.compareTo(a.date!);
-         });
-         print("tttttttttttttttttttt$completeReservations");
-         emit(GetDocCompletedReservationSuccessState());
-       }
-     }
-   }
+    if(type=='patient') {
+      doctors = [];
+      print("vvvvvvvvvvvvvvvvv");
+      querySnapshot =
+      await firebase.collection('patient').doc(uID)
+          .collection('reservation')
+          .get();
+      querySnapshot.docs.forEach((element) {
+        docrefmodel =
+            DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+        doc.add(docrefmodel.docRef!);
+      });
+      print("the doc is $doc ");
+      for (String element in doc) {
+        print("hhhhhhhhhhhhhhhhhhhh");
+        DocumentSnapshot documentSnapshot = await firebase.collection(
+            'reservation').doc(element).get();
+        ReservationModel resvModel = ReservationModel.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
+        print("the data is${resvModel.date!}");
+        print("DateTime is ${DateTime.now()}");
+        if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())) {
+          print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
+          emit(GetPatUpComingReservationLoadingState());
+          upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
+          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
+          emit(GetPatUpComingReservationSuccessState());
+        }
+        else
+        {
+          emit(GetPatCompletedReservationLoadingState());
+          completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
+          print("tttttttttttttttttttt$completeReservations");
+          emit(GetPatCompletedReservationSuccessState());
+        }
+      }
+      }
+    else if(type=='doctor'){
+      doctors=[];
+      print("vvvvvvvvvvvvvvvvv");
+      querySnapshot =
+      await firebase.collection('doctor').doc(uID).collection(
+          'reservation').get();
+      querySnapshot.docs.forEach((element) {
+        docrefmodel =
+            DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+        doc.add(docrefmodel.docRef!);
+      });
+      print("the doc is $doc ");
+      for (String element in doc) {
+        print("hhhhhhhhhhhhhhhhhhhh");
+        DocumentSnapshot documentSnapshot = await firebase.collection('reservation').doc(element).get();
+        ReservationModel resvModel= ReservationModel.fromJson(documentSnapshot.data()as Map<String,dynamic>);
+        print("the data is${resvModel.date!}");
+        print("DateTime is ${DateTime.now()}");
+        if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
+          emit(GetDocUpComingReservationLoadingState());
+          upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
+          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
+          emit(GetDocUpComingReservationSuccessState());
+        }
+        else
+        {
+          emit(GetDocCompletedReservationLoadingState());
+          completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
+          print("tttttttttttttttttttt$completeReservations");
+          emit(GetDocCompletedReservationSuccessState());
+        }
+      }
+    }
+    upcomingReservations.sort((a, b) => a.date!.compareTo(b.date!));
+    completeReservations.sort((a, b) => a.date!.compareTo(b.date!));
   }
   Future<DoctorModel> getDoctorData({
  required String uid
