@@ -139,7 +139,7 @@ class AppCubit extends Cubit<AppStates> {
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
     if(type=='patient') {
-     // emit(GetAllDoctorsLoadingState());
+      emit(GetAllDoctorsLoadingState());
       doctors = [];
       //emit(GetAllDoctorsLoadingState());
       print("vvvvvvvvvvvvvvvvv");
@@ -167,6 +167,7 @@ class AppCubit extends Cubit<AppStates> {
           DoctorModel docModel = DoctorModel.fromJson(
               documentSnapshot.data() as Map<String, dynamic>);
            doctors.add(docModel);
+          emit(GetAllDoctorsSuccessState());
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$doctors");
         }
@@ -188,9 +189,8 @@ class AppCubit extends Cubit<AppStates> {
       doctors=dupicate.toList();
     }
     else if(type=='doctor') {
-     // emit(GetAllPatientsLoadingState());
+      emit(GetAllPatientsLoadingState());
       patients = [];
-      //emit(GetAllPatientsLoadingState());
       print("vvvvvvvvvvvvvvvvv");
       querySnapshot =
       await firebase.collection('doctor').doc(uID)
@@ -216,6 +216,7 @@ class AppCubit extends Cubit<AppStates> {
           PatientModel patModel = PatientModel.fromJson(
               documentSnapshot.data() as Map<String, dynamic>);
             patients.add(patModel);
+          emit(GetAllPatientsSuccessState());
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
         }

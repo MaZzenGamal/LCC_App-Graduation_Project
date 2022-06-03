@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
@@ -7,10 +10,12 @@ import 'package:graduation_project/modules/profile_screen/doctor_profile_screen.
 import 'package:graduation_project/modules/reservation_screen/doctor_information_screen.dart';
 import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:graduation_project/shared/components/components.dart';
-
+import 'package:path/path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../layouts/app_layout/app_cubit.dart';
 import '../../layouts/app_layout/states.dart';
 import '../../myTest/restart_screen.dart';
+import '../../shared/network/local/cash_helper.dart';
 import '../profile_screen/patient_profile_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -25,6 +30,7 @@ class SettingsScreen extends StatelessWidget {
       var docModel = AppCubit.get(context).docModel;
       var patModel = AppCubit.get(context).patModel;
       var profileImage = AppCubit.get(context).profileImage;
+      var uId = CacheHelper.getData(key: 'uId');
       final listTiles=<Widget>[
          ListTile(
            leading: CircleAvatar(
@@ -83,8 +89,43 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             onTap:() {
-              RestartWidget.restartApp(context);
-              navigateAndFinish(context, LoginScreen());
+              CacheHelper.removeDate(key: 'uId').then((value){
+                Phoenix.rebirth(context);
+              });
+                //Phoenix.rebirth(context);
+
+              //navigateAndFinish(context, LoginScreen());
+            }
+        ),
+        ListTile(
+            leading:const Icon(
+                Icons.error
+            ),
+            title:const Text('Logout',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.red
+              ),
+            ),
+            onTap:() {
+              signOut();
+            }
+        ),
+        ListTile(
+            leading:const Icon(
+                Icons.error
+            ),
+            title:const Text('Logout',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.green
+              ),
+            ),
+            onTap:() {
+              CacheHelper.removeDate(key: 'uId');
+              if(uId==null){
+
+              }
             }
         ),
       ];
@@ -92,4 +133,8 @@ class SettingsScreen extends StatelessWidget {
   },
   );
   }
+}
+void signOut() async {
+   await CacheHelper.removeDate(key: 'uId');
+   await FirebaseAuth.instance.signOut();
 }

@@ -50,7 +50,6 @@ class ChatDetailsPatientScreen extends StatelessWidget {
                       )
                       ) ,
                     ),
-
                     fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
                   ),
                 );

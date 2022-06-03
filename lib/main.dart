@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:graduation_project/layouts/app_layout/app_layout.dart';
 import 'package:graduation_project/models/navkey.dart';
 import 'package:graduation_project/modules/login/cubit/login_cubit.dart';
@@ -43,22 +44,15 @@ Future<void>main() async {
     widget = LoginScreen();
   }
   runApp(
-    RestartWidget(
+      Phoenix(
       child: MyApp(widget)));
 }
 
-class MyApp extends StatefulWidget {
-  //const MyApp({Key key}) : super(key: key);
-
-    final Widget startWidget;
+class MyApp extends StatelessWidget {
+  //const MyApp({Key? key}) : super(key: key);
+  final Widget startWidget;
 
   MyApp(this.startWidget);
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  //const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
@@ -90,7 +84,7 @@ class _MyAppState extends State<MyApp> {
               home:FutureBuilder(
                 future:fcmInit(navkey) ,
                 builder: (context,_) {
-                  return AppLayout();
+                  return startWidget;
                 }
               ),
             ),
@@ -99,4 +93,5 @@ class _MyAppState extends State<MyApp> {
     );
 
   }
+
 }

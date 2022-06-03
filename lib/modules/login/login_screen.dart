@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         //
                         BuildCondition(
-                          condition: state is! LoginLoadingState && state is! LoginSuccessState,
+                          condition: state is! LoginLoadingState, //&& state is! LoginSuccessState,
                           builder: (context)=> defaultButton(function: ()
                           {
                             if(formKey.currentState!.validate())
@@ -136,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Dont have an account ?',
+                              'Don\'t have an account ?',
                               style: TextStyle(
                                   color: Colors.white
                               ),
