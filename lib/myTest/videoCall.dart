@@ -12,8 +12,8 @@ import '../models/user_model.dart';
 // replace with your App ID from Agora.io
 const APP_ID = "549a436c46ac4ceb8648789358634b61";
 final firebase = FirebaseFirestore.instance;
-var type = CacheHelper.getData(key: 'type');
-var uID = CacheHelper.getData(key: 'uId');
+//var type = CacheHelper.getData(key: 'type');
+//var uID = CacheHelper.getData(key: 'uId');
 CallsModel callModel=CallsModel();
 UserModel userModel=UserModel();
 
