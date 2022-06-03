@@ -29,9 +29,7 @@ class ChatDetailsPatientScreen extends StatelessWidget {
                   appBar: AppBar(
                     title: const Text('Chat'),
                   ),
-                  body: ConditionalBuilder(
-                    condition:state is! GetAllPatientsLoadingState ,
-                    builder: (context)=>BuildCondition(
+                  body:BuildCondition(
                       condition:AppCubit.get(context).patients.isNotEmpty ,
                       builder:(context)=> ListView.separated(
                           itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
@@ -50,9 +48,6 @@ class ChatDetailsPatientScreen extends StatelessWidget {
                       )
                       ) ,
                     ),
-
-                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-                  ),
                 );
               },
             );

@@ -22,15 +22,12 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
                   appBar: AppBar(
                     title: const Text('Chat'),
                   ),
-                  body: ConditionalBuilder(
-                    condition: state is! GetAllDoctorsLoadingState,
-                    builder: (context){
-                      return BuildCondition(
-                        condition: AppCubit.get(context).doctors.isNotEmpty,
+                  body: BuildCondition(
+                        condition: AppCubit.get(context).doctorsChat.isNotEmpty,
                         builder:(context)=>ListView.separated(
-                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors.elementAt(index),context),
+                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctorsChat.elementAt(index),context),
                             separatorBuilder: (context, index) => myDivider(),
-                            itemCount: AppCubit.get(context).doctors.length) ,
+                            itemCount: AppCubit.get(context).doctorsChat.length) ,
                         fallback: (context)=> Center(child:RichText(
                           text:const TextSpan(
                             style: TextStyle(color: Colors.grey),
@@ -43,10 +40,7 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
                           ) ,
                         )
                         ) ,
-                      );
-                      },
-                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-                  ),
+                      )
                 );
               },
             );
