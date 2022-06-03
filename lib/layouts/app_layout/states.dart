@@ -220,3 +220,5 @@ class GetDocCompletedReservationLoadingState extends AppStates{}
 class GetDocCompletedReservationSuccessState extends AppStates{}
 
 class GetDocCompletedReservationErrorState extends AppStates{}
+class UserModelChange extends AppStates{}
+class GetReservationLoadingStates extends AppStates{}
