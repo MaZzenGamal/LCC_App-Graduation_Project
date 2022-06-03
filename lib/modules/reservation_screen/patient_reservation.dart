@@ -59,9 +59,7 @@ class ShowPatientReservation extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         child: TabBarView(
                           children: <Widget>[
-                            ConditionalBuilder(
-                              condition:state is! GetPatUpComingReservationLoadingState ,
-                              builder: (context) =>BuildCondition(
+                              BuildCondition(
                                 condition:AppCubit.get(context).upcomingReservations.isNotEmpty,
                                 builder:(context)=> ListView.separated(
                                   itemBuilder: (context, index) => Padding(
@@ -75,11 +73,7 @@ class ShowPatientReservation extends StatelessWidget {
                                 fallback:(context)=> const Center(child:  Text('You don\'t have upcomming reservations ',
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(child: CircularProgressIndicator()),
-                            ),
-                            ConditionalBuilder(
-                              condition:state is! GetPatCompletedReservationLoadingState ,
-                              builder: (context) =>BuildCondition(
+                              BuildCondition(
                                 condition: AppCubit.get(context).completeReservations.isNotEmpty ,
                                 builder:(context) => ListView.separated(
                                   itemBuilder: (context, index) => Padding(
@@ -92,8 +86,6 @@ class ShowPatientReservation extends StatelessWidget {
 
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(child: CircularProgressIndicator()),
-                            )
                           ],
                         ),
                       )),

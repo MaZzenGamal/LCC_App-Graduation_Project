@@ -74,6 +74,7 @@ class ShowReservation extends StatelessWidget {
             if(AppCubit.get(context).usermodel.type=='patient') {
               return ShowPatientReservation();
             }
+
             return ShowDoctorReservation();
           },
         );

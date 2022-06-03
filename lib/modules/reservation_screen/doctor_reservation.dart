@@ -101,6 +101,8 @@ class ShowDoctorReservation extends StatelessWidget {
             if (snap.data == null) {
               if (kDebugMode) {
                 print("gggggggggggggggggg");
+                print("the name is ${snap.data}");
+
               }
               return const LinearProgressIndicator();
             } else {
