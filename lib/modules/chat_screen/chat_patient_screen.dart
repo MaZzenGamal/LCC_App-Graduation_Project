@@ -1,4 +1,6 @@
 //ignore_for_file: must_be_immutable
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +24,6 @@ class ChatPatientScreen extends StatelessWidget {
   DoctorModel? docModel;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final firebase = FirebaseFirestore.instance;
-  var uID = CacheHelper.getData(key: 'uId');
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
   ChatPatientScreen({Key? key, this.docModel})
       : super(key: key);
@@ -73,14 +74,14 @@ late var size1;
                     else{
                       AppCubit.get(context).createCall(
                           receiverId: _docModel.uId!,
-                          senderId: uID
+                          senderId: FirebaseAuth.instance.currentUser!.uid
                       );
                       await [Permission.microphone]
                           .request();
                       navigateTo(
                           context,
                           AudioCallScreen(
-                            groupId: uID,
+                            groupId:FirebaseAuth.instance.currentUser!.uid,
                           ));
                       AppCubit.get(context).sendNotfiy('${AppCubit
                           .get(context)
@@ -98,14 +99,14 @@ late var size1;
                           {
                             AppCubit.get(context).createCall(
                                 receiverId: _docModel.uId!,
-                                senderId: uID
+                                senderId: FirebaseAuth.instance.currentUser!.uid
                             );
                             await [Permission.microphone, Permission.camera]
                                 .request();
                             navigateTo(
                                 context,
                                 VideoCallScreen(
-                                  groupId: uID,
+                                  groupId: FirebaseAuth.instance.currentUser!.uid,
                                 ));
                             AppCubit.get(context).sendNotfiy('${AppCubit
                                 .get(context)
@@ -129,7 +130,7 @@ late var size1;
                             itemBuilder: (context, index) {
                               var message =
                               AppCubit.get(context).messages[index];
-                              if (AppCubit.get(context).uID ==
+                              if (FirebaseAuth.instance.currentUser!.uid==
                                   message.senderId) {
                                 return buildMyMessages(message,context);
                               }
@@ -169,7 +170,7 @@ late var size1;
                                         String docuid = _docModel.uId!;
                                         firebase
                                             .collection('doctor')
-                                            .doc(uID)
+                                            .doc(FirebaseAuth.instance.currentUser!.uid)
                                             .update({'createdAt': DateTime.now().toString()});
                                         firebase
                                             .collection('patient')
@@ -194,7 +195,7 @@ late var size1;
                                   String docuid = _docModel.uId!;
                                   firebase
                                       .collection('doctor')
-                                      .doc(uID)
+                                      .doc(FirebaseAuth.instance.currentUser!.uid)
                                       .update({'createdAt': DateTime.now().toString()});
                                   firebase
                                       .collection('patient')

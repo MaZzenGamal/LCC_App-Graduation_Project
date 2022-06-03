@@ -34,7 +34,7 @@ class ChatDetailsPatientScreen extends StatelessWidget {
                     builder: (context)=>BuildCondition(
                       condition:AppCubit.get(context).patients.isNotEmpty ,
                       builder:(context)=> ListView.separated(
-                          itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients[index],context),
+                          itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
                           separatorBuilder: (context, index) => myDivider(),
                           itemCount: AppCubit.get(context).patients.length),
                       fallback:(context)=> Center(child:RichText(

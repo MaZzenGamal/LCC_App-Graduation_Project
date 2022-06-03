@@ -28,7 +28,7 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
                       return BuildCondition(
                         condition: AppCubit.get(context).doctors.isNotEmpty,
                         builder:(context)=>ListView.separated(
-                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors[index],context),
+                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors.elementAt(index),context),
                             separatorBuilder: (context, index) => myDivider(),
                             itemCount: AppCubit.get(context).doctors.length) ,
                         fallback: (context)=> Center(child:RichText(
