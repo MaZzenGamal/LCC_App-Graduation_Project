@@ -1,12 +1,15 @@
 import 'dart:io';
-import 'package:graduation_project/modules/machine_connection/colon/quant.dart';
+import 'package:graduation_project/modules/machine_connection/colon/colon_classifier_quant.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
-import 'classifier.dart';
+import '../../../shared/components/components.dart';
+import '../Uninfected.dart';
+import '../infected.dart';
+import 'colon_classifier.dart';
 
 
 class ColonInterface extends StatefulWidget {
@@ -17,7 +20,7 @@ class ColonInterface extends StatefulWidget {
 }
 
 class _ColonInterfaceState extends State<ColonInterface> {
-  late Classifier _classifier;
+  late ColonClassifier _classifier;
 
   var logger = Logger();
 
@@ -33,7 +36,7 @@ class _ColonInterfaceState extends State<ColonInterface> {
   @override
   void initState() {
     super.initState();
-    _classifier = ClassifierQuant();
+    _classifier = ColonClassifierQuant();
   }
 
   Future getImage() async {
@@ -82,10 +85,10 @@ class _ColonInterfaceState extends State<ColonInterface> {
               child: _imageWidget,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 36,
           ),
-          Text(
+         /* Text(
             category != null ? category!.label : '',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
@@ -97,7 +100,26 @@ class _ColonInterfaceState extends State<ColonInterface> {
                 ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
                 : '',
             style: TextStyle(fontSize: 16),
-          ),
+          ),*/
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              if( category != null){
+                if(category!.label=='normal'){
+                  navigateTo(context,const UnifectedScreen());
+                }
+                else
+                {
+                  navigateTo(context, InfectedScreen(type: 'lung cancer', degree: category!.score, label: category!.label));
+
+                }
+              }
+
+            },
+            child: const Text('Show Result'),
+          )
 
         ],
       ),
@@ -105,7 +127,7 @@ class _ColonInterfaceState extends State<ColonInterface> {
         backgroundColor: HexColor('ff92a4'),
         onPressed: getImage,
         tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo),
       ),
     );
   }

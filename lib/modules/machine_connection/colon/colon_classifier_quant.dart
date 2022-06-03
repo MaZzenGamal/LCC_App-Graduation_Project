@@ -1,9 +1,9 @@
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
+import 'colon_classifier.dart';
 
-import 'classifier.dart';
 
-class ClassifierQuant extends Classifier {
-  ClassifierQuant({int numThreads: 1}) : super(numThreads: numThreads);
+class ColonClassifierQuant extends ColonClassifier {
+  ColonClassifierQuant({int numThreads: 1}) : super(numThreads: numThreads);
 
   @override
   String get modelName => 'colon_model/model.tflite';

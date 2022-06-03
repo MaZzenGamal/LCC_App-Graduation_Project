@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
-abstract class Classifier {
+abstract class ColonClassifier {
   late Interpreter interpreter;
   late InterpreterOptions _interpreterOptions;
 
@@ -33,7 +33,7 @@ abstract class Classifier {
   NormalizeOp get preProcessNormalizeOp;
   NormalizeOp get postProcessNormalizeOp;
 
-  Classifier({int? numThreads}) {
+  ColonClassifier({int? numThreads}) {
     _interpreterOptions = InterpreterOptions();
 
     if (numThreads != null) {
@@ -48,8 +48,8 @@ abstract class Classifier {
     try {
       interpreter =
       await Interpreter.fromAsset(modelName, options: _interpreterOptions);
-      print('oooooooooooooooooooooooooooooooooooooo');
-      print('Interpreter Created Successfully');
+      print('lllllllllllllllllllllllllllllllll');
+      print('COLON Interpreter Created Successfully');
 
       _inputShape = interpreter.getInputTensor(0).shape;
       _outputShape = interpreter.getOutputTensor(0).shape;
@@ -68,7 +68,7 @@ abstract class Classifier {
   Future<void> loadLabels() async {
     labels = await FileUtil.loadLabels(_labelsFileName);
     if (labels.length == _labelsLength) {
-      print('Labels loaded successfully');
+      print('COLON Labels loaded successfully');
     } else {
       print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
       print('Unable to load labels');
