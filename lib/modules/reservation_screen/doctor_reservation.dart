@@ -33,7 +33,7 @@ class ShowDoctorReservation extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         title: const Text(
-                          'swipe for cancel',
+                          'swipe for cancel ',
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.grey,

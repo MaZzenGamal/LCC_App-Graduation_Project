@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
+import '../../../shared/components/components.dart';
+import '../Uninfected.dart';
+import '../infected.dart';
 import 'lung_classifier.dart';
 import 'lung_quant.dart';
 
@@ -56,7 +59,7 @@ class _LungInterfaceState extends State<LungInterface> {
   }
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       body: Column(
         children: <Widget>[
           Center(
@@ -81,30 +84,47 @@ class _LungInterfaceState extends State<LungInterface> {
               child: _imageWidget,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 36,
           ),
-          Text(
+         /* Text(
             category != null ? category!.label : '',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
             category != null
                 ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
                 : '',
-            style: TextStyle(fontSize: 16),
-          ),
+            style: const TextStyle(fontSize: 16),
+          ),*/
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              if( category != null){
+                if(category!.label=='normal'){
+                  navigateTo(context,const UnifectedScreen());
+                }
+                else
+                {
+                  navigateTo(context, InfectedScreen(type: 'lung cancer', degree: category!.score, label: category!.label));
+                }
+              }
 
+            },
+            child: const Text('Show Result'),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: HexColor('ff92a4'),
         onPressed: getImage,
         tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo),
       ),
     );
   }
