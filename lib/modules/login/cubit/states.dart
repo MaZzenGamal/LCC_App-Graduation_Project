@@ -21,6 +21,7 @@ class LoginErrorState extends LoginStates{
   final String error;
   LoginErrorState(this.error);
 }
+class LogoutLoadingState extends LoginStates{}
 
 class GetPatientLoadingState extends LoginStates{}
 

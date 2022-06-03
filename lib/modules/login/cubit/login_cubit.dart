@@ -3,15 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
 import 'package:graduation_project/modules/login/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
-import 'package:graduation_project/shared/network/local/cash_helper.dart';
 
-import '../../../shared/components/conestants.dart';
+import '../../../models/user_model.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   //LoginCubit(LoginStates initialState) : super(initialState);
@@ -35,9 +35,11 @@ class LoginCubit extends Cubit<LoginStates> {
   }){
     emit(LoginLoadingState());
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value){
-      print(value.user?.email);
+      if (kDebugMode) {
+        print(value.user?.email);
+      }
       print(value.user?.uid);
-      emit(LoginSuccessState(value.user!.uid));
+      emit(LoginSuccessState(FirebaseAuth.instance.currentUser!.uid));
     }).catchError((error){
       var index=(error.toString()).indexOf(']');
       String showerror=(error.toString()).substring(index+1);
@@ -46,6 +48,20 @@ class LoginCubit extends Cubit<LoginStates> {
       );
       emit(LoginErrorState(error.toString()));
     });
+  }
+  Future<void> signOut() async {
+    try {
+      emit(LogoutLoadingState());
+      //await CacheHelper.removeDate(key: 'uId');
+      //await CacheHelper.removeDate(key: 'type');
+      //uID=' ';
+      await FirebaseAuth.instance.signOut();
+    }catch(c){
+      print("errroe");
+
+    }
+    emit(LoginInitialState());
+    print("the user is ${FirebaseAuth.instance.currentUser}");
   }
   // void userLoginUser({
   //   required String email,
@@ -60,21 +76,30 @@ class LoginCubit extends Cubit<LoginStates> {
 
   DoctorModel docModel = DoctorModel();
   PatientModel patModel= PatientModel();
-  var uID = CacheHelper.getData(key: 'uId');
-  var type=CacheHelper.getData(key: 'type');
+  //var uID = CacheHelper.getData(key: 'uId');
+  //var type=CacheHelper.getData(key: 'type');
   List<DoctorModel> doctors = [];
   List<PatientModel>patients= [];
 
 
   Future<String> updateToken({required String userId}) async {
     String?currentToken=await FirebaseMessaging.instance.getToken();
-    String type=CacheHelper.getData(key: 'type');
+   UserModel model=UserModel();
     try {
-      if(type=="doctor")
+      await firebase.collection("user").doc(
+          FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+        model = UserModel.fromJson(value.data()!);
+      });
+    }
+    catch(c){
+      print("eeeeeeeeeeeeeeeeeeeeeee");
+    }
+    try {
+      if(model=="doctor")
       {
         firebase.collection('doctor').doc(userId).update({'token':currentToken});
       }
-      else if(type=="patient")
+      else if(model=="patient")
       {
         firebase.collection('patient').doc(userId).update({'token':currentToken});
       }
