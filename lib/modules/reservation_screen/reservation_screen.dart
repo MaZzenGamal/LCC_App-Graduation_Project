@@ -61,7 +61,6 @@ class ReservationScreen extends StatelessWidget {
       }
   Widget timePicker(context,DateTime workTime) => InkWell(
     onTap:(){
-     // AppCubit.get(context).onTimeChange(index);
     },
     child:Padding(
       padding: const EdgeInsets.all(10.0),
