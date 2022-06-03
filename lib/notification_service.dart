@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,9 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/models/patient_model.dart';
+import 'package:graduation_project/models/user_model.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
-var type = CacheHelper.getData(key: 'type');
+//var type = CacheHelper.getData(key: 'type');
 PatientModel patModel=PatientModel();
 DoctorModel docModel=DoctorModel();
 
@@ -115,6 +117,16 @@ Future<void> _onClick({
   var navigate=message.data['uidsender'];
   var option=message.data['option'];
   print("the $navigate");
+  UserModel usermodel=UserModel();
+  try {
+    await FirebaseFirestore.instance.collection("user").doc(
+        FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+      usermodel = UserModel.fromJson(value.data()!);
+    });
+  }
+  catch(c){
+    print("eeeeeeeeeeeeeeeeeeeeeee");
+  }
   if(option=='video') {
     await [Permission.microphone, Permission.camera]
         .request();
@@ -125,7 +137,7 @@ Future<void> _onClick({
         .request();
     navkey.currentState!.pushNamed('audioScreen',arguments:navigate );
   }
-  else if(type=='patient') {
+  else if(usermodel.type=='patient') {
     try {
       await FirebaseFirestore.instance.collection('doctor').doc(navigate)
           .snapshots()
