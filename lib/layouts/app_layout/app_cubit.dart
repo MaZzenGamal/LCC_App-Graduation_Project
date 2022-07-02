@@ -62,6 +62,10 @@ class AppCubit extends Cubit<AppStates> {
     currentIndex = index;
     emit(AppBotNavState());
   }
+  void chageCurrentTape(int index){
+    currentTape=index;
+    emit(CurrentTapeChangeState());
+  }
 
 
   var serverToken =
@@ -181,8 +185,6 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
   Future<void> getUsers()async{
-    upcomingReservations=[];
-    completeReservations=[];
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
     if(usermodel.type=='patient') {
@@ -286,6 +288,57 @@ class AppCubit extends Cubit<AppStates> {
       patients=dupicate.toList();
       //emit(GetAllPatientsErrorState());
     }
+  }
+  Future<void> getPatientNumber(String uid)async{
+    late QuerySnapshot querySnapshot;
+    List<String> doc=[];
+      emit(GetAllPatientsNumberLoadingState());
+      patients = [];
+      //emit(GetAllPatientsLoadingState());
+      print("vvvvvvvvvvvvvvvvv");
+      querySnapshot =
+      await firebase.collection('doctor').doc(uid)
+          .collection('reservation')
+          .get();
+      querySnapshot.docs.forEach((element) {
+        docrefmodel =
+            DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+        doc.add(docrefmodel.docRef!);
+      });
+      print("the doc is $doc ");
+      for (String element in doc) {
+        print("hhhhhhhhhhhhhhhhhhhh");
+        DocumentSnapshot documentSnapshot = await firebase.collection(
+            'reservation').doc(element).get();
+        ReservationModel resvModel = ReservationModel.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
+        print("the data is${resvModel.date!}");
+        print("DateTime is ${DateTime.now()}");
+          DocumentSnapshot documentSnapshot1 = await firebase.collection(
+              'patient').doc(resvModel.patientId).get();
+          PatientModel patModel = PatientModel.fromJson(
+              documentSnapshot1.data() as Map<String, dynamic>);
+          emit(GetAllPatientsNumberSuccessState());
+          patients.add(patModel);
+          print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
+          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
+      }
+      List<PatientModel> dupicate=patients;
+      for(int i=0;i<patients.length;i++)
+      {
+        for(int j=0;j<dupicate.length;j++)
+        {
+          if(i!=j)
+          {
+            if(patients[i].uId==dupicate[j].uId)
+            {
+              dupicate.removeAt(j);
+            }
+          }
+        }
+      }
+      patients=dupicate.toList();
+      //emit(GetAllPatientsErrorState());
   }
 
   Future<void> sendComment({
@@ -702,6 +755,7 @@ class AppCubit extends Cubit<AppStates> {
         regisNumber: regisNumber,
         startTime: startTime,
         endTime: endTime,
+        inCall: false,
         rate: 0.000001,
         allRateValue: 0.00000001,
         allRateNumber: 3);
@@ -800,6 +854,7 @@ class AppCubit extends Cubit<AppStates> {
       address: address,
       age: age,
       gender: gender,
+      inCall: false
     );
     firebase
         .collection('patient')

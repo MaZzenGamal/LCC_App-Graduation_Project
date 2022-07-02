@@ -222,3 +222,6 @@ class GetDocCompletedReservationSuccessState extends AppStates{}
 class GetDocCompletedReservationErrorState extends AppStates{}
 class UserModelChange extends AppStates{}
 class GetReservationLoadingStates extends AppStates{}
+class GetAllPatientsNumberLoadingState extends AppStates{}
+class GetAllPatientsNumberSuccessState extends AppStates{}
+class CurrentTapeChangeState extends AppStates{}
