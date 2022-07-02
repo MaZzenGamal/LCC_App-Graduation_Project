@@ -1,5 +1,4 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,10 +88,6 @@ Widget buildChatItem(PatientModel model,context) => InkWell(
                       '${model.fullName}',
                       style: TextStyle(fontSize: 18.0, height: 1.3),
                     ),
-                    if(AppCubit.get(context).answers['${model.uId}']==null)
-                      const Text("0")
-                    else
-                      Text('${AppCubit.get(context).answers[model.uId]}')
                   ],
                 ),
               ],
