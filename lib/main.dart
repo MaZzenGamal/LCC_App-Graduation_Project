@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
               return BlocConsumer<MainCubit, MainStates>(
                 listener: (context, state) {},
                 builder: (context, state) =>
-                    MaterialApp(
+                MaterialApp(
                       routes: {
                         'chatdoctor':(c)=>ChatDoctorScreen(),
                         'chatpatient':(c)=>ChatPatientScreen(),
@@ -87,38 +87,39 @@ class _MyAppState extends State<MyApp> {
                       theme: lightTheme,
                       //darkTheme: darkTheme,
                       home:StreamBuilder(
-                        stream:FirebaseAuth.instance.idTokenChanges(),
-                        builder: (BuildContext context, AsyncSnapshot<User>snap) {
-                          print("the current user is ${FirebaseAuth.instance.currentUser}");
-                          return FutureBuilder(
-                              future:fcmInit(navkey) ,
-                              builder: (context,_) {
-                                if (snap.hasData) {
-                                  try {
-                                    context.read<AppCubit>()
-                                        .changeUserModel();
-                                    context.read<AppCubit>().currentIndex=2;
+                          stream:FirebaseAuth.instance.idTokenChanges(),
+                          builder: (BuildContext context, AsyncSnapshot<User>snap) {
+                            print("the current user is ${FirebaseAuth.instance.currentUser}");
+                            return FutureBuilder(
+                                future:fcmInit(navkey) ,
+                                builder: (context,_) {
+                                  if (snap.hasData) {
+                                    try {
+                                      context.read<AppCubit>()
+                                          .changeUserModel();
+                                      context.read<AppCubit>().currentIndex=2;
+                                    }
+                                    catch(c){
+                                      print("errror");
+                                    }
+
+                                    return const AppLayout();
                                   }
-                                  catch(c){
-                                    print("errror");
+                                  else {
+                                    if(snap.hasError){
+                                      print(snap.error.toString());
+                                    }
+                                    else if(snap.data==null){
+                                      context.read<AppCubit>().currentIndex=2;
+                                      return LoginScreen();
+
+
+                                    }
                                   }
-                                  return const AppLayout();
-                                }
-                                else {
-                                  if(snap.hasError){
-                                  print(snap.error.toString());
-                                }
-                                else if(snap.data==null){
-                                     context.read<AppCubit>().currentIndex=2;
-                                     return LoginScreen();
-
 
                                 }
-                                }
-
-                              }
-                          );
-                        }
+                            );
+                          }
                       ),
                     ),
               );
