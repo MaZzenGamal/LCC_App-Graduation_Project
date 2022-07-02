@@ -68,6 +68,7 @@ import '../../layouts/app_layout/states.dart';
 import '../../myTest/restart_screen.dart';
 import '../login/cubit/login_cubit.dart';
 import '../profile_screen/patient_profile_screen.dart';
+import '../reservation_screen/doctor_information_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -90,7 +91,8 @@ class SettingsScreen extends StatelessWidget {
               var profileImage = AppCubit
                   .get(context)
                   .profileImage;
-              final listTiles = <Widget>[
+            late List<Widget> listTiles = <Widget>[];
+              cubit.usermodel.type == 'doctor' ? listTiles=[
                 ListTile(
                     leading: CircleAvatar(
                       backgroundColor: Colors.white,
@@ -101,15 +103,12 @@ class SettingsScreen extends StatelessWidget {
                           radius: 30.0,
                           backgroundColor: Colors.white.withOpacity(0.6),
                           backgroundImage:
-                          cubit.usermodel.type == 'doctor' ? NetworkImage(
-                              '${docModel.image}') : NetworkImage(
-                              '${patModel.image}')
+                           NetworkImage(
+                              '${docModel.image}')
                       ),
                     ),
                     title: Text(
-                      cubit.usermodel.type == 'doctor'
-                          ? '${docModel.fullName}'
-                          : '${patModel.fullName}',
+                    '${docModel.fullName}',
                       style: const TextStyle(
                           fontSize: 25,
                           color: Colors.black
@@ -117,11 +116,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     subtitle: const Text('Profile'),
                     onTap: () {
-                      if (cubit.usermodel.type == 'doctor') {
                         navigateTo(context, const DoctorProfileScreen());
-                      } else if (cubit.usermodel.type == 'patient') {
-                        navigateTo(context, const PatientProfileScreen());
-                      }
                     }
                 ),
                 const Divider(),
@@ -155,7 +150,53 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      navigateTo(context, const DoctorsScreen());
+                      navigateTo(context,DoctorsInformation (docModel: AppCubit.get(context).docModel));
+                    }
+                ),
+              ]:listTiles=[
+                ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      backgroundImage: const AssetImage(
+                          'assets/images/loading photo.jpg'),
+                      radius: 30.0,
+                      child: CircleAvatar(
+                          radius: 30.0,
+                          backgroundColor: Colors.white.withOpacity(0.6),
+                          backgroundImage:
+                          NetworkImage(
+                              '${patModel.image}')
+                      ),
+                    ),
+                    title: Text(
+                      '${patModel.fullName}',
+                      style: const TextStyle(
+                          fontSize: 25,
+                          color: Colors.black
+                      ),
+                    ),
+                    subtitle: const Text('Profile'),
+                    onTap: () {
+                      navigateTo(context, const PatientProfileScreen());
+                    }
+                ),
+                const Divider(),
+                ListTile(
+                    leading: const Icon(
+                        Icons.error
+                    ),
+                    title: const Text('Logout',
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.black
+                      ),
+                    ),
+                    onTap: () async {
+                      await context.read<LoginCubit>().signOut();
+                      AppCubit.get(context).currentIndex=2;
+                      //await AppCubit.get(context).signOut();
+                      // RestartWidget.restartApp(context);
+                      // navigateAndFinish(context, LoginScreen());
                     }
                 ),
               ];
