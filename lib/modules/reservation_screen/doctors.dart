@@ -1,5 +1,5 @@
 
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
@@ -21,7 +21,7 @@ class DoctorsScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             return Scaffold(
-              body: ConditionalBuilder(
+              body: BuildCondition(
                 condition: AppCubit.get(context).alldoctor.isNotEmpty,
                 builder: (context)=>ListView.separated(
                   physics: const BouncingScrollPhysics(),
