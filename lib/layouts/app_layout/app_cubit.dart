@@ -435,8 +435,20 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState());
+        emit(SendMessagesErrorState(error));
       });
+      firebase
+          .collection('patient')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('lastMessage')
+          .doc(receiverId)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
+      });
+
       firebase
           .collection('doctor')
           .doc(receiverId)
@@ -451,7 +463,18 @@ class AppCubit extends Cubit<AppStates> {
         firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState());
+        emit(SendMessagesErrorState(error));
+      });
+      firebase
+          .collection('doctor')
+          .doc(receiverId)
+          .collection('lastMessage')
+          .doc( FirebaseAuth.instance.currentUser!.uid)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
       });
     }
     else if (usermodel.type == "doctor") {
@@ -465,7 +488,29 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState());
+        emit(SendMessagesErrorState(error));
+      });
+      firebase
+          .collection('doctor')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('lastMessage')
+          .doc(receiverId)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
+      });
+      firebase
+          .collection('patient')
+          .doc(receiverId)
+          .collection('lastMessage')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
       });
       firebase
           .collection('patient')
@@ -481,7 +526,7 @@ class AppCubit extends Cubit<AppStates> {
         firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState());
+        emit(SendMessagesErrorState(error));
       });
     }
   }
@@ -534,7 +579,29 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               emit(SendMessagesSuccessState());
             }).catchError((error) {
-              emit(SendMessagesErrorState());
+              emit(SendMessagesErrorState(error));
+            });
+            firebase
+                .collection('patient')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection('lastMessage')
+                .doc(receiverId)
+                .set(model.toMap())
+                .then((value) {
+              emit(SendMessagesSuccessState());
+            }).catchError((error) {
+              emit(SendMessagesErrorState(error));
+            });
+            firebase
+                .collection('doctor')
+                .doc(receiverId)
+                .collection('lastMessage')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .set(model.toMap())
+                .then((value) {
+              emit(SendMessagesSuccessState());
+            }).catchError((error) {
+              emit(SendMessagesErrorState(error));
             });
             firebase
                 .collection('doctor')
@@ -550,8 +617,9 @@ class AppCubit extends Cubit<AppStates> {
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
-              emit(SendMessagesErrorState());
+              emit(SendMessagesErrorState(error));
             });
+
           }
           else if (usermodel.type== "doctor") {
             firebase
@@ -564,7 +632,18 @@ class AppCubit extends Cubit<AppStates> {
                 .then((value) {
               emit(SendMessagesSuccessState());
             }).catchError((error) {
-              emit(SendMessagesErrorState());
+              emit(SendMessagesErrorState(error));
+            });
+            firebase
+                .collection('doctor')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection('lastMessage')
+                .doc(receiverId)
+                .set(model.toMap())
+                .then((value) {
+              emit(SendMessagesSuccessState());
+            }).catchError((error) {
+              emit(SendMessagesErrorState(error));
             });
             firebase
                 .collection('patient')
@@ -580,7 +659,18 @@ class AppCubit extends Cubit<AppStates> {
               firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
               emit(SendMessagesSuccessState());
             }).catchError((error) {
-              emit(SendMessagesErrorState());
+              emit(SendMessagesErrorState(error));
+            });
+            firebase
+                .collection('patient')
+                .doc(receiverId)
+                .collection('lastMessage')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .set(model.toMap())
+                .then((value) {
+              emit(SendMessagesSuccessState());
+            }).catchError((error) {
+              emit(SendMessagesErrorState(error));
             });
           }
           showToast(
@@ -679,6 +769,81 @@ class AppCubit extends Cubit<AppStates> {
       emit(UploadChatImageErrorState(error));
     });
   }*/
+  Future<MessagesModel> getLastMessage(String uid) async {
+    if (usermodel.type == "patient") {
+    FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
+          .limit(1)
+          .get()
+          .then((snapshot) async {
+        if (snapshot.size == 0) {
+          messModel=MessagesModel();
+          print("Collection Absent");
+          messModel.receiverId='empty';
+          messModel.type='empty';
+          messModel.senderId='empty';
+          messModel.text='empty';
+          messModel.read=false;
+          messModel.dateTime=DateTime.now();
+          print("the message model is ${messModel.text}");
+          emit(EmptyMessageModel());
+        }
+        else{
+          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
+          messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+          if (kDebugMode) {
+            print("the data is ${messModel.text}");
+          }
+        }
+      });
+     /* FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).snapshots()
+          .listen((event) {
+        messModel=MessagesModel.fromJson(event.data()!);
+        });*/
+      /*DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
+      messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+      if (kDebugMode) {
+        print("the data is ${messModel.text}");
+      }*/
+
+    }
+    else if (usermodel.type == "doctor") {
+      FirebaseFirestore.instance.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
+          .limit(1)
+          .get()
+          .then((snapshot) async {
+        if (snapshot.size == 0) {
+          messModel=MessagesModel();
+          print("Collection Absent");
+          messModel.receiverId='empty';
+          messModel.type='empty';
+          messModel.senderId='empty';
+          messModel.text='empty';
+          messModel.read=false;
+          messModel.dateTime=DateTime.now();
+          print("the message model is ${messModel.text}");
+          emit(EmptyMessageModel());
+        }
+        else{
+          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
+          messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+          if (kDebugMode) {
+            print("the data is ${messModel.text}");
+          }
+        }
+      });
+      /* FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).snapshots()
+          .listen((event) {
+        messModel=MessagesModel.fromJson(event.data()!);
+        });*/
+      /*DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
+      messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+      if (kDebugMode) {
+        print("the data is ${messModel.text}");
+      }*/
+
+    }
+    return messModel;
+    }
 
 /*void replaceDoctor(DoctorModel docModel) {
       doctors.insert(0, docModel);
