@@ -1,12 +1,14 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/models/doctor_model.dart';
 import 'package:graduation_project/shared/components/components.dart';
+import '../../models/messages_model.dart';
 import 'chat_patient_screen.dart';
+import 'package:intl/intl.dart';
 ///////////// patient is login doctors that patient reserve with them
 class ChatDetailsDoctorScreen extends StatelessWidget {
   const ChatDetailsDoctorScreen({Key? key}) : super(key: key);
@@ -22,15 +24,12 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
                   appBar: AppBar(
                     title: const Text('Chat'),
                   ),
-                  body: ConditionalBuilder(
-                    condition: state is! GetAllDoctorsLoadingState,
-                    builder: (context){
-                      return BuildCondition(
-                        condition: AppCubit.get(context).doctors.isNotEmpty,
+                  body: BuildCondition(
+                        condition: AppCubit.get(context).doctorsChat.isNotEmpty,
                         builder:(context)=>ListView.separated(
-                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctors.elementAt(index),context),
+                            itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).doctorsChat.elementAt(index),context),
                             separatorBuilder: (context, index) => myDivider(),
-                            itemCount: AppCubit.get(context).doctors.length) ,
+                            itemCount: AppCubit.get(context).doctorsChat.length) ,
                         fallback: (context)=> Center(child:RichText(
                           text:const TextSpan(
                             style: TextStyle(color: Colors.grey),
@@ -43,10 +42,7 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
                           ) ,
                         )
                         ) ,
-                      );
-                      },
-                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
-                  ),
+                      )
                 );
               },
             );
@@ -54,49 +50,122 @@ class ChatDetailsDoctorScreen extends StatelessWidget {
         );
       }
 }
-Widget buildChatItem(DoctorModel model,context) => InkWell(
-  onTap: ()
-  {
-    navigateTo(context, ChatPatientScreen(docModel: model));
-  } ,
-  child: Padding(
-    padding: const EdgeInsets.all(20.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          radius: 25.0,
-          backgroundImage: NetworkImage(
-            '${model.image}',
-          ),
-        ),
-        const SizedBox(
-          width: 15.0,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      '${model.fullName}',
-                      style: const TextStyle(fontSize: 18.0, height: 1.3),
-                    ),
-                    if(AppCubit.get(context).answers['${model.uId}']==null)
-                      const Text("0")
-                    else
-                      Text('${AppCubit.get(context).answers[model.uId]}')
-                  ],
+Widget buildChatItem(DoctorModel model,context) => FutureBuilder(
+  future: AppCubit.get(context).getLastMessage(model.uId!),
+  builder: (BuildContext context, AsyncSnapshot<MessagesModel> snapshot) {
+    if(snapshot.data==null){
+      if (kDebugMode) {
+        print("gggggggggggggggggg");
+      }
+      return const LinearProgressIndicator();
+    }else {
+      return InkWell(
+
+        onTap: () {
+          navigateTo(context, ChatPatientScreen(docModel: model));
+        },
+
+        child: Padding(
+
+          padding: const EdgeInsets.all(20.0),
+
+          child: Row(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+
+              CircleAvatar(
+
+                radius: 35.0,
+
+                backgroundImage: NetworkImage(
+
+                  '${model.image}',
+
                 ),
-              ],
-            ),
+
+              ),
+
+              const SizedBox(
+
+                width: 15.0,
+
+              ),
+
+              Expanded(
+
+                child: Padding(
+
+                  padding: const EdgeInsets.all(10.0),
+
+                  child: Column(
+
+                    mainAxisSize: MainAxisSize.min,
+
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+
+                      Column(
+
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+
+                                '${model.fullName}',
+                                style: const TextStyle(
+                                    fontSize: 18.0,
+                                    height: 1.3,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
+                                  DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text!='empty'?Text(
+                                  DateFormat('HH:mm').format(AppCubit.get(context).messModel.dateTime!)):DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
+                                  DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text=='empty'?Container():Text(
+                                  DateFormat('MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!)),
+                            ],
+                          ),
+                          AppCubit.get(context).messModel.text=='empty'?Container():
+                          AppCubit.get(context).messModel.type=='text'?
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('${AppCubit.get(context).messModel.text}',maxLines:2 ,)
+                          )
+                          :Row(
+                            children: const [
+                              Icon(Icons.photo),
+                              SizedBox(width: 10),
+                              Text('photo')
+                            ],
+                          ),
+
+
+                        ],
+
+                      ),
+
+                    ],
+
+                  ),
+
+                ),
+
+              ),
+
+            ],
+
           ),
+
         ),
-      ],
-    ),
-  ),
+
+      );
+    }
+  }
 );

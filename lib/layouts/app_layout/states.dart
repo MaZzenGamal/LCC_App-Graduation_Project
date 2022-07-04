@@ -61,7 +61,10 @@ class GetAllPatientsErrorState extends AppStates {}
 
 class SendMessagesSuccessState extends AppStates{}
 
-class SendMessagesErrorState extends AppStates {}
+class SendMessagesErrorState extends AppStates {
+  final String error;
+  SendMessagesErrorState(this.error);
+}
 
 class GetMessagesLoadingState extends AppStates{}
 
@@ -224,3 +227,7 @@ class GetDocCompletedReservationSuccessState extends AppStates{}
 class GetDocCompletedReservationErrorState extends AppStates{}
 class UserModelChange extends AppStates{}
 class GetReservationLoadingStates extends AppStates{}
+class GetAllPatientsNumberLoadingState extends AppStates{}
+class GetAllPatientsNumberSuccessState extends AppStates{}
+class CurrentTapeChangeState extends AppStates{}
+class EmptyMessageModel extends AppStates{}

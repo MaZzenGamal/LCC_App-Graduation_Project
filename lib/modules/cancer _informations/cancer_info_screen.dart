@@ -1,4 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/cancer%20_informations/advice_screen.dart';
 import 'package:graduation_project/modules/cancer%20_informations/cancer_types_screen.dart';

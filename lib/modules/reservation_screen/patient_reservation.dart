@@ -1,5 +1,4 @@
 import 'package:buildcondition/buildcondition.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,17 +29,17 @@ class ShowPatientReservation extends StatelessWidget {
                   length: _kTabs.length,
                   child: Scaffold(
                       appBar: AppBar(
-                        leading:const Icon(
+                        leading:AppCubit.get(context).currentTape==0?const Icon(
                           Icons.swipe,
                           color: Colors.grey,
-                        ),
-                        title: const Text(
+                        ):Container(),
+                        title:AppCubit.get(context).currentTape==0? const Text(
                           'swipe for edit or cancel',
                           style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.grey,
                           ),
-                        ),
+                        ):const Text(' '),
                         bottom: TabBar(
                           tabs: _kTabs,
                           unselectedLabelColor: Colors.grey,
@@ -50,7 +49,7 @@ class ShowPatientReservation extends StatelessWidget {
                           ),
                           labelColor:HexColor('FFE6D6'),
                           onTap:(index){
-                            AppCubit.get(context).currentTape=index;
+                            AppCubit.get(context).chageCurrentTape(index);
                           },
                           padding: const EdgeInsets.all(10.0),
                         ),
@@ -59,10 +58,7 @@ class ShowPatientReservation extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         child: TabBarView(
                           children: <Widget>[
-                          //  ConditionalBuilder(
-                          //    condition:state is! GetPatUpComingReservationLoadingState ,
-                           //   builder: (context) =>
-                                  BuildCondition(
+                              BuildCondition(
                                 condition:AppCubit.get(context).upcomingReservations.isNotEmpty,
                                 builder:(context)=> ListView.separated(
                                   itemBuilder: (context, index) => Padding(
@@ -76,11 +72,7 @@ class ShowPatientReservation extends StatelessWidget {
                                 fallback:(context)=> const Center(child:  Text('You don\'t have upcomming reservations ',
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                           //   fallback: (context) => const Center(child: CircularProgressIndicator()),
-                           // ),
-                            ConditionalBuilder(
-                              condition:state is! GetPatCompletedReservationLoadingState ,
-                              builder: (context) =>BuildCondition(
+                              BuildCondition(
                                 condition: AppCubit.get(context).completeReservations.isNotEmpty ,
                                 builder:(context) => ListView.separated(
                                   itemBuilder: (context, index) => Padding(
@@ -93,8 +85,6 @@ class ShowPatientReservation extends StatelessWidget {
 
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(child: CircularProgressIndicator()),
-                            )
                           ],
                         ),
                       )),
