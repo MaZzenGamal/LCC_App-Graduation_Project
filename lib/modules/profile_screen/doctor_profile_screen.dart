@@ -87,8 +87,8 @@ class DoctorProfileScreen extends StatelessWidget {
                         regisNumber: registrationNuController.text,
                         specialization: specializeController.text,
                         certificates: certificateController.text,
-                        startTime:DateTime.parse(startTimeController.text),
-                        endTime:DateTime.parse(endTimeController.text),
+                        startTime:DateTime.parse('1990-02-02 ${startTimeController.text}'),
+                        endTime:DateTime.parse('1990-02-02 ${endTimeController.text}'),
                       );}
                   },
                   text: 'Update'),

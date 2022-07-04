@@ -59,9 +59,10 @@ class ShowPatientReservation extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         child: TabBarView(
                           children: <Widget>[
-                            ConditionalBuilder(
-                              condition:state is! GetPatUpComingReservationLoadingState ,
-                              builder: (context) =>BuildCondition(
+                          //  ConditionalBuilder(
+                          //    condition:state is! GetPatUpComingReservationLoadingState ,
+                           //   builder: (context) =>
+                                  BuildCondition(
                                 condition:AppCubit.get(context).upcomingReservations.isNotEmpty,
                                 builder:(context)=> ListView.separated(
                                   itemBuilder: (context, index) => Padding(
@@ -75,8 +76,8 @@ class ShowPatientReservation extends StatelessWidget {
                                 fallback:(context)=> const Center(child:  Text('You don\'t have upcomming reservations ',
                                   style: TextStyle(color: Colors.grey,fontSize: 15.0),)),
                               ),
-                              fallback: (context) => const Center(child: CircularProgressIndicator()),
-                            ),
+                           //   fallback: (context) => const Center(child: CircularProgressIndicator()),
+                           // ),
                             ConditionalBuilder(
                               condition:state is! GetPatCompletedReservationLoadingState ,
                               builder: (context) =>BuildCondition(
@@ -112,7 +113,8 @@ class ShowPatientReservation extends StatelessWidget {
                 print("gggggggggggggggggg");
               }
               return const LinearProgressIndicator();
-            } else {
+            }
+            else {
               if(AppCubit.get(context).currentTape==1){
                 isDisable=false;
               }

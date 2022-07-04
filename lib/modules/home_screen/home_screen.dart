@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/modules/cancer%20_informations/advice_screen.dart';
 import 'package:graduation_project/modules/cancer%20_informations/cancer_info_screen.dart';
+import 'package:graduation_project/modules/cancer%20_informations/colon_cancer/colon_advice.dart';
+import 'package:graduation_project/modules/cancer%20_informations/colon_cancer/colon_informations.dart';
 import 'package:graduation_project/modules/cancer%20_informations/motivation_screen.dart';
 import 'package:graduation_project/modules/syndromes/syndromes_screen.dart';
 import 'package:graduation_project/shared/components/components.dart';
@@ -14,14 +16,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> home = [
       'assets/images/slider4.jpg',
+      'assets/images/colon carusal 1.png',
       'assets/images/slider5.jpg',
+      'assets/images/colon carusal 2.jpg',
       'assets/images/slider6.jpg',
+      'assets/images/colon carusal 3.png'
     ];
     List<Choice> choices =  <Choice>[
-      Choice(title: 'Syndromes', image:'assets/images/grid/syndromes.png',color: HexColor('c6cefb'),function:(){navigateTo(context, SyndromesScreen());}),
-      Choice(title: 'X-Ray', image:'assets/images/grid/x-Ray.png',color: HexColor('ff92a4'),function:(){navigateTo(context,const MotivationScreen());}),
-      Choice(title: 'Advice', image:'assets/images/grid/advice.png',color: HexColor('ffe9ce'),function:(){navigateTo(context,const AdviceScreen());}),
-      Choice(title: 'General Informations', image:'assets/images/grid/inf.png',color: HexColor('ffdd83'),function:(){navigateTo(context,const CancerInfoScreen());}),
+      Choice(title: 'Lung Advice', image:'assets/images/grid/advice.png',color: HexColor('c6cefb'),function:(){navigateTo(context,const AdviceScreen());}),
+      Choice(title: 'General Information', image:'assets/images/grid/inf.png',color: HexColor('ff92a4'),function:(){navigateTo(context,const CancerInfoScreen());}),
+      Choice(title: 'Colon Advice', image:'assets/images/grid/colon vek 2.png',color: HexColor('ffe9ce'),function:(){navigateTo(context,const ColonAdviceScreen());}),
+      Choice(title: 'General Information', image:'assets/images/grid/colcon vek 1.png',color: HexColor('ffdd83'),function:(){navigateTo(context,const ColonInfoScreen());}),
+      Choice(title: 'Have Faith', image:'assets/images/grid/hope.png',color: HexColor('4ebf83'),function:(){navigateTo(context,const MotivationScreen());}),
     ];
     var formKey = GlobalKey<FormState>();
     return SingleChildScrollView(

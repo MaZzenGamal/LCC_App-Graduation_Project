@@ -76,7 +76,7 @@ dependencies:
   path: ^1.8.0
   flutter_launcher_icons: ^0.9.2
   flutter_search_bar: ^2.1.0
-  flutter_phoenix: ^1.0.0
+  sizer: ^2.0.15
 
 
   #Firebase
@@ -115,6 +115,10 @@ flutter:
     - assets/images/grid/
     - assets/colon_model/
     - assets/lungs_model/
+    - assets/images/onBoardingBack.jpg
+    - assets/images/colonInfo pic.jpg
+    - assets/images/grid/colcon vek 1.png
+    - assets/images/grid/colon vek 2.png
 
 
 

@@ -221,6 +221,7 @@ class AppCubit extends Cubit<AppStates> {
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$doctors");
         }
       }
+      emit(GetAllDoctorsErrorState());
       List<DoctorModel> dupicate=doctors;
       for(int i=0;i<doctors.length;i++)
         {
@@ -271,6 +272,7 @@ class AppCubit extends Cubit<AppStates> {
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
         }
       }
+      emit(GetAllPatientsErrorState());
       List<PatientModel> dupicate=patients;
       for(int i=0;i<patients.length;i++)
       {
@@ -557,6 +559,7 @@ class AppCubit extends Cubit<AppStates> {
   void getMessage({
     required String receiverId,
   }) {
+    emit(GetMessagesLoadingState());
     if (usermodel.type == "patient") {
       firebase
           .collection('patient')
@@ -590,6 +593,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetMessagesSuccessState());
       });
     }
+    emit(GetMessagesErrorState());
   }
   /*void uploadChatImage({
     required String name,
@@ -1079,13 +1083,15 @@ class AppCubit extends Cubit<AppStates> {
        text: 'Reservation has been deleted successfully', state: ToastStates.SUCCESS);
    emit(RemoveReservationSuccessState());
  }
+
+
   Future<void> showReservation() async {
     upcomingReservations=[];
     completeReservations=[];
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
-    emit(GetReservationLoadingStates());
     if(usermodel.type=='patient') {
+     // emit(GetPatUpComingReservationLoadingState());
       print('the user is ${usermodel.type}');
       doctors = [];
       print("vvvvvvvvvvvvvvvvv");
@@ -1099,6 +1105,7 @@ class AppCubit extends Cubit<AppStates> {
         doc.add(docrefmodel.docRef!);
       });
       print("the doc is $doc ");
+     // emit(GetPatUpComingReservationErrorState());
       for (String element in doc) {
         print("hhhhhhhhhhhhhhhhhhhh");
         DocumentSnapshot documentSnapshot = await firebase.collection(
@@ -1109,21 +1116,21 @@ class AppCubit extends Cubit<AppStates> {
         print("DateTime is ${DateTime.now()}");
         if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())) {
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
-          emit(GetPatUpComingReservationLoadingState());
           upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
-          emit(GetPatUpComingReservationSuccessState());
+        //  emit(GetPatUpComingReservationSuccessState());
         }
         else
         {
-          emit(GetPatCompletedReservationLoadingState());
+         // emit(GetPatCompletedReservationLoadingState());
           completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("tttttttttttttttttttt$completeReservations");
-          emit(GetPatCompletedReservationSuccessState());
+         // emit(GetPatCompletedReservationSuccessState());
         }
       }
       }
     else if(usermodel.type=='doctor'){
+     // emit(GetDocUpComingReservationLoadingState());
       doctors=[];
       print("vvvvvvvvvvvvvvvvv");
       querySnapshot =
@@ -1135,6 +1142,7 @@ class AppCubit extends Cubit<AppStates> {
         doc.add(docrefmodel.docRef!);
       });
       print("the doc is $doc ");
+     // emit(GetDocUpComingReservationErrorState());
       for (String element in doc) {
         print("hhhhhhhhhhhhhhhhhhhh");
         DocumentSnapshot documentSnapshot = await firebase.collection('reservation').doc(element).get();
@@ -1142,17 +1150,17 @@ class AppCubit extends Cubit<AppStates> {
         print("the data is${resvModel.date!}");
         print("DateTime is ${DateTime.now()}");
         if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-          emit(GetDocUpComingReservationLoadingState());
+         // emit(GetDocUpComingReservationLoadingState());
           upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
-          emit(GetDocUpComingReservationSuccessState());
+        //  emit(GetDocUpComingReservationSuccessState());
         }
         else
         {
-          emit(GetDocCompletedReservationLoadingState());
+         // emit(GetDocCompletedReservationLoadingState());
           completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("tttttttttttttttttttt$completeReservations");
-          emit(GetDocCompletedReservationSuccessState());
+        //  emit(GetDocCompletedReservationSuccessState());
         }
       }
     }
@@ -1162,7 +1170,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<DoctorModel> getDoctorData({
  required String uid
 }) async {
-    DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
     DoctorModel Model=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
     if (kDebugMode) {
       print("the data is ${patModel.fullName}");
@@ -1170,7 +1178,7 @@ class AppCubit extends Cubit<AppStates> {
     return Model;
   }
   Future<PatientModel> getPatientData(String uid) async {
-    DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(uid).get();
     patModel=PatientModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
     if (kDebugMode) {
       print("the data is ${patModel.fullName}");

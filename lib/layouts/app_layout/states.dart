@@ -63,6 +63,8 @@ class SendMessagesSuccessState extends AppStates{}
 
 class SendMessagesErrorState extends AppStates {}
 
+class GetMessagesLoadingState extends AppStates{}
+
 class GetMessagesSuccessState extends AppStates{}
 
 class GetMessagesErrorState extends AppStates {}
