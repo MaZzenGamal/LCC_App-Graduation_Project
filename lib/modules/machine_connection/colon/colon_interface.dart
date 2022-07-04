@@ -88,20 +88,20 @@ class _ColonInterfaceState extends State<ColonInterface> {
           const SizedBox(
             height: 36,
           ),
-         /* Text(
+         Text(
             category != null ? category!.label : '',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
             category != null
                 ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
                 : '',
-            style: TextStyle(fontSize: 16),
-          ),*/
-          TextButton(
+            style: const TextStyle(fontSize: 16),
+          ),
+         /* TextButton(
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
@@ -119,7 +119,7 @@ class _ColonInterfaceState extends State<ColonInterface> {
 
             },
             child: const Text('Show Result'),
-          )
+          )*/
 
         ],
       ),

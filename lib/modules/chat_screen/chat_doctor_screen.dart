@@ -14,7 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../myTest/audioCall.dart';
 import '../../myTest/videoCall.dart';
 import '../../shared/components/components.dart';
-import '../../shared/network/local/cash_helper.dart';
+import 'package:intl/intl.dart';
 /////////////// doctor in login this chat between doctor and patient
 class ChatDoctorScreen extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
@@ -205,7 +205,8 @@ class ChatDoctorScreen extends StatelessWidget {
     });
   }
   Widget buildMessages(MessagesModel model,BuildContext context){
-    return model.type=='text'?Align(
+    return model.type=='text'?
+    Align(
       alignment: AlignmentDirectional.centerStart,
       child: Container(
         decoration: BoxDecoration(
@@ -217,10 +218,22 @@ class ChatDoctorScreen extends StatelessWidget {
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          child: Text('${model.text}'),
+          child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${model.text}'),
+              Padding(
+                child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                    fontSize: 10.0
+                ) ),
+                padding: EdgeInsets.only(left:10),
+              ),
+            ],
+          )//
         ),
       ),
-    ): Container(
+    ):
+    Container(
       height: size1.height / 2.5,
       width: size1.width,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -233,17 +246,30 @@ class ChatDoctorScreen extends StatelessWidget {
             ),
           ),
         ),
-        child: Container(
-          height: size1.height / 2.5,
-          width: size1.width / 2,
-          decoration: BoxDecoration(border: Border.all()),
-          alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
-          child: model.text != ""
-              ? Image.network(
-            model.text!,
-            fit: BoxFit.cover,
-          )
-              : const CircularProgressIndicator(),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: <Widget>[
+            Container(
+              height: size1.height / 2.5,
+              width: size1.width / 2,
+              decoration: BoxDecoration(border: Border.all()),
+              alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
+              child:Column(
+                children: [
+                  model.text != ""
+                      ? Image.network(
+                    model.text!,
+                    fit: BoxFit.cover,
+                  )
+                      : const CircularProgressIndicator(),
+                ],
+              ),
+
+            ),
+            Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                fontSize: 10.0
+            ) ),
+          ],
         ),
       ),
     );
@@ -262,35 +288,55 @@ class ChatDoctorScreen extends StatelessWidget {
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          child: Text('${model.text}'),
+          child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${model.text}'),
+              Padding(
+                child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                    fontSize: 10.0
+                ) ),
+                padding: EdgeInsets.only(left:10),
+              ),
+            ],
+
+          ),
         ),
       ),
-    ): Container(
-      height: size1.height / 2.5,
-      width: size1.width,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      alignment: AlignmentDirectional.centerEnd,
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ShowImage(
-              imageUrl:model.text!,
+    ):
+    Stack(
+      alignment: Alignment.bottomRight,
+      children: <Widget>[
+        Container(
+          height: size1.height / 2.5,
+          width: size1.width,
+          alignment: AlignmentDirectional.centerEnd,
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ShowImage(
+                  imageUrl:model.text!,
+                ),
+              ),
+            ),
+            child: Container(
+              height: size1.height / 2.5,
+              width: size1.width / 2,
+              decoration: BoxDecoration(border: Border.all()),
+              alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
+              child: model.text != ""
+                  ? Image.network(
+                model.text!,
+                fit: BoxFit.cover,
+              )
+                  : const CircularProgressIndicator(),
             ),
           ),
         ),
-        child: Container(
-          height: size1.height / 2.5,
-          width: size1.width / 2,
-          decoration: BoxDecoration(border: Border.all()),
-          alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
-          child: model.text != ""
-              ? Image.network(
-            model.text!,
-            fit: BoxFit.cover,
-          )
-              : const CircularProgressIndicator(),
-        ),
-      ),
+    Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+        fontSize: 10.0
+    ) ),
+    ]
     );
 
   }

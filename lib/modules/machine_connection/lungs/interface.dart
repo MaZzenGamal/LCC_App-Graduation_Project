@@ -87,7 +87,7 @@ class _LungInterfaceState extends State<LungInterface> {
           const SizedBox(
             height: 36,
           ),
-         /* Text(
+          Text(
             category != null ? category!.label : '',
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
@@ -99,8 +99,8 @@ class _LungInterfaceState extends State<LungInterface> {
                 ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
                 : '',
             style: const TextStyle(fontSize: 16),
-          ),*/
-          TextButton(
+          ),
+          /*TextButton(
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
@@ -117,7 +117,7 @@ class _LungInterfaceState extends State<LungInterface> {
 
             },
             child: const Text('Show Result'),
-          )
+          )*/
         ],
       ),
       floatingActionButton: FloatingActionButton(

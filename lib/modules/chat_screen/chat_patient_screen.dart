@@ -1,6 +1,5 @@
 //ignore_for_file: must_be_immutable
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,8 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../myTest/audioCall.dart';
 import '../../myTest/videoCall.dart';
 import '../../shared/components/components.dart';
-import '../../shared/network/local/cash_helper.dart';
-/////////////// patient in login this chat between patient and doctor
+import 'package:intl/intl.dart';
+/////////////// doctor in login this chat between doctor and patient
 class ChatPatientScreen extends StatelessWidget {
   //ChatDetailsScreen({Key? key}) : super(key: key);
 
@@ -29,20 +28,19 @@ class ChatPatientScreen extends StatelessWidget {
       : super(key: key);
 
   var messageController = TextEditingController();
-late var size1;
+  late var size1;
   @override
   Widget build(BuildContext context) {
-     Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     size1=size;
     DoctorModel? args = ModalRoute.of(context)?.settings.arguments as DoctorModel?;
-      print(args);
+    print(args);
     final _docModel = args ?? docModel;
     /*FirebaseMessaging.onMessageOpenedApp.listen((event) {
       navigateTo(context, ChatDetailsScreenDoctor(patModel: patModel,index:index));
     });*/
     return Builder(builder: (BuildContext context) {
       AppCubit.get(context).getMessage(receiverId: _docModel?.uId as String);
-      AppCubit.get(context).getUserData();
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -69,7 +67,7 @@ late var size1;
                 actions: [
                   IconButton(onPressed: () async{
                     if(_docModel.inCall!) {
-                      showToast(text:'Doctor is in another call please try later', state: ToastStates.ERROR);
+                      showToast(text:'doctor is in another call please try later', state: ToastStates.ERROR);
                     }
                     else{
                       AppCubit.get(context).createCall(
@@ -81,7 +79,7 @@ late var size1;
                       navigateTo(
                           context,
                           AudioCallScreen(
-                            groupId:FirebaseAuth.instance.currentUser!.uid,
+                            groupId: FirebaseAuth.instance.currentUser!.uid,
                           ));
                       AppCubit.get(context).sendNotfiy('${AppCubit
                           .get(context)
@@ -93,28 +91,28 @@ late var size1;
                   IconButton(
                       onPressed: () async {
                         if(_docModel.inCall!) {
-                          showToast(text:'Doctor is in another call please try later', state: ToastStates.ERROR);
+                          showToast(text:'doctor is in another call please try later', state: ToastStates.ERROR);
                         }
                         else
-                          {
-                            AppCubit.get(context).createCall(
-                                receiverId: _docModel.uId!,
-                                senderId: FirebaseAuth.instance.currentUser!.uid
-                            );
-                            await [Permission.microphone, Permission.camera]
-                                .request();
-                            navigateTo(
-                                context,
-                                VideoCallScreen(
-                                  groupId: FirebaseAuth.instance.currentUser!.uid,
-                                ));
-                            AppCubit.get(context).sendNotfiy('${AppCubit
-                                .get(context)
-                                .patModel
-                                .fullName}', 'you have a new call', _docModel
-                                .token!, 'video');
-                          }
-                        },
+                        {
+                          AppCubit.get(context).createCall(
+                              receiverId: _docModel.uId!,
+                              senderId: FirebaseAuth.instance.currentUser!.uid
+                          );
+                          await [Permission.microphone, Permission.camera]
+                              .request();
+                          navigateTo(
+                              context,
+                              VideoCallScreen(
+                                groupId:FirebaseAuth.instance.currentUser!.uid,
+                              ));
+                          AppCubit.get(context).sendNotfiy('${AppCubit
+                              .get(context)
+                              .patModel
+                              .fullName}', 'you have a new call', _docModel
+                              .token!, 'video');
+                        }
+                      },
                       icon: const Icon(Icons.video_call)),
                 ],
               ),
@@ -130,7 +128,7 @@ late var size1;
                             itemBuilder: (context, index) {
                               var message =
                               AppCubit.get(context).messages[index];
-                              if (FirebaseAuth.instance.currentUser!.uid==
+                              if (FirebaseAuth.instance.currentUser!.uid ==
                                   message.senderId) {
                                 return buildMyMessages(message,context);
                               }
@@ -168,18 +166,9 @@ late var size1;
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         String docuid = _docModel.uId!;
-                                        firebase
-                                            .collection('doctor')
-                                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        firebase
-                                            .collection('patient')
-                                            .doc(docuid)
-                                            .update({'createdAt': DateTime.now().toString()});
-                                        AppCubit.get(context).getChatImage(
-                                          receiverId: _docModel.uId!,
-                                          token: _docModel.token!,
-                                          dateTime:DateTime.now(),
+                                        firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'createdAt': DateTime.now().toString()});
+                                        firebase.collection('doctor').doc(docuid).update({'createdAt': DateTime.now().toString()});
+                                        AppCubit.get(context).getChatImage(receiverId: _docModel.uId!, token: _docModel.token!, dateTime:DateTime.now(),
                                         );
                                       },
                                       icon: const Icon(Icons.photo),
@@ -193,14 +182,8 @@ late var size1;
                               onPressed: () {
                                 if (messageController.text != '') {
                                   String docuid = _docModel.uId!;
-                                  firebase
-                                      .collection('doctor')
-                                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                                      .update({'createdAt': DateTime.now().toString()});
-                                  firebase
-                                      .collection('patient')
-                                      .doc(docuid)
-                                      .update({'createdAt': DateTime.now().toString()});
+                                  firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'createdAt': DateTime.now().toString()});
+                                  firebase.collection('doctor').doc(docuid).update({'createdAt': DateTime.now().toString()});
                                   AppCubit.get(context).sendMessage(
                                     receiverId: _docModel.uId!,
                                     dateTime: DateTime.now(),
@@ -222,7 +205,8 @@ late var size1;
     });
   }
   Widget buildMessages(MessagesModel model,BuildContext context){
-    return model.type=='text'?Align(
+    return model.type=='text'?
+    Align(
       alignment: AlignmentDirectional.centerStart,
       child: Container(
         decoration: BoxDecoration(
@@ -233,11 +217,23 @@ late var size1;
               bottomEnd: Radius.circular(10.0),
             )),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          child: Text('${model.text}'),
+            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            child:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${model.text}'),
+                Padding(
+                  child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                      fontSize: 10.0
+                  ) ),
+                  padding: EdgeInsets.only(left:10),
+                ),
+              ],
+            )//
         ),
       ),
-    ): Container(
+    ):
+    Container(
       height: size1.height / 2.5,
       width: size1.width,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -250,17 +246,30 @@ late var size1;
             ),
           ),
         ),
-        child: Container(
-          height: size1.height / 2.5,
-          width: size1.width / 2,
-          decoration: BoxDecoration(border: Border.all()),
-          alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
-          child: model.text != ""
-              ? Image.network(
-            model.text!,
-            fit: BoxFit.cover,
-          )
-              : const CircularProgressIndicator(),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: <Widget>[
+            Container(
+              height: size1.height / 2.5,
+              width: size1.width / 2,
+              decoration: BoxDecoration(border: Border.all()),
+              alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
+              child:Column(
+                children: [
+                  model.text != ""
+                      ? Image.network(
+                    model.text!,
+                    fit: BoxFit.cover,
+                  )
+                      : const CircularProgressIndicator(),
+                ],
+              ),
+
+            ),
+            Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                fontSize: 10.0
+            ) ),
+          ],
         ),
       ),
     );
@@ -279,35 +288,55 @@ late var size1;
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          child: Text('${model.text}'),
-        ),
-      ),
-    ): Container(
-      height: size1.height / 2.5,
-      width: size1.width,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      alignment: AlignmentDirectional.centerEnd,
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ShowImage(
-              imageUrl:model.text!,
-            ),
+          child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${model.text}'),
+              Padding(
+                child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                    fontSize: 10.0
+                ) ),
+                padding: EdgeInsets.only(left:10),
+              ),
+            ],
+
           ),
         ),
-        child: Container(
-          height: size1.height / 2.5,
-          width: size1.width / 2,
-          decoration: BoxDecoration(border: Border.all()),
-          alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
-          child: model.text != ""
-              ? Image.network(
-            model.text!,
-            fit: BoxFit.cover,
-          )
-              : const CircularProgressIndicator(),
-        ),
       ),
+    ):
+    Stack(
+        alignment: Alignment.bottomRight,
+        children: <Widget>[
+          Container(
+            height: size1.height / 2.5,
+            width: size1.width,
+            alignment: AlignmentDirectional.centerEnd,
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ShowImage(
+                    imageUrl:model.text!,
+                  ),
+                ),
+              ),
+              child: Container(
+                height: size1.height / 2.5,
+                width: size1.width / 2,
+                decoration: BoxDecoration(border: Border.all()),
+                alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
+                child: model.text != ""
+                    ? Image.network(
+                  model.text!,
+                  fit: BoxFit.cover,
+                )
+                    : const CircularProgressIndicator(),
+              ),
+            ),
+          ),
+          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+              fontSize: 10.0
+          ) ),
+        ]
     );
 
   }
