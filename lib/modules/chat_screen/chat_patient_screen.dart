@@ -233,45 +233,39 @@ class ChatPatientScreen extends StatelessWidget {
         ),
       ),
     ):
-    Container(
-      height: size1.height / 2.5,
-      width: size1.width,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      alignment: AlignmentDirectional.centerStart,
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ShowImage(
-              imageUrl:model.text!,
+    Stack(
+        alignment: Alignment.bottomLeft,
+        children: <Widget>[
+          Container(
+            height: size1.height / 2.5,
+            width: size1.width,
+            alignment: AlignmentDirectional.centerStart,
+            child: InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ShowImage(
+                    imageUrl:model.text!,
+                  ),
+                ),
+              ),
+              child: Container(
+                height: size1.height / 2.5,
+                width: size1.width / 2,
+                decoration: BoxDecoration(border: Border.all()),
+                alignment: model.text!= "" ? null : AlignmentDirectional.centerEnd,
+                child: model.text != ""
+                    ? Image.network(
+                  model.text!,
+                  fit: BoxFit.cover,
+                )
+                    : const CircularProgressIndicator(),
+              ),
             ),
           ),
-        ),
-        child: Stack(
-          alignment: Alignment.bottomRight,
-          children: <Widget>[
-            Container(
-              height: size1.height / 2.5,
-              width: size1.width / 2,
-              decoration: BoxDecoration(border: Border.all()),
-              alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
-              child:Column(
-                children: [
-                  model.text != ""
-                      ? Image.network(
-                    model.text!,
-                    fit: BoxFit.cover,
-                  )
-                      : const CircularProgressIndicator(),
-                ],
-              ),
-
-            ),
-            Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
-                fontSize: 10.0
-            ) ),
-          ],
-        ),
-      ),
+          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+              fontSize: 10.0
+          ) ),
+        ]
     );
 
   }
@@ -360,3 +354,6 @@ class ShowImage extends StatelessWidget {
     );
   }
 }
+
+
+

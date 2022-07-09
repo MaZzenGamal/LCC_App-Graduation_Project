@@ -1,3 +1,4 @@
+
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,42 +21,42 @@ class ChatDetailsPatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(CacheHelper.getData(key: 'type'));
-        return FutureBuilder(
-          future:  AppCubit.get(context).getUsers(),
-          builder: (context,_) {
-            return BlocConsumer<AppCubit, AppStates>(
-              listener: (context, state) {
-              },
-              builder: (context, state) {
-                return Scaffold(
-                  appBar: AppBar(
-                    title: const Text('Chat'),
-                  ),
-                  body:BuildCondition(
-                      condition:AppCubit.get(context).patients.isNotEmpty ,
-                      builder:(context)=> ListView.separated(
-                          itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
-                          separatorBuilder: (context, index) => myDivider(),
-                          itemCount: AppCubit.get(context).patients.length),
-                      fallback:(context)=> Center(child:RichText(
-                        text:const TextSpan(
-                            style: TextStyle(color: Colors.grey),
-                            children: <TextSpan>[
-                              TextSpan(text: '"You don\'t have patients to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
-                              TextSpan(text: 'To communicate with patients :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
-                              TextSpan(text: '1- They must book an appointment first\n',),
-                              TextSpan(text: '2- Wait for their reservation time\n',),
-                            ]
-                        ) ,
-                      )
-                      ) ,
-                    ),
-                );
-              },
-            );
-          }
-        );
-      }
+    return FutureBuilder(
+        future:  AppCubit.get(context).getUsers(),
+        builder: (context,_) {
+          return BlocConsumer<AppCubit, AppStates>(
+            listener: (context, state) {
+            },
+            builder: (context, state) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text('Chat'),
+                ),
+                body:BuildCondition(
+                  condition:AppCubit.get(context).patients.isNotEmpty ,
+                  builder:(context)=> ListView.separated(
+                      itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
+                      separatorBuilder: (context, index) => myDivider(),
+                      itemCount: AppCubit.get(context).patients.length),
+                  fallback:(context)=> Center(child:RichText(
+                    text:const TextSpan(
+                        style: TextStyle(color: Colors.grey),
+                        children: <TextSpan>[
+                          TextSpan(text: '"You don\'t have patients to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
+                          TextSpan(text: 'To communicate with patients :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                          TextSpan(text: '1- They must book an appointment first\n',),
+                          TextSpan(text: '2- Wait for their reservation time\n',),
+                        ]
+                    ) ,
+                  )
+                  ) ,
+                ),
+              );
+            },
+          );
+        }
+    );
+  }
 }
 
 
@@ -134,18 +135,16 @@ Widget buildChatItem(PatientModel model,context) => FutureBuilder(
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
-                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text!='empty'?Text(
-                                    DateFormat('HH:mm').format(AppCubit.get(context).messModel.dateTime!)):DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
-                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text=='empty'?Container():Text(
-                                    DateFormat('MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!)),
+                                DateFormat('EEEE, MMM d, yyyy').format(snapshot.data!.dateTime!) ==
+                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())?Text(
+                                    DateFormat('HH:mm').format(snapshot.data!.dateTime!)):Text(
+                                    DateFormat('MMM d, yyyy').format(snapshot.data!.dateTime!)),
                               ],
                             ),
-                            AppCubit.get(context).messModel.text=='empty'?Container():
-                            AppCubit.get(context).messModel.type=='text'?
+                            snapshot.data?.type=='text'?
                             Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text('${AppCubit.get(context).messModel.text}',maxLines:2 ,)
+                                child: Text('${snapshot.data?.text}',maxLines:2 ,)
                             )
                                 :Row(
                               children: const [
@@ -178,3 +177,7 @@ Widget buildChatItem(PatientModel model,context) => FutureBuilder(
       }
     }
 );
+
+
+
+
