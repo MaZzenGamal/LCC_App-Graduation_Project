@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:graduation_project/models/call_model.dart';
@@ -45,8 +46,8 @@ class AppCubit extends Cubit<AppStates> {
     const Connection(),
     const DoctorsScreen(),
     const HomeScreen(),
-   const ShowReservation(),
-   // usermodel.type=='patient'?ShowPatientReservation() : ShowDoctorReservation(),
+    const ShowReservation(),
+    // usermodel.type=='patient'?ShowPatientReservation() : ShowDoctorReservation(),
     //CacheHelper.getData(key: 'type')=='patient'? ShowPatientReservation() : ShowDoctorReservation(),
     const SettingsScreen(),
   ];
@@ -97,7 +98,7 @@ class AppCubit extends Cubit<AppStates> {
       ),
     );
   }
-   UserModel usermodel=UserModel();
+  UserModel usermodel=UserModel();
   Future<void>?changeUserModel() async {
     try {
       await firebase.collection("user").doc(
@@ -170,15 +171,15 @@ class AppCubit extends Cubit<AppStates> {
       event.docs.forEach((element) {
         DoctorModel model=DoctorModel.fromJson(element.data());
         if(searchController.text.isNotEmpty)
-          {
-            if(model.specialization==searchController.text) {
-              alldoctor.add(model);
-            }
-          }
-        else
-          {
+        {
+          if(model.specialization==searchController.text||model.fullName==searchController.text) {
             alldoctor.add(model);
           }
+        }
+        else
+        {
+          alldoctor.add(model);
+        }
 
       });
       emit(GetAllDoctorsSuccessState());
@@ -222,18 +223,18 @@ class AppCubit extends Cubit<AppStates> {
       }
       List<DoctorModel> dupicate=doctorsChat;
       for(int i=0;i<doctorsChat.length;i++)
+      {
+        for(int j=0;j<dupicate.length;j++)
         {
-          for(int j=0;j<dupicate.length;j++)
+          if(i!=j)
+          {
+            if(doctorsChat[i].uId==dupicate[j].uId)
             {
-              if(i!=j)
-                {
-                  if(doctorsChat[i].uId==dupicate[j].uId)
-                    {
-                      dupicate.removeAt(j);
-                    }
-                }
+              dupicate.removeAt(j);
             }
+          }
         }
+      }
       doctorsChat=dupicate.toList();
       //emit(GetAllDoctorsErrorState());
     }
@@ -266,7 +267,7 @@ class AppCubit extends Cubit<AppStates> {
           PatientModel patModel = PatientModel.fromJson(
               documentSnapshot.data() as Map<String, dynamic>);
           emit(GetAllPatientsSuccessState());
-            patients.add(patModel);
+          patients.add(patModel);
           print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
         }
@@ -292,53 +293,53 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getPatientNumber(String uid)async{
     late QuerySnapshot querySnapshot;
     List<String> doc=[];
-      emit(GetAllPatientsNumberLoadingState());
-      patients = [];
-      //emit(GetAllPatientsLoadingState());
-      print("vvvvvvvvvvvvvvvvv");
-      querySnapshot =
-      await firebase.collection('doctor').doc(uid)
-          .collection('reservation')
-          .get();
-      querySnapshot.docs.forEach((element) {
-        docrefmodel =
-            DocRefModel.fromJson(element.data() as Map<String, dynamic>);
-        doc.add(docrefmodel.docRef!);
-      });
-      print("the doc is $doc ");
-      for (String element in doc) {
-        print("hhhhhhhhhhhhhhhhhhhh");
-        DocumentSnapshot documentSnapshot = await firebase.collection(
-            'reservation').doc(element).get();
-        ReservationModel resvModel = ReservationModel.fromJson(
-            documentSnapshot.data() as Map<String, dynamic>);
-        print("the data is${resvModel.date!}");
-        print("DateTime is ${DateTime.now()}");
-          DocumentSnapshot documentSnapshot1 = await firebase.collection(
-              'patient').doc(resvModel.patientId).get();
-          PatientModel patModel = PatientModel.fromJson(
-              documentSnapshot1.data() as Map<String, dynamic>);
-          emit(GetAllPatientsNumberSuccessState());
-          patients.add(patModel);
-          print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
-          print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
-      }
-      List<PatientModel> dupicate=patients;
-      for(int i=0;i<patients.length;i++)
+    emit(GetAllPatientsNumberLoadingState());
+    patients = [];
+    //emit(GetAllPatientsLoadingState());
+    print("vvvvvvvvvvvvvvvvv");
+    querySnapshot =
+    await firebase.collection('doctor').doc(uid)
+        .collection('reservation')
+        .get();
+    querySnapshot.docs.forEach((element) {
+      docrefmodel =
+          DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+      doc.add(docrefmodel.docRef!);
+    });
+    print("the doc is $doc ");
+    for (String element in doc) {
+      print("hhhhhhhhhhhhhhhhhhhh");
+      DocumentSnapshot documentSnapshot = await firebase.collection(
+          'reservation').doc(element).get();
+      ReservationModel resvModel = ReservationModel.fromJson(
+          documentSnapshot.data() as Map<String, dynamic>);
+      print("the data is${resvModel.date!}");
+      print("DateTime is ${DateTime.now()}");
+      DocumentSnapshot documentSnapshot1 = await firebase.collection(
+          'patient').doc(resvModel.patientId).get();
+      PatientModel patModel = PatientModel.fromJson(
+          documentSnapshot1.data() as Map<String, dynamic>);
+      emit(GetAllPatientsNumberSuccessState());
+      patients.add(patModel);
+      print("trueeeeeeeeeeeeeeeeeeeeeeeeeee");
+      print("ttyyyyyyyyyyyyyyyyyyyyyyyy$patients");
+    }
+    List<PatientModel> dupicate=patients;
+    for(int i=0;i<patients.length;i++)
+    {
+      for(int j=0;j<dupicate.length;j++)
       {
-        for(int j=0;j<dupicate.length;j++)
+        if(i!=j)
         {
-          if(i!=j)
+          if(patients[i].uId==dupicate[j].uId)
           {
-            if(patients[i].uId==dupicate[j].uId)
-            {
-              dupicate.removeAt(j);
-            }
+            dupicate.removeAt(j);
           }
         }
       }
-      patients=dupicate.toList();
-      //emit(GetAllPatientsErrorState());
+    }
+    patients=dupicate.toList();
+    //emit(GetAllPatientsErrorState());
   }
 
   Future<void> sendComment({
@@ -396,19 +397,19 @@ class AppCubit extends Cubit<AppStates> {
     String? senderId
   }) {
     CallsModel model = CallsModel(
-      channelName:  FirebaseAuth.instance.currentUser!.uid,
-      senderId:senderId,
-      receiverId: receiverId
+        channelName:  FirebaseAuth.instance.currentUser!.uid,
+        senderId:senderId,
+        receiverId: receiverId
     );
-      FirebaseFirestore.instance
-          .collection('calls')
-          .doc( FirebaseAuth.instance.currentUser!.uid)
-          .set(model.toMap())
-          .then((value) {
-        emit(CreateCallSuccess());
-      }).catchError((error) {
-        emit(CreateCallError(error.toString()));
-      });
+    FirebaseFirestore.instance
+        .collection('calls')
+        .doc( FirebaseAuth.instance.currentUser!.uid)
+        .set(model.toMap())
+        .then((value) {
+      emit(CreateCallSuccess());
+    }).catchError((error) {
+      emit(CreateCallError(error.toString()));
+    });
   }
 
   Future<void> sendMessage({
@@ -536,7 +537,7 @@ class AppCubit extends Cubit<AppStates> {
     required String receiverId,
     required DateTime dateTime,
     required String token,
-}) async {
+  }) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image = true;
@@ -554,7 +555,7 @@ class AppCubit extends Cubit<AppStates> {
   Future uploadImage(String receiverId,DateTime dateTime,String token) async{
     {
       emit(UploadChatImageLoadingState());
-       firebase_storage.FirebaseStorage.instance
+      firebase_storage.FirebaseStorage.instance
           .ref()
           .child('chats/${Uri.file(profileImage!.path).pathSegments.last}')
           .putFile(profileImage!)
@@ -769,81 +770,169 @@ class AppCubit extends Cubit<AppStates> {
       emit(UploadChatImageErrorState(error));
     });
   }*/
-  Future<MessagesModel> getLastMessage(String uid) async {
-    if (usermodel.type == "patient") {
-    FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
-          .limit(1)
-          .get()
-          .then((snapshot) async {
-        if (snapshot.size == 0) {
-          messModel=MessagesModel();
-          print("Collection Absent");
-          messModel.receiverId='empty';
-          messModel.type='empty';
-          messModel.senderId='empty';
-          messModel.text='empty';
-          messModel.read=false;
-          messModel.dateTime=DateTime.now();
-          print("the message model is ${messModel.text}");
-          emit(EmptyMessageModel());
-        }
-        else{
-          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
-          messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-          if (kDebugMode) {
-            print("the data is ${messModel.text}");
-          }
-        }
+  Future<void> sendLastMessage({
+    required String receiverId,
+    required DateTime dateTime,
+  }) async {
+    MessagesModel model = MessagesModel(
+      dateTime: dateTime,
+      receiverId: receiverId,
+      senderId:  FirebaseAuth.instance.currentUser!.uid,
+      text: 'Hello',
+      type:'text',
+    );
+    if (usermodel.type== "patient") {
+      firebase
+          .collection('patient')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('lastMessage')
+          .doc(receiverId)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
       });
-     /* FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).snapshots()
-          .listen((event) {
-        messModel=MessagesModel.fromJson(event.data()!);
-        });*/
-      /*DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
-      messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-      if (kDebugMode) {
-        print("the data is ${messModel.text}");
-      }*/
-
+      firebase
+          .collection('doctor')
+          .doc(receiverId)
+          .collection('lastMessage')
+          .doc( FirebaseAuth.instance.currentUser!.uid)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
+      });
     }
     else if (usermodel.type == "doctor") {
-      FirebaseFirestore.instance.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
-          .limit(1)
-          .get()
-          .then((snapshot) async {
-        if (snapshot.size == 0) {
-          messModel=MessagesModel();
-          print("Collection Absent");
-          messModel.receiverId='empty';
-          messModel.type='empty';
-          messModel.senderId='empty';
-          messModel.text='empty';
-          messModel.read=false;
-          messModel.dateTime=DateTime.now();
-          print("the message model is ${messModel.text}");
-          emit(EmptyMessageModel());
-        }
-        else{
-          DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
-          messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+      firebase
+          .collection('doctor')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('lastMessage')
+          .doc(receiverId)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
+      });
+      firebase
+          .collection('patient')
+          .doc(receiverId)
+          .collection('lastMessage')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
+      });
+    }
+  }
+  Future<MessagesModel> getLastMessage(String uid) async {
+    try {
+      if (usermodel.type == "patient") {
+        /*  FirebaseFirestore.instance.collection('doctor').doc(
+            FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
+            .limit(1)
+            .get()
+            .then((snapshot) async {
+           if (snapshot.size == 0) {
+             messModel = MessagesModel();
+             print("Collection Absent");
+             messModel.receiverId = 'empty';
+             messModel.type = 'empty';
+             messModel.senderId = 'empty';
+             messModel.text = 'empty';
+             messModel.read = false;
+             messModel.dateTime = DateTime.now();
+             print("the message model is ${messModel.text}");
+             emit(EmptyMessageModel());
+           }*/
+        //if {
+        bool exist1 = false;
+        await firebase.collection('patient').doc(
+            FirebaseAuth.instance.currentUser!.uid).collection(
+            'lastMessage').doc(uid).get().then((doc) {
+          exist1 = doc.exists;
+        });
+        if (exist1 == true) {
+          DocumentSnapshot documentSnapshot = await FirebaseFirestore
+              .instance
+              .collection('patient').doc(
+              FirebaseAuth.instance.currentUser!.uid).collection(
+              'lastMessage').doc(uid).get();
+          messModel = MessagesModel.fromJson(
+              documentSnapshot.data()! as Map<String, dynamic>);
           if (kDebugMode) {
             print("the data is ${messModel.text}");
           }
         }
-      });
-      /* FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).snapshots()
-          .listen((event) {
-        messModel=MessagesModel.fromJson(event.data()!);
-        });*/
-      /*DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).collection('lastMessage').doc(uid).get();
-      messModel=MessagesModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-      if (kDebugMode) {
-        print("the data is ${messModel.text}");
-      }*/
-
+        else {
+          try{
+            await sendLastMessage(receiverId: uid, dateTime: DateTime.now());
+          }
+          catch(c){
+            print(c.toString());
+          }
+        }
+      }
+      // }//);
+      //}
+      else if (usermodel.type == "doctor") {
+        /*FirebaseFirestore.instance.collection('doctor').doc(
+            FirebaseAuth.instance.currentUser!.uid).collection('lastMessage')
+            .limit(1)
+            .get()
+            .then((snapshot) async {
+          if (snapshot.size == 0) {
+            messModel = MessagesModel();
+            print("Collection Absent");
+            messModel.receiverId = 'empty';
+            messModel.type = 'empty';
+            messModel.senderId = 'empty';
+            messModel.text = 'empty';
+            messModel.read = false;
+            messModel.dateTime = DateTime.now();
+            print("the message model is ${messModel.text}");
+            emit(EmptyMessageModel());
+          }*/
+        // else{
+        bool exist1 = false;
+        await firebase.collection('doctor').doc(
+            FirebaseAuth.instance.currentUser!.uid).collection(
+            'lastMessage').doc(uid).get().then((doc) {
+          exist1 = doc.exists;
+        });
+        if (exist1 == true) {
+          DocumentSnapshot documentSnapshot = await FirebaseFirestore
+              .instance
+              .collection('doctor').doc(
+              FirebaseAuth.instance.currentUser!.uid).collection(
+              'lastMessage').doc(uid).get();
+          messModel = MessagesModel.fromJson(
+              documentSnapshot.data()! as Map<String, dynamic>);
+          if (kDebugMode) {
+            print("the data is ${messModel.text}");
+          }
+        }
+        else {
+          try{
+            await sendLastMessage(receiverId: uid, dateTime: DateTime.now());
+          }
+          catch(c){
+            print(c.toString());
+          }
+        }
+        //}
+        // });
+      }
+    } catch (c) {
+      print("the error is ${c.toString()}");
     }
     return messModel;
-    }
+  }
 
 /*void replaceDoctor(DoctorModel docModel) {
       doctors.insert(0, docModel);
@@ -1009,17 +1098,17 @@ class AppCubit extends Cubit<AppStates> {
   }) {
     emit(UpdatePatProfileLoadingState());
     PatientModel model = PatientModel(
-      fullName: name,
-      phone: phone,
-      email: patModel.email,
-      image: image ?? patModel.image,
-      uId: patModel.uId,
-      token: patModel.token,
-      createdAt: patModel.createdAt,
-      address: address,
-      age: age,
-      gender: gender,
-      inCall: false
+        fullName: name,
+        phone: phone,
+        email: patModel.email,
+        image: image ?? patModel.image,
+        uId: patModel.uId,
+        token: patModel.token,
+        createdAt: patModel.createdAt,
+        address: address,
+        age: age,
+        gender: gender,
+        inCall: false
     );
     firebase
         .collection('patient')
@@ -1123,9 +1212,9 @@ class AppCubit extends Cubit<AppStates> {
     DateTime timeIter = startTime;
     while (timeIter.isBefore(endTime)) {
       if(times.isEmpty)
-        {
-          times.add(timeIter);
-        }
+      {
+        times.add(timeIter);
+      }
       timeIter = timeIter.add(const Duration(minutes: 15));
       if(!(timeIter.isBefore(endTime))){
         break;
@@ -1137,33 +1226,33 @@ class AppCubit extends Cubit<AppStates> {
   DocRefModel docrefmodel = DocRefModel();
   bool exist=false;
   ReservationModel reservatiomModel = ReservationModel();
- Future<bool> isExist({required String doctorId,required DateTime work}) async{
+  Future<bool> isExist({required String doctorId,required DateTime work}) async{
     print("vvvvvvvvvvvvvvvvv");
     exist=false;
     late QuerySnapshot querySnapshot;
     List<String> reservedDates = [];
     List<String> doc=[];
     List<ReservationModel> rese=[];
-      try {
-        querySnapshot =
-        await firebase.collection('doctor').doc(doctorId).collection(
-            'reservation').get();
-        querySnapshot.docs.forEach((element) {
-          docrefmodel =
-              DocRefModel.fromJson(element.data() as Map<String, dynamic>);
-          doc.add(docrefmodel.docRef!);
-        });
-        print("the doc is $doc ");
-        for (String element in doc) {
-          DocumentSnapshot documentSnapshot = await firebase.collection(
-              'reservation').doc(element).get();
-          rese.add(ReservationModel.fromJson(
-              documentSnapshot.data()! as Map<String, dynamic>));
-          /* reservatiomModel = ReservationModel.fromJson(
+    try {
+      querySnapshot =
+      await firebase.collection('doctor').doc(doctorId).collection(
+          'reservation').get();
+      querySnapshot.docs.forEach((element) {
+        docrefmodel =
+            DocRefModel.fromJson(element.data() as Map<String, dynamic>);
+        doc.add(docrefmodel.docRef!);
+      });
+      print("the doc is $doc ");
+      for (String element in doc) {
+        DocumentSnapshot documentSnapshot = await firebase.collection(
+            'reservation').doc(element).get();
+        rese.add(ReservationModel.fromJson(
+            documentSnapshot.data()! as Map<String, dynamic>));
+        /* reservatiomModel = ReservationModel.fromJson(
             documentSnapshot.data()! as Map<String, dynamic>);*/
-        }
-        print(rese);
-      }catch(_){print('errrrorrrrrrr');}
+      }
+      print(rese);
+    }catch(_){print('errrrorrrrrrr');}
 
     rese.forEach((element) {
       print(element.date);
@@ -1175,9 +1264,9 @@ class AppCubit extends Cubit<AppStates> {
       }
     });
 
-      exist=reservedDates.contains(DateFormat('HH:mm:ss').format(work));
-      print("the time is$exist");
-      return exist;
+    exist=reservedDates.contains(DateFormat('HH:mm:ss').format(work));
+    print("the time is$exist");
+    return exist;
   }
   String reservationId=" ";
   Future<void> patReservation({
@@ -1265,39 +1354,41 @@ class AppCubit extends Cubit<AppStates> {
     reservationId=" ";
   }
 
- /////////////////////////////////show reservation/////////////////////
- List<ReservationModel> upcomingReservations=[];
- List<ReservationModel>completeReservations=[];
- int currentTape=0;
- bool specializationExist=false;
- var searchController = TextEditingController();
- Future<void> existSpecialization() async {
-   List<String>specializations=[];
-   late QuerySnapshot querySnapshot;
-     print("vvvvvvvvvvvvvvvvv");
-     querySnapshot =
-         await firebase.collection('doctor').get();
-     querySnapshot.docs.forEach((element) {
-       DoctorModel model =
-       DoctorModel.fromJson(element.data() as Map<String, dynamic>);
-       specializations.add(model.specialization!);
-     });
-     specializationExist=specializations.contains(searchController.text);
-     print("the specializations are $specializations");
-     print("the specialization is $specializationExist");
-   }
- void removeReservation({
-  required int index,
-   required ReservationModel model
-}){
-   firebase.collection('reservation').doc(model.reservationId).delete();
-   firebase.collection('patient').doc(model.patientId).collection('reservation').doc(model.reservationId).delete();
-   firebase.collection('doctor').doc(model.doctorId).collection('reservation').doc(model.reservationId).delete();
-   upcomingReservations.removeAt(index);
-   showToast(
-       text: 'Reservation has been deleted successfully', state: ToastStates.SUCCESS);
-   emit(RemoveReservationSuccessState());
- }
+  /////////////////////////////////show reservation/////////////////////
+  List<ReservationModel> upcomingReservations=[];
+  List<ReservationModel>completeReservations=[];
+  int currentTape=0;
+  bool specializationExist=false;
+  var searchController = TextEditingController();
+  Future<void> existSpecialization() async {
+    List<String>specializations=[];
+    List<String>DoctorsName=[];
+    late QuerySnapshot querySnapshot;
+    print("vvvvvvvvvvvvvvvvv");
+    querySnapshot =
+    await firebase.collection('doctor').get();
+    querySnapshot.docs.forEach((element) {
+      DoctorModel model =
+      DoctorModel.fromJson(element.data() as Map<String, dynamic>);
+      specializations.add(model.specialization!);
+      DoctorsName.add(model.fullName!);
+    });
+    specializationExist=specializations.contains(searchController.text)||DoctorsName.contains(searchController.text);
+    print("the specializations are $specializations");
+    print("the specialization is $specializationExist");
+  }
+  void removeReservation({
+    required int index,
+    required ReservationModel model
+  }){
+    firebase.collection('reservation').doc(model.reservationId).delete();
+    firebase.collection('patient').doc(model.patientId).collection('reservation').doc(model.reservationId).delete();
+    firebase.collection('doctor').doc(model.doctorId).collection('reservation').doc(model.reservationId).delete();
+    upcomingReservations.removeAt(index);
+    showToast(
+        text: 'Reservation has been deleted successfully', state: ToastStates.SUCCESS);
+    emit(RemoveReservationSuccessState());
+  }
   Future<void> showReservation() async {
     upcomingReservations=[];
     completeReservations=[];
@@ -1337,10 +1428,10 @@ class AppCubit extends Cubit<AppStates> {
           //emit(GetPatCompletedReservationLoadingState());
           completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("tttttttttttttttttttt$completeReservations");
-         // emit(GetPatCompletedReservationSuccessState());
+          // emit(GetPatCompletedReservationSuccessState());
         }
       }
-      }
+    }
     else if(usermodel.type=='doctor'){
       doctors=[];
       print("vvvvvvvvvvvvvvvvv");
@@ -1360,14 +1451,14 @@ class AppCubit extends Cubit<AppStates> {
         print("the data is${resvModel.date!}");
         print("DateTime is ${DateTime.now()}");
         if((resvModel.date!.add(const Duration(minutes: 15))).isAfter(DateTime.now())){
-        //  emit(GetDocUpComingReservationLoadingState());
+          //  emit(GetDocUpComingReservationLoadingState());
           upcomingReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$upcomingReservations");
           //emit(GetDocUpComingReservationSuccessState());
         }
         else
         {
-         // emit(GetDocCompletedReservationLoadingState());
+          // emit(GetDocCompletedReservationLoadingState());
           completeReservations.add(ReservationModel.fromJson(documentSnapshot.data()! as Map<String, dynamic>));
           print("tttttttttttttttttttt$completeReservations");
           //emit(GetDocCompletedReservationSuccessState());
@@ -1378,10 +1469,11 @@ class AppCubit extends Cubit<AppStates> {
     completeReservations.sort((a, b) => a.date!.compareTo(b.date!));
   }
   Future<DoctorModel> getDoctorData({
- required String uid
-}) async {
+    required String uid
+  }) async {
     DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
     DoctorModel Model=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+    docModel=Model;
     if (kDebugMode) {
       print("the data is ${patModel.fullName}");
     }
