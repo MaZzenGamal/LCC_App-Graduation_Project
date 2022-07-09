@@ -54,18 +54,18 @@
 //     });
 //   }
 // }
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_cubit.dart';
 import 'package:graduation_project/layouts/app_layout/states.dart';
 import 'package:graduation_project/modules/login/login_screen.dart';
 import 'package:graduation_project/modules/profile_screen/doctor_profile_screen.dart';
-import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:graduation_project/shared/components/components.dart';
 
 import '../../layouts/app_layout/app_cubit.dart';
 import '../../layouts/app_layout/states.dart';
-import '../../myTest/restart_screen.dart';
 import '../login/cubit/login_cubit.dart';
 import '../profile_screen/patient_profile_screen.dart';
 import '../reservation_screen/doctor_information_screen.dart';
@@ -75,9 +75,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: AppCubit.get(context).getUserData(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return BlocConsumer<AppCubit, AppStates>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -88,9 +85,6 @@ class SettingsScreen extends StatelessWidget {
               var patModel = AppCubit
                   .get(context)
                   .patModel;
-              var profileImage = AppCubit
-                  .get(context)
-                  .profileImage;
             late List<Widget> listTiles = <Widget>[];
               cubit.usermodel.type == 'doctor' ? listTiles=[
                 ListTile(
@@ -131,8 +125,19 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: () async {
-                      await context.read<LoginCubit>().signOut();
-                      AppCubit.get(context).currentIndex=2;
+                      try{
+                        await context.read<LoginCubit>().signOut();
+                        AppCubit.get(context).currentIndex=2;
+
+                      }catch(c){
+                        if (kDebugMode) {
+                          print(c.toString());
+                        }
+                      }
+                      if(FirebaseAuth.instance.currentUser==null)
+                        {
+                          navigateTo(context,LoginScreen());
+                        }
                       //await AppCubit.get(context).signOut();
                       // RestartWidget.restartApp(context);
                       // navigateAndFinish(context, LoginScreen());
@@ -192,17 +197,25 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: () async {
-                      await context.read<LoginCubit>().signOut();
-                      AppCubit.get(context).currentIndex=2;
-                      //await AppCubit.get(context).signOut();
-                      // RestartWidget.restartApp(context);
-                      // navigateAndFinish(context, LoginScreen());
+                      try{
+                        await context.read<LoginCubit>().signOut();
+                        AppCubit.get(context).currentIndex=2;
+
+                      }catch(c){
+                        if (kDebugMode) {
+                          print(c.toString());
+                        }
+                      }
+                      if(FirebaseAuth.instance.currentUser==null)
+                      {
+                        navigateTo(context,LoginScreen());
+                      }
                     }
                 ),
               ];
               return ListView(children: listTiles,);
             },
           );
-        },);
+
   }
 }
