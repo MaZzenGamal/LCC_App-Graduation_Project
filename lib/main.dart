@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/layouts/app_layout/app_layout.dart';
@@ -98,6 +99,7 @@ class _MyAppState extends State<MyApp> {
                                       context.read<AppCubit>()
                                           .changeUserModel();
                                       context.read<AppCubit>().currentIndex=2;
+                                      context.read<AppCubit>().getUserData();
                                     }
                                     catch(c){
                                       print("errror");
@@ -105,9 +107,10 @@ class _MyAppState extends State<MyApp> {
 
                                     return const AppLayout();
                                   }
-                                  else {
-                                    if(snap.hasError){
-                                      print(snap.error.toString());
+                                  else if(snap.hasError) {
+                                      if (kDebugMode) {
+                                        print(snap.error.toString());
+                                      }
                                     }
                                     else if(snap.data==null){
                                       context.read<AppCubit>().currentIndex=2;
@@ -115,7 +118,6 @@ class _MyAppState extends State<MyApp> {
 
 
                                     }
-                                  }
 
                                 }
                             );
