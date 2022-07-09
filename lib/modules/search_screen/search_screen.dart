@@ -11,67 +11,67 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-    listener: (context, state) {},
-    builder: (context, state) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor:Colors.grey ,
-            leading:  BackButton(
-              color: Colors.black,
-              onPressed:(){
-                AppCubit.get(context).currentIndex=2;
-                AppCubit.get(context).searchController.clear();
-                navigateAndFinish(context, const AppLayout());
-              },
-            ),
-          // The search area here
-            title: Container(
-              width: double.infinity,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
-              child: Center(
-                child: TextField(
-                    controller:AppCubit.get(context).searchController,
-                  decoration: InputDecoration(
-                      prefixIcon:  InkWell(
-                          onTap: ()
-                          async {
-                           await AppCubit.get(context).existSpecialization();
-                           if(AppCubit.get(context).searchController.text.isEmpty)
-                             {
-                               showToast(text: 'please enter valid Specialization', state: ToastStates.ERROR);
-                             }
-                           else if(AppCubit.get(context).searchController.text.isNotEmpty&&AppCubit.get(context).specializationExist)
-                           {
-                             navigateTo(context,const DoctorsScreen());
-                             //showToast(text: 'please enter valid Specialization', state: ToastStates.ERROR);
-                           }
-                           else
-                             {
-                               showToast(text: 'this Specialization is not available now please enter another one or try later ', state: ToastStates.ERROR);
-                             }
-
-                           //showToast(text: 'specialization is ${AppCubit.get(context).specializationExist} and value is ${AppCubit.get(context).searchController.text}', state: ToastStates.SUCCESS);
-                          } ,
-                          child: const Icon(Icons.search)),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          AppCubit.get(context).searchController.clear();
-                          /* Clear the search field */
-                        },
-                      ),
-                      hintText: 'Search...',
-                      border: InputBorder.none),
+        listener: (context, state) {},
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+                backgroundColor:Colors.grey ,
+                leading:  BackButton(
+                  color: Colors.black,
+                  onPressed:(){
+                    AppCubit.get(context).currentIndex=2;
+                    AppCubit.get(context).searchController.clear();
+                    navigateAndFinish(context, const AppLayout());
+                  },
                 ),
-              ),
-            )),
-      );
-    }
+                // The search area here
+                title: Container(
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                  child: Center(
+                    child: TextField(
+                      controller:AppCubit.get(context).searchController,
+                      decoration: InputDecoration(
+                          prefixIcon:  InkWell(
+                              onTap: ()
+                              async {
+                                await AppCubit.get(context).existSpecialization();
+                                if(AppCubit.get(context).searchController.text.isEmpty)
+                                {
+                                  showToast(text: 'please enter valid Specialization or valid Doctor name', state: ToastStates.ERROR);
+                                }
+                                else if(AppCubit.get(context).searchController.text.isNotEmpty&&AppCubit.get(context).specializationExist)
+                                {
+                                  navigateTo(context,const DoctorsScreen());
+                                  //showToast(text: 'please enter valid Specialization', state: ToastStates.ERROR);
+                                }
+                                else
+                                {
+                                  showToast(text: 'this Specialization or doctor name you search for is not available now please enter another one or try later ', state: ToastStates.ERROR);
+                                }
+
+                                //showToast(text: 'specialization is ${AppCubit.get(context).specializationExist} and value is ${AppCubit.get(context).searchController.text}', state: ToastStates.SUCCESS);
+                              } ,
+                              child: const Icon(Icons.search)),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              AppCubit.get(context).searchController.clear();
+                              /* Clear the search field */
+                            },
+                          ),
+                          hintText: 'Search...',
+                          border: InputBorder.none),
+                    ),
+                  ),
+                )),
+          );
+        }
     );
-    }
   }
+}
 /*class SearchScreen extends SearchDelegate {
   @override
   Widget build(BuildContext context) {
