@@ -10,7 +10,7 @@ class ColonInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:const Text(
-            'Information about colon cancer'
+            'Colon cancer Info...'
         ),
       ),
       body: SingleChildScrollView(

@@ -40,7 +40,7 @@ class AppCubit extends Cubit<AppStates> {
   final firebase = FirebaseFirestore.instance;
 
   int currentIndex = 2;
-  List<String> titles = ['Check', 'Search', 'Home','Schedule','settings'];
+  List<String> titles = ['Check', 'Find Doctor', 'Home','Schedule','settings'];
   List<Widget> screens =  [
     const Connection(),
     const DoctorsScreen(),
@@ -52,7 +52,7 @@ class AppCubit extends Cubit<AppStates> {
   ];
   var kPages = <String, IconData>{
     'check': Icons.image_search,
-    'search': Icons.search,
+    'doctors': Icons.person_search,
     'home': Icons.home,
     'schedule': Icons.schedule,
     'settings': Icons.settings,
@@ -63,6 +63,10 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppBotNavState());
   }
 
+  void chageCurrentTape(int index){
+    currentTape=index;
+    emit(CurrentTapeChangeState());
+  }
 
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";

@@ -254,7 +254,7 @@ class ChatDoctorScreen extends StatelessWidget {
           alignment: Alignment.bottomRight,
           children: <Widget>[
             Container(
-              height: size1.height / 2.5,
+              height: size1.height / 1,
               width: size1.width / 2,
               decoration: BoxDecoration(border: Border.all()),
               alignment: model.text!= "" ? null : AlignmentDirectional.centerStart,
@@ -288,7 +288,7 @@ class ChatDoctorScreen extends StatelessWidget {
             borderRadius: const BorderRadiusDirectional.only(
               topStart: Radius.circular(10.0),
               topEnd: Radius.circular(10.0),
-              bottomEnd: Radius.circular(10.0),
+              bottomStart: Radius.circular(10.0),
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

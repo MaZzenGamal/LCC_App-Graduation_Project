@@ -19,7 +19,7 @@ class _CancerInfoScreenState extends State<CancerInfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title:const Text(
-          'Information page'
+          'Lung cancer Info...'
         ),
       ),
       body:Container(

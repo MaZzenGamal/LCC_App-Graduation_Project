@@ -1,5 +1,4 @@
 //@dart=2.9
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:graduation_project/shared/cubit/main_cubit.dart';
 import 'package:graduation_project/shared/cubit/main_states.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:graduation_project/shared/styles/themes.dart';
-import 'package:sizer/sizer.dart';
 import 'layouts/app_layout/app_cubit.dart';
 import 'modules/cancer _informations/colon_cancer/colon_advice.dart';
 import 'modules/chat_screen/chat_doctor_screen.dart';

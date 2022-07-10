@@ -43,7 +43,9 @@ class DoctorsInformation extends StatelessWidget {
                             listener: (context, state) {},
                             builder: (context, state) {
                               return Scaffold(
-                                appBar: AppBar(),
+                                appBar: AppBar(
+                                  title: const Text('Doctor\'s Info ')
+                                ),
                                 body: SingleChildScrollView(
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
