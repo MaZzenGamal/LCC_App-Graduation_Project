@@ -990,6 +990,7 @@ class AppCubit extends Cubit<AppStates> {
     required String regisNumber,
     required String specialization,
     required String certificates,
+    required String price,
     required DateTime startTime,
     required DateTime endTime,
     String? image,
@@ -1012,6 +1013,7 @@ class AppCubit extends Cubit<AppStates> {
         regisNumber: regisNumber,
         startTime: startTime,
         endTime: endTime,
+        price: price,
         inCall: false,
         rate: 0.000001,
         allRateValue: 0.00000001,
@@ -1045,6 +1047,7 @@ class AppCubit extends Cubit<AppStates> {
     required String regisNumber,
     required String specialization,
     required String certificates,
+    required String price,
     required DateTime startTime,
     required DateTime endTime,
   }) {
@@ -1068,6 +1071,7 @@ class AppCubit extends Cubit<AppStates> {
             regisNumber: regisNumber,
             startTime: startTime,
             endTime: endTime,
+            price: price,
             image: value);
         showToast(
             text: 'Profile image uploaded successfully',
