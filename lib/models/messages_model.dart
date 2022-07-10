@@ -5,7 +5,6 @@ class MessagesModel {
   String? receiverId;
   DateTime? dateTime;
   String? text;
-  bool? read;
   String?type;
 
   MessagesModel({
@@ -13,7 +12,6 @@ class MessagesModel {
     this.receiverId,
     this.dateTime,
     this.text,
-    this.read,
     this.type
   });
   MessagesModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +19,6 @@ class MessagesModel {
     receiverId = json['receiverId'];
     dateTime = DateTime.parse(json['dateTime']);
     text = json['text'];
-    read = json['read'];
     type=json['type'];
   }
 
@@ -37,7 +34,6 @@ class MessagesModel {
       'receiverId': receiverId,
       'dateTime': dateTime?.toIso8601String(),
       'text': text,
-      'read': read,
       'type':type,
     };
   }

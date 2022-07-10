@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DoctorModel
 {
   String? fullName;
@@ -17,7 +17,6 @@ class DoctorModel
   DateTime? startTime;
   DateTime? endTime;
   String? daysOfWork;
-  String? degree;
   String?token;
   DateTime?createdAt;
   double?rate;
@@ -42,7 +41,6 @@ class DoctorModel
     this.startTime,
     this.endTime,
     this.daysOfWork,
-    this.degree,
     this.token,
     this.createdAt,
     this.rate,
@@ -69,7 +67,6 @@ class DoctorModel
     startTime = DateTime.parse(json['startTime']);
     endTime = DateTime.parse(json['endTime']);
     daysOfWork = json['daysOfWork'];
-    degree = json['degree'];
     token=json['token'];
     createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
@@ -98,7 +95,6 @@ class DoctorModel
       'startTime':startTime?.toString(),
       'endTime':endTime?.toString(),
       'daysOfWork':daysOfWork,
-      'degree':degree,
       'token':token,
       'createdAt':createdAt?.toString(),
       'rate':rate,
@@ -127,7 +123,6 @@ class DoctorModel
       'startTime':startTime,
       'endTime':endTime,
       'daysOfWork':daysOfWork,
-      'degree':degree,
       'token':token,
       'createdAt':createdAt ,
       'rate':rate,
