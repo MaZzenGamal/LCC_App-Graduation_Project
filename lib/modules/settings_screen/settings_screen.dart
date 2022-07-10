@@ -20,10 +20,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DoctorModel? model;
-    return FutureBuilder(
-      future: AppCubit.get(context).getUserData(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return BlocConsumer<AppCubit, AppStates>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -93,17 +89,25 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: () async {
-                      await context.read<LoginCubit>().signOut();
-                      AppCubit.get(context).currentIndex=2;
-                      //await AppCubit.get(context).signOut();
-                      // RestartWidget.restartApp(context);
-                      // navigateAndFinish(context, LoginScreen());
+                      try{
+                        await context.read<LoginCubit>().signOut();
+                        AppCubit.get(context).currentIndex=2;
+
+                      }catch(c){
+                        if (kDebugMode) {
+                          print(c.toString());
+                        }
+                      }
+                      if(FirebaseAuth.instance.currentUser==null)
+                      {
+                        navigateTo(context,LoginScreen());
+                      }
                     }
                 ),
               ];
               return ListView(children: listTiles,);
             },
           );
-        },);
+
   }
 }

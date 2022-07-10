@@ -42,8 +42,9 @@ class LoginScreen extends StatelessWidget {
                       userId:  FirebaseAuth.instance.currentUser!.uid);
                   // navigateTo(context,const ShowReservation());
                   try {
-                    context.read<AppCubit>()
+                   await context.read<AppCubit>()
                         .changeUserModel();
+                   await context.read<AppCubit>().getUserData();
                   }
                   catch(c){
                     print("errror");

@@ -138,18 +138,16 @@ Widget buildChatItem(PatientModel model,context) => FutureBuilder(
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
-                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text!='empty'?Text(
-                                    DateFormat('HH:mm').format(AppCubit.get(context).messModel.dateTime!)):DateFormat('EEEE, MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!) ==
-                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())&&AppCubit.get(context).messModel.text=='empty'?Container():Text(
-                                    DateFormat('MMM d, yyyy').format(AppCubit.get(context).messModel.dateTime!)),
+                                DateFormat('EEEE, MMM d, yyyy').format(snapshot.data!.dateTime!) ==
+                                    DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())?Text(
+                                    DateFormat('HH:mm').format(snapshot.data!.dateTime!)):Text(
+                                    DateFormat('MMM d, yyyy').format(snapshot.data!.dateTime!)),
                               ],
                             ),
-                            AppCubit.get(context).messModel.text=='empty'?Container():
-                            AppCubit.get(context).messModel.type=='text'?
+                            snapshot.data?.type=='text'?
                             Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text('${AppCubit.get(context).messModel.text}',maxLines:2 ,)
+                                child: Text('${snapshot.data?.text}',maxLines:2 ,)
                             )
                                 :Row(
                               children: const [
@@ -182,3 +180,7 @@ Widget buildChatItem(PatientModel model,context) => FutureBuilder(
       }
     }
 );
+
+
+
+
