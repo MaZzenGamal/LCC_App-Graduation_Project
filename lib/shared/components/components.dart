@@ -44,6 +44,8 @@ Widget defaultFormField({
   Function(String)? onSubmit,
   Function(String)? onChange,
   GestureTapCallback? onTap,
+  int? maxLines,
+  int? minLines,
   bool isClickable = true,
   // required FormFieldValidator validate,
   String? hint,

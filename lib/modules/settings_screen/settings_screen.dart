@@ -22,6 +22,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: AppCubit.get(context).getUserData(),
+    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return BlocConsumer<AppCubit, AppStates>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -45,13 +48,15 @@ class SettingsScreen extends StatelessWidget {
                               '${patModel.image}')
                       ),
                     ),
-                    title: Text(
+                    title: docModel.fullName !=null || patModel.fullName !=null ?
+                    Text(
                       cubit.usermodel.type == 'doctor' ? '${docModel.fullName}':'${patModel.fullName}',
                       style: const TextStyle(
                           fontSize: 25,
                           color: Colors.black
                       ),
-                    ),
+                    ):Text('Loading...',
+                    style: TextStyle(color: Colors.grey[600]),),
                     subtitle: const Text('Profile'),
                     onTap: () {
                       if (cubit.usermodel.type == 'doctor') {
@@ -111,5 +116,6 @@ class SettingsScreen extends StatelessWidget {
             },
           );
 
-  }
+  });
+}
 }

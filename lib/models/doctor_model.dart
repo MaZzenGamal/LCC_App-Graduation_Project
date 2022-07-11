@@ -14,9 +14,11 @@ class DoctorModel
   String? specialization;
   String? certificates;
   String? price;
+  String? bio;
   DateTime? startTime;
   DateTime? endTime;
   String? daysOfWork;
+  String? day;
   String?token;
   DateTime?createdAt;
   double?rate;
@@ -40,7 +42,9 @@ class DoctorModel
     this.price,
     this.startTime,
     this.endTime,
+    this.bio,
     this.daysOfWork,
+    this.day,
     this.token,
     this.createdAt,
     this.rate,
@@ -64,9 +68,11 @@ class DoctorModel
     specialization = json['specialization'];
     certificates = json['certificates'];
     price = json['price'];
+    bio = json['bio'];
     startTime = DateTime.parse(json['startTime']);
     endTime = DateTime.parse(json['endTime']);
     daysOfWork = json['daysOfWork'];
+    day = json['day'];
     token=json['token'];
     createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
@@ -92,9 +98,11 @@ class DoctorModel
       'specialization':specialization,
       'certificates':certificates,
       'price':price,
+      'bio':bio,
       'startTime':startTime?.toString(),
       'endTime':endTime?.toString(),
       'daysOfWork':daysOfWork,
+      'day':day,
       'token':token,
       'createdAt':createdAt?.toString(),
       'rate':rate,
@@ -120,9 +128,11 @@ class DoctorModel
       'specialization':specialization,
       'certificates':certificates,
       'price':price,
+      'bio':bio,
       'startTime':startTime,
       'endTime':endTime,
       'daysOfWork':daysOfWork,
+      'day':day,
       'token':token,
       'createdAt':createdAt ,
       'rate':rate,

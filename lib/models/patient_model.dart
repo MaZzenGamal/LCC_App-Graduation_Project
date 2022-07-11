@@ -9,8 +9,9 @@ class PatientModel
   String? age;
   String? gender;
   String? address;
-  String?token;
+  String? token;
   DateTime?createdAt;
+  String?day;
   bool? inCall;
 
   PatientModel({
@@ -24,6 +25,7 @@ class PatientModel
     this.address,
     this.token,
     this.createdAt,
+    this.day,
     this.inCall,
   });
 
@@ -40,6 +42,7 @@ class PatientModel
     address = json['address'];
     token=json['token'];
    createdAt= DateTime.parse(json['createdAt']);
+   day= json['day'];
    inCall=json['inCall'];
   }
 
@@ -56,6 +59,7 @@ class PatientModel
       'gender':gender,
       'token':token,
       'createdAt':createdAt?.toString(),
+      'day':day,
       'inCall':inCall,
     };
   }
@@ -72,6 +76,7 @@ class PatientModel
       'gender':gender,
       'token':token,
       'createdAt':createdAt?.toString(),
+      'day':day,
       'inCall':inCall,
     };
   }
