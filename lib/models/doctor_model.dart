@@ -2,6 +2,8 @@
 class DoctorModel
 {
   String? fullName;
+  String? bio;
+  String? day;
   String? email;
   String? phone;
   String? uId;
@@ -26,6 +28,8 @@ class DoctorModel
   bool?inCall;
   DoctorModel({
     this.fullName,
+    this.day,
+    this.bio,
     this.email,
     this.phone,
     this.uId,
@@ -52,6 +56,8 @@ class DoctorModel
   DoctorModel.fromJson(Map<String,dynamic>json)
   {
     email = json['email'];
+    bio = json['bio'];
+    day = json['day'];
     fullName = json['fullName'];
     phone = json['phone'];
     uId = json['uId'];
@@ -80,6 +86,8 @@ class DoctorModel
   {
     return{
       'fullName':fullName,
+      'bio':bio,
+      'day':day,
       'email':email,
       'phone':phone,
       'uId':uId,
@@ -109,6 +117,8 @@ class DoctorModel
     return{
       'fullName':fullName,
       'email':email,
+      'bio':bio,
+      'day':day,
       'phone':phone,
       'uId':uId,
       'image':image,
