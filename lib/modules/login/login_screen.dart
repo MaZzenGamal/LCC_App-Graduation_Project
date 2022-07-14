@@ -45,6 +45,7 @@ class LoginScreen extends StatelessWidget {
                    await context.read<AppCubit>()
                         .changeUserModel();
                    await context.read<AppCubit>().getUserData();
+                   await LoginCubit.get(context).changeOnlineStatus();
                   }
                   catch(c){
                     print("errror");
