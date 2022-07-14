@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,24 +16,80 @@ import 'package:permission_handler/permission_handler.dart';
 PatientModel patModel=PatientModel();
 DoctorModel docModel=DoctorModel();
 
-Future<FirebaseApp> fireInit(BuildContext context) async {
+Future<FirebaseApp> fireInit(BuildContext context,GlobalKey<NavigatorState> navkey) async {
 //Firebase Messaging instance
   final fireApp = await Firebase.initializeApp();
   FirebaseMessaging.instance;
-  return fireApp;
-}
-Future<void>fcmInit(GlobalKey<NavigatorState> navkey)async{
-
 // Flutter local notification plugin
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
       AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  /*await flutterLocalNotificationsPlugin.initialize(
-      InitializationSettings(
-    android: initializationSettingsAndroid,), onSelectNotification: _onClick(navkey: navkey, message: message),
-  );*/
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: initializationSettingsAndroid,),
+    onSelectNotification:(String? payload) async {
+      final Map<String,dynamic>parms=await jsonDecode(payload!);
+      print("the sender  is ${parms['id']}");
+      print("the option  is ${parms['option']}");
+    //  print("the payload is ${payload}");
+    //  navkey.currentState!.pushNamed('searchScreen');
+      var navigate=parms['id'];
+      var option=parms['option'];
+      print("the $navigate");
+      UserModel usermodel=UserModel();
+      try {
+        await FirebaseFirestore.instance.collection("user").doc(
+            FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+          usermodel = UserModel.fromJson(value.data()!);
+        });
+      }
+      catch(c){
+        print("eeeeeeeeeeeeeeeeeeeeeee");
+      }
+      if(option=='video') {
+        await [Permission.microphone, Permission.camera]
+            .request();
+        navkey.currentState!.pushNamed('videoScreen',arguments:navigate );
+      }
+      else if(option=='audio') {
+        await [Permission.microphone]
+            .request();
+        navkey.currentState!.pushNamed('audioScreen',arguments:navigate );
+      }
+      else if(usermodel.type=='patient') {
+        try {
+          await FirebaseFirestore.instance.collection('doctor').doc(navigate)
+              .snapshots()
+              .listen((event) {
+            docModel = DoctorModel.fromJson(event.data()!);
+          });
+          navkey.currentState!.pushNamed('chatpatient', arguments: docModel);
+        }catch(c){
+          print("error");
+
+        }
+      }
+      else{
+        try{
+          await  FirebaseFirestore.instance.collection('patient').doc(navigate).get().then((value){
+            patModel = PatientModel.fromJson(value.data()!);
+          });
+
+          navkey.currentState!.pushNamed('chatdoctor',arguments:patModel);
+
+        }catch(c){
+          print("erroe");
+
+        }
+      }
+    },
+  );
+  //configureSelectNotificationSubject(context);
+  return fireApp;
+}
+Future<void>fcmInit(GlobalKey<NavigatorState> navkey)async{
 
 //Firebase messaging
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -106,8 +164,19 @@ void onMessageHandler(RemoteMessage message,GlobalKey<NavigatorState> navkey) {
             playSound: true,
             icon: '@mipmap/ic_launcher',
           ),
-        ));
+        ),
+      payload:jsonEncode({
+        'id': message.data['uidsender'],
+       'option':message.data['option']
+      }
+
+      ),
+     // payload: 'hello',
+    );
+    // print("the sender  is ${message.data['uidsender']}");
+    // print("the option  is ${message.data['option']}");
   }
+
 }
 
 Future<void> _onClick({

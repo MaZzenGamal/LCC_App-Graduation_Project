@@ -21,7 +21,7 @@ class VideoCallScreen extends StatefulWidget {
   /// non-modifiable channel name of the page
   final String? groupId;
   /// Creates a call page with given channel name.
-   VideoCallScreen({Key? key, this.groupId}) : super(key: key);
+  VideoCallScreen({Key? key, this.groupId}) : super(key: key);
 
   @override
   VideoCallScreenState createState() {
@@ -45,7 +45,7 @@ class VideoCallScreenState extends State<VideoCallScreen>{
       await getType();
 
     }catch(c){
-      print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+      print("the error is ${c}");
     }
     showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
     if(userModel.type=='patient')
@@ -104,7 +104,7 @@ class VideoCallScreenState extends State<VideoCallScreen>{
                           await getType();
 
                         }catch(c){
-                          print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+                          print("the error is ${c}");
                         }
                         showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
                         if(userModel.type=='patient')
@@ -141,8 +141,8 @@ class VideoCallScreenState extends State<VideoCallScreen>{
 
   Future<void> initialize() async {
 
-   await _initAgoraRtcEngine();
-     _engine.joinChannel(null,groupId, null, 0);
+    await _initAgoraRtcEngine();
+    _engine.joinChannel(null,groupId, null, 0);
   }
 
 
@@ -176,7 +176,7 @@ class VideoCallScreenState extends State<VideoCallScreen>{
               await getType();
 
             }catch(c){
-              print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+              print("the error is ${c}");
             }
             showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
             if(userModel.type=='patient')
