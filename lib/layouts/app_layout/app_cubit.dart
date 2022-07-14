@@ -41,7 +41,7 @@ class AppCubit extends Cubit<AppStates> {
   final firebase = FirebaseFirestore.instance;
 
   int currentIndex = 2;
-  List<String> titles = ['Check', 'Search', 'Home','Schedule','settings'];
+  List<String> titles = ['Check', 'Find Doctor', 'Home','Schedule','settings'];
   List<Widget> screens =  [
     const Connection(),
     const DoctorsScreen(),
@@ -53,7 +53,7 @@ class AppCubit extends Cubit<AppStates> {
   ];
   var kPages = <String, IconData>{
     'check': Icons.image_search,
-    'search': Icons.search,
+    'doctors': Icons.person_search,
     'home': Icons.home,
     'schedule': Icons.schedule,
     'settings': Icons.settings,
@@ -63,11 +63,11 @@ class AppCubit extends Cubit<AppStates> {
     currentIndex = index;
     emit(AppBotNavState());
   }
+
   void chageCurrentTape(int index){
     currentTape=index;
     emit(CurrentTapeChangeState());
   }
-
 
   var serverToken =
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
@@ -94,6 +94,7 @@ class AppCubit extends Cubit<AppStates> {
             'option':option,
           },
           'to': token,
+          "direct_book_ok":true
         },
       ),
     );
@@ -221,6 +222,7 @@ class AppCubit extends Cubit<AppStates> {
           print("ttyyyyyyyyyyyyyyyyyyyyyyyy$doctorsChat");
         }
       }
+      emit(GetAllDoctorsErrorState());
       List<DoctorModel> dupicate=doctorsChat;
       for(int i=0;i<doctorsChat.length;i++)
       {
@@ -533,7 +535,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   List<MessagesModel> messages = [];
-  Future<void> getChatImage({
+  Future<void> sendChatImage({
     required String receiverId,
     required DateTime dateTime,
     required String token,
@@ -613,7 +615,7 @@ class AppCubit extends Cubit<AppStates> {
                 .add(model.toMap())
                 .then((value) {
               String? title = patModel.fullName;
-              String body = model.text!;
+              String body = 'you have a new image';
               sendNotfiy(title!, body, token,'chat');
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
@@ -655,7 +657,7 @@ class AppCubit extends Cubit<AppStates> {
                 .add(model.toMap())
                 .then((value) {
               String? title = docModel.fullName;
-              String body =model.text! ;
+              String body ='you have a new image';
               sendNotfiy(title!, body, token,'chat');
               firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
               emit(SendMessagesSuccessState());
@@ -700,6 +702,7 @@ class AppCubit extends Cubit<AppStates> {
   void getMessage({
     required String receiverId,
   }) {
+    emit(GetMessagesLoadingState());
     if (usermodel.type == "patient") {
       firebase
           .collection('patient')
@@ -733,6 +736,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetMessagesSuccessState());
       });
     }
+    emit(GetMessagesErrorState());
   }
   /*void uploadChatImage({
     required String name,
@@ -987,6 +991,8 @@ class AppCubit extends Cubit<AppStates> {
     required String regisNumber,
     required String specialization,
     required String certificates,
+    required String price,
+    required String bio,
     required DateTime startTime,
     required DateTime endTime,
     String? image,
@@ -1009,6 +1015,8 @@ class AppCubit extends Cubit<AppStates> {
         regisNumber: regisNumber,
         startTime: startTime,
         endTime: endTime,
+        price: price,
+        bio: bio,
         inCall: false,
         rate: 0.000001,
         allRateValue: 0.00000001,
@@ -1042,6 +1050,8 @@ class AppCubit extends Cubit<AppStates> {
     required String regisNumber,
     required String specialization,
     required String certificates,
+    required String price,
+    required String bio,
     required DateTime startTime,
     required DateTime endTime,
   }) {
@@ -1065,6 +1075,8 @@ class AppCubit extends Cubit<AppStates> {
             regisNumber: regisNumber,
             startTime: startTime,
             endTime: endTime,
+            price: price,
+            bio: bio,
             image: value);
         showToast(
             text: 'Profile image uploaded successfully',
@@ -1486,6 +1498,11 @@ class AppCubit extends Cubit<AppStates> {
       print("the data is ${patModel.fullName}");
     }
     return patModel;
+  }
+  UserModel user=UserModel();
+  Future<void> getStatus(String uid) async {
+    DocumentSnapshot documentSnapshot=await firebase.collection('user').doc(uid).get();
+    user=UserModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
   }
 }
 
