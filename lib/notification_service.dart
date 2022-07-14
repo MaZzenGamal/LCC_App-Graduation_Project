@@ -33,8 +33,8 @@ Future<FirebaseApp> fireInit(BuildContext context,GlobalKey<NavigatorState> navk
       final Map<String,dynamic>parms=await jsonDecode(payload!);
       print("the sender  is ${parms['id']}");
       print("the option  is ${parms['option']}");
-    //  print("the payload is ${payload}");
-    //  navkey.currentState!.pushNamed('searchScreen');
+      //  print("the payload is ${payload}");
+      //  navkey.currentState!.pushNamed('searchScreen');
       var navigate=parms['id'];
       var option=parms['option'];
       print("the $navigate");
@@ -153,25 +153,25 @@ void onMessageHandler(RemoteMessage message,GlobalKey<NavigatorState> navkey) {
       print(notification);
     }
     flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            playSound: true,
-            icon: '@mipmap/ic_launcher',
-          ),
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          playSound: true,
+          icon: '@mipmap/ic_launcher',
         ),
+      ),
       payload:jsonEncode({
         'id': message.data['uidsender'],
-       'option':message.data['option']
+        'option':message.data['option']
       }
 
       ),
-     // payload: 'hello',
+      // payload: 'hello',
     );
     // print("the sender  is ${message.data['uidsender']}");
     // print("the option  is ${message.data['option']}");
@@ -258,5 +258,4 @@ AndroidInitializationSettings('app_icon');
 
 //   print("Handling a foreground message: ${message.data}");
 // }
-
 
