@@ -42,6 +42,7 @@ class ChatDoctorScreen extends StatelessWidget {
     });*/
     return Builder(builder: (BuildContext context) {
       AppCubit.get(context).getMessage(receiverId: _patModel?.uId as String);
+      AppCubit.get(context).getStatus(_patModel?.uId as String);
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -59,10 +60,19 @@ class ChatDoctorScreen extends StatelessWidget {
                     const SizedBox(
                       width: 8.0,
                     ),
-                    Text(
-                      '${_patModel.fullName}',
-                      style: const TextStyle(fontSize: 15.0),
-                    )
+                    Column(
+                      children: [
+                        Text(
+                          '${_patModel.fullName}',
+                          style: const TextStyle(fontSize: 15.0),
+                        ),
+                        Text(
+                          '${AppCubit.get(context).user.status}',
+                          style: const TextStyle(fontSize: 15.0),
+                        ),
+                      ],
+                    ),
+
                   ],
                 ),
                 actions: [
@@ -85,7 +95,7 @@ class ChatDoctorScreen extends StatelessWidget {
                       AppCubit.get(context).sendNotfiy('${AppCubit
                           .get(context)
                           .docModel
-                          .fullName}', 'you have a new call', _patModel.token!,
+                          .fullName}', 'you have a new audio call', _patModel.token!,
                           'audio');
                     }
                   }, icon: const Icon(Icons.call)),
@@ -110,7 +120,7 @@ class ChatDoctorScreen extends StatelessWidget {
                           AppCubit.get(context).sendNotfiy('${AppCubit
                               .get(context)
                               .docModel
-                              .fullName}', 'you have a new call', _patModel
+                              .fullName}', 'you have a new video call', _patModel
                               .token!, 'video');
                         }
                       },
@@ -169,7 +179,7 @@ class ChatDoctorScreen extends StatelessWidget {
                                         String docuid = _patModel.uId!;
                                         firebase.collection('doctor').doc(FirebaseAuth.instance.currentUser!.uid).update({'createdAt': DateTime.now().toString()});
                                         firebase.collection('patient').doc(docuid).update({'createdAt': DateTime.now().toString()});
-                                        AppCubit.get(context).getChatImage(receiverId: _patModel.uId!, token: _patModel.token!, dateTime:DateTime.now(),
+                                        AppCubit.get(context).sendChatImage(receiverId: _patModel.uId!, token: _patModel.token!, dateTime:DateTime.now(),
                                         );
                                       },
                                       icon: const Icon(Icons.photo),

@@ -23,14 +23,22 @@ class ChatPatientScreen extends StatelessWidget {
   DoctorModel? docModel;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final firebase = FirebaseFirestore.instance;
+  final ScrollController scrollController = ScrollController();
   //ChatDetailsScreen({Key? key, patModel, docModel}) : super(key: key);
   ChatPatientScreen({Key? key, this.docModel})
       : super(key: key);
-
-  var messageController = TextEditingController();
   late var size1;
   @override
   Widget build(BuildContext context) {
+    var messageController = TextEditingController();
+    /*if(AppCubit.get(context).messages.length-1>=0){
+      itemScrollController.jumpTo(
+        index:AppCubit.get(context).messages.length-1,
+        // duration: Duration(seconds: 2),
+        // curve: Curves.easeInOutCubic
+      );
+    }*/
+
     Size size = MediaQuery.of(context).size;
     size1=size;
     DoctorModel? args = ModalRoute.of(context)?.settings.arguments as DoctorModel?;
@@ -41,6 +49,8 @@ class ChatPatientScreen extends StatelessWidget {
     });*/
     return Builder(builder: (BuildContext context) {
       AppCubit.get(context).getMessage(receiverId: _docModel?.uId as String);
+      AppCubit.get(context).getStatus(_docModel?.uId as String);
+     // AppCubit.get(context).scrollToItem();
       return BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -58,10 +68,19 @@ class ChatPatientScreen extends StatelessWidget {
                     const SizedBox(
                       width: 8.0,
                     ),
-                    Text(
-                      '${_docModel.fullName}',
-                      style: const TextStyle(fontSize: 15.0),
+                    Column(
+                      children: [
+                        Text(
+                          '${_docModel.fullName}',
+                          style: const TextStyle(fontSize: 15.0),
+                        ),
+                        Text(
+                          '${AppCubit.get(context).user.status}',
+                          style: const TextStyle(fontSize: 15.0),
+                        ),
+                      ],
                     )
+
                   ],
                 ),
                 actions: [
@@ -84,7 +103,7 @@ class ChatPatientScreen extends StatelessWidget {
                       AppCubit.get(context).sendNotfiy('${AppCubit
                           .get(context)
                           .patModel
-                          .fullName}', 'you have a new call', _docModel.token!,
+                          .fullName}', 'you have a new audio call', _docModel.token!,
                           'audio');
                     }
                   }, icon: const Icon(Icons.call)),
@@ -109,7 +128,7 @@ class ChatPatientScreen extends StatelessWidget {
                           AppCubit.get(context).sendNotfiy('${AppCubit
                               .get(context)
                               .patModel
-                              .fullName}', 'you have a new call', _docModel
+                              .fullName}', 'you have a new video call', _docModel
                               .token!, 'video');
                         }
                       },
@@ -125,6 +144,7 @@ class ChatPatientScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ListView.separated(
                             physics: const BouncingScrollPhysics(),
+                            controller: scrollController,
                             itemBuilder: (context, index) {
                               var message =
                               AppCubit.get(context).messages[index];
@@ -134,6 +154,8 @@ class ChatPatientScreen extends StatelessWidget {
                               }
                               return buildMessages(message,context);
                             },
+
+                          // initialScrollIndex:AppCubit.get(context).messages.length-1 ,
                             separatorBuilder: (context, index) =>
                             const SizedBox(
                               height: 15.0,
@@ -168,8 +190,12 @@ class ChatPatientScreen extends StatelessWidget {
                                         String docuid = _docModel.uId!;
                                         firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'createdAt': DateTime.now().toString()});
                                         firebase.collection('doctor').doc(docuid).update({'createdAt': DateTime.now().toString()});
-                                        AppCubit.get(context).getChatImage(receiverId: _docModel.uId!, token: _docModel.token!, dateTime:DateTime.now(),
+                                        AppCubit.get(context).sendChatImage(receiverId: _docModel.uId!, token: _docModel.token!, dateTime:DateTime.now(),
                                         );
+                                        scrollController.animateTo(
+                                            scrollController.position.maxScrollExtent,
+                                            duration:const Duration(milliseconds: 100),
+                                            curve:Curves.easeOut);
                                       },
                                       icon: const Icon(Icons.photo),
                                     ),
@@ -192,6 +218,10 @@ class ChatPatientScreen extends StatelessWidget {
                                   );
                                 }
                                 messageController.text = '';
+                                scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent,
+                                    duration:const Duration(milliseconds: 100),
+                                    curve:Curves.easeOut);
                               },
                               icon: const Icon(Icons.send))
                         ],
@@ -223,10 +253,10 @@ class ChatPatientScreen extends StatelessWidget {
               children: [
                 Text('${model.text}'),
                 Padding(
-                  child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                  child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:const TextStyle(
                       fontSize: 10.0
                   ) ),
-                  padding: EdgeInsets.only(left:10),
+                  padding: const EdgeInsets.only(left:10),
                 ),
               ],
             )//
@@ -262,7 +292,7 @@ class ChatPatientScreen extends StatelessWidget {
               ),
             ),
           ),
-          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:const TextStyle(
               fontSize: 10.0
           ) ),
         ]
@@ -287,10 +317,10 @@ class ChatPatientScreen extends StatelessWidget {
             children: [
               Text('${model.text}'),
               Padding(
-                child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+                child: Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:const TextStyle(
                     fontSize: 10.0
                 ) ),
-                padding: EdgeInsets.only(left:10),
+                padding: const EdgeInsets.only(left:10),
               ),
             ],
 
@@ -327,7 +357,7 @@ class ChatPatientScreen extends StatelessWidget {
               ),
             ),
           ),
-          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:TextStyle(
+          Text('${DateFormat('EEEE, MMM').format(model.dateTime!)} ${DateFormat('HH:mm').format(model.dateTime!)} ',style:const TextStyle(
               fontSize: 10.0
           ) ),
         ]
