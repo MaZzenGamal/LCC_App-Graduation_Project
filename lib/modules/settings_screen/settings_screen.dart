@@ -75,146 +75,151 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          return BlocConsumer<AppCubit, AppStates>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              var cubit = AppCubit.get(context);
-              var docModel = AppCubit
-                  .get(context)
-                  .docModel;
-              var patModel = AppCubit
-                  .get(context)
-                  .patModel;
-            late List<Widget> listTiles = <Widget>[];
-              cubit.usermodel.type == 'doctor' ? listTiles=[
-                ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage: const AssetImage(
-                          'assets/images/loading photo.jpg'),
-                      radius: 30.0,
-                      child: CircleAvatar(
+          return FutureBuilder(
+            future: AppCubit.get(context).getUserData(),
+             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              return BlocConsumer<AppCubit, AppStates>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  var cubit = AppCubit.get(context);
+                  var docModel = AppCubit
+                      .get(context)
+                      .docModel;
+                  var patModel = AppCubit
+                      .get(context)
+                      .patModel;
+                late List<Widget> listTiles = <Widget>[];
+                  cubit.usermodel.type == 'doctor' ? listTiles=[
+                    ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: const AssetImage(
+                              'assets/images/loading photo.jpg'),
                           radius: 30.0,
-                          backgroundColor: Colors.white.withOpacity(0.6),
-                          backgroundImage:
-                           NetworkImage(
-                              '${docModel.image}')
-                      ),
+                          child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundColor: Colors.white.withOpacity(0.6),
+                              backgroundImage:
+                               NetworkImage(
+                                  '${docModel.image}')
+                          ),
+                        ),
+                        title: Text(
+                        '${docModel.fullName}',
+                          style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                          ),
+                        ),
+                        subtitle: const Text('Profile'),
+                        onTap: () {
+                            navigateTo(context, const DoctorProfileScreen());
+                        }
                     ),
-                    title: Text(
-                    '${docModel.fullName}',
-                      style: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.black
-                      ),
-                    ),
-                    subtitle: const Text('Profile'),
-                    onTap: () {
-                        navigateTo(context, const DoctorProfileScreen());
-                    }
-                ),
-                const Divider(),
-                ListTile(
-                    leading: const Icon(
-                        Icons.error
-                    ),
-                    title: const Text('Logout',
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black
-                      ),
-                    ),
-                    onTap: () async {
-                      try{
-                        await context.read<LoginCubit>().signOut();
-                        AppCubit.get(context).currentIndex=2;
+                    const Divider(),
+                    ListTile(
+                        leading: const Icon(
+                            Icons.error
+                        ),
+                        title: const Text('Logout',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                          ),
+                        ),
+                        onTap: () async {
+                          try{
+                            await context.read<LoginCubit>().signOut();
+                            AppCubit.get(context).currentIndex=2;
 
-                      }catch(c){
-                        if (kDebugMode) {
-                          print(c.toString());
+                          }catch(c){
+                            if (kDebugMode) {
+                              print(c.toString());
+                            }
+                          }
+                          if(FirebaseAuth.instance.currentUser==null)
+                            {
+                              navigateTo(context,LoginScreen());
+                            }
+                          //await AppCubit.get(context).signOut();
+                          // RestartWidget.restartApp(context);
+                          // navigateAndFinish(context, LoginScreen());
                         }
-                      }
-                      if(FirebaseAuth.instance.currentUser==null)
-                        {
-                          navigateTo(context,LoginScreen());
+                    ),
+                    const Divider(),
+                    ListTile(
+                        leading: const Icon(
+                            Icons.medical_services_outlined
+                        ),
+                        title: const Text('Doctor Screen',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                          ),
+                        ),
+                        onTap: () {
+                          navigateTo(context,DoctorsInformation (docModel: AppCubit.get(context).docModel));
                         }
-                      //await AppCubit.get(context).signOut();
-                      // RestartWidget.restartApp(context);
-                      // navigateAndFinish(context, LoginScreen());
-                    }
-                ),
-                const Divider(),
-                ListTile(
-                    leading: const Icon(
-                        Icons.medical_services_outlined
                     ),
-                    title: const Text('Doctor Screen',
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black
-                      ),
-                    ),
-                    onTap: () {
-                      navigateTo(context,DoctorsInformation (docModel: AppCubit.get(context).docModel));
-                    }
-                ),
-              ]:listTiles=[
-                ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage: const AssetImage(
-                          'assets/images/loading photo.jpg'),
-                      radius: 30.0,
-                      child: CircleAvatar(
+                  ]:listTiles=[
+                    ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: const AssetImage(
+                              'assets/images/loading photo.jpg'),
                           radius: 30.0,
-                          backgroundColor: Colors.white.withOpacity(0.6),
-                          backgroundImage:
-                          NetworkImage(
-                              '${patModel.image}')
-                      ),
-                    ),
-                    title: Text(
-                      '${patModel.fullName}',
-                      style: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.black
-                      ),
-                    ),
-                    subtitle: const Text('Profile'),
-                    onTap: () {
-                      navigateTo(context, const PatientProfileScreen());
-                    }
-                ),
-                const Divider(),
-                ListTile(
-                    leading: const Icon(
-                        Icons.error
-                    ),
-                    title: const Text('Logout',
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black
-                      ),
-                    ),
-                    onTap: () async {
-                      try{
-                        await context.read<LoginCubit>().signOut();
-                        AppCubit.get(context).currentIndex=2;
-
-                      }catch(c){
-                        if (kDebugMode) {
-                          print(c.toString());
+                          child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundColor: Colors.white.withOpacity(0.6),
+                              backgroundImage:
+                              NetworkImage(
+                                  '${patModel.image}')
+                          ),
+                        ),
+                        title: Text(
+                          '${patModel.fullName}',
+                          style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                          ),
+                        ),
+                        subtitle: const Text('Profile'),
+                        onTap: () {
+                          navigateTo(context, const PatientProfileScreen());
                         }
-                      }
-                      if(FirebaseAuth.instance.currentUser==null)
-                      {
-                        navigateTo(context,LoginScreen());
-                      }
-                    }
-                ),
-              ];
-              return ListView(children: listTiles,);
-            },
+                    ),
+                    const Divider(),
+                    ListTile(
+                        leading: const Icon(
+                            Icons.error
+                        ),
+                        title: const Text('Logout',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black
+                          ),
+                        ),
+                        onTap: () async {
+                          try{
+                            await context.read<LoginCubit>().signOut();
+                            AppCubit.get(context).currentIndex=2;
+
+                          }catch(c){
+                            if (kDebugMode) {
+                              print(c.toString());
+                            }
+                          }
+                          if(FirebaseAuth.instance.currentUser==null)
+                          {
+                            navigateTo(context,LoginScreen());
+                          }
+                        }
+                    ),
+                  ];
+                  return ListView(children: listTiles,);
+                },
+              );
+            }
           );
 
   }
