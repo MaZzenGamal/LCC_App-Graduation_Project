@@ -10,6 +10,7 @@ import 'package:graduation_project/modules/register/register_screen1.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import '../../layouts/app_layout/app_cubit.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/states.dart';
@@ -24,6 +25,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
+    String formattedDate = DateFormat('dd').format(DateTime.now());
     var formKey = GlobalKey<FormState>();
     return BlocConsumer<LoginCubit, LoginStates>(
               listener: (context, state) async {
@@ -161,6 +163,7 @@ class LoginScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 15.0,
                                 ),
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

@@ -131,29 +131,33 @@ class ChatDoctorScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: BuildCondition(
-                      condition: AppCubit.get(context).messages.isNotEmpty,
-                      builder: (context) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var message =
-                              AppCubit.get(context).messages[index];
-                              if (FirebaseAuth.instance.currentUser!.uid ==
-                                  message.senderId) {
-                                return buildMyMessages(message,context);
-                              }
-                              return buildMessages(message,context);
-                            },
-                            separatorBuilder: (context, index) =>
-                            const SizedBox(
-                              height: 15.0,
-                            ),
-                            itemCount: AppCubit.get(context).messages.length),
+                      condition: state is! GetMessagesLoadingState,
+                      builder:(context)=> BuildCondition(
+                        condition: AppCubit.get(context).messages.isNotEmpty,
+                        builder: (context) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var message =
+                                AppCubit.get(context).messages[index];
+                                if (FirebaseAuth.instance.currentUser!.uid ==
+                                    message.senderId) {
+                                  return buildMyMessages(message,context);
+                                }
+                                return buildMessages(message,context);
+                              },
+                              separatorBuilder: (context, index) =>
+                              const SizedBox(
+                                height: 15.0,
+                              ),
+                              itemCount: AppCubit.get(context).messages.length),
+                        ),
+                        fallback: (context) => const Center(child: Text('There are no messages yet')),
                       ),
-                      fallback: (context) =>
-                      const Center(child: CircularProgressIndicator()),
-                    ),
+                      fallback: (context)=> const Center(child: CircularProgressIndicator()),
+                    )
+
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -289,7 +293,7 @@ class ChatDoctorScreen extends StatelessWidget {
             borderRadius: const BorderRadiusDirectional.only(
               topStart: Radius.circular(10.0),
               topEnd: Radius.circular(10.0),
-              bottomEnd: Radius.circular(10.0),
+              bottomStart: Radius.circular(10.0),
             )),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

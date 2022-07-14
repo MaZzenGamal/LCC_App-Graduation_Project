@@ -34,18 +34,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   [
     BoardingModel(
         image: 'assets/images/onboarding1.png',
-        title: 'On Board 1 Title',
-        body: 'On Board 1 Body'
-    ),
-    BoardingModel(
-        image: 'assets/images/onboarding2.png',
-        title: 'On Board 2 Title',
-        body: 'On Board 2 Body'
+        title: 'Diagnosis',
+        body: 'U can upload the CT-guided image and see the diagnosis'
     ),
     BoardingModel(
         image: 'assets/images/onboarding3.png',
-        title: 'On Board 3 Title',
-        body: 'On Board 3 Body'
+        title: 'Book Appointment',
+        body: 'Book an appointment with a right doctor'
+    ),
+    BoardingModel(
+        image: 'assets/images/onboarding2.png',
+        title: 'Messages, Video&Audio calls',
+        body: 'Patients & doctors can communicate together '
     ),
   ];
   void submit()
@@ -71,17 +71,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             constraints:const BoxConstraints.expand(),
             decoration:const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/softBack.png'),
+                    image: AssetImage('assets/images/onBoardingBack3.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextButton(onPressed: submit, child:const Text(
-                    'SKIP',
+                  TextButton(
+                      onPressed: submit,
+                      child:const Text('SKIP',
                     style: TextStyle(
-                        fontSize: 25.0
+                      color: Colors.white,
+                        fontSize: 25.0,
                     ),
                   )),
                   Expanded(
@@ -115,7 +117,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         effect:const SwapEffect(
                           radius: 10,
                           
-                          activeDotColor: Colors.tealAccent,
+                          activeDotColor: Colors.white,
                           dotColor: Colors.blue,
                         ),
                         count: boarding.length,
@@ -133,7 +135,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                         child:const Icon(
                           EvaIcons.arrowRight,
-                          color: Colors.tealAccent,
+                          color: Colors.white,
                         ),)
                     ],
                   )
@@ -162,6 +164,7 @@ Widget buildBoardingItem(BoardingModel model)=>Column(
     Text(
       model.title,
       style: const TextStyle(
+        color: Colors.white,
           fontWeight:FontWeight.bold,
           fontSize: 30.0
       ),
@@ -172,6 +175,7 @@ Widget buildBoardingItem(BoardingModel model)=>Column(
     Text(
       model.body,
       style:const TextStyle(
+          color: Colors.white,
           fontSize: 20.0
       ),
     ),

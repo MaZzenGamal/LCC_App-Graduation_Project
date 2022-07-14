@@ -66,6 +66,8 @@ class SendMessagesErrorState extends AppStates {
   SendMessagesErrorState(this.error);
 }
 
+class GetMessagesLoadingState extends AppStates{}
+
 class GetMessagesSuccessState extends AppStates{}
 
 class GetMessagesErrorState extends AppStates {}

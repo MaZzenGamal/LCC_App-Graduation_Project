@@ -11,6 +11,7 @@ import 'package:graduation_project/modules/register/cubit/states.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/phone_model.dart';
 import '../../../models/user_model.dart';
@@ -151,6 +152,8 @@ class RegisterCubit extends Cubit<RegisterStates>
   emit(ProfileImageValidationState());
   }
 
+  //DateTime now = DateTime.now();
+  String day = DateFormat('dd').format(DateTime.now());
   void patientRegister({
     required String email,
     required String fullName,
@@ -185,6 +188,7 @@ class RegisterCubit extends Cubit<RegisterStates>
          address: address,
          token: tokenm!,
          createdAt: DateTime.now(),
+         day: day,
        );
      }
      else{
@@ -210,6 +214,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String age,
     required String token,
     required DateTime createdAt,
+    required String day,
   }){
     PatientModel model = PatientModel(
       email: email,
@@ -222,6 +227,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       address:address,
       token:token,
       createdAt:createdAt,
+      day:day,
       inCall: false,
     );
     FirebaseFirestore.instance.
@@ -302,6 +308,7 @@ class RegisterCubit extends Cubit<RegisterStates>
           certificates: certificates,
           token: tokenm!,
           createdAt: DateTime.now(),
+          day: day
         );
       }
       else{
@@ -330,6 +337,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String regisNumber,
     required String age,
     required String token,
+    required String day,
     required DateTime createdAt,
   }){
     DoctorModel model = DoctorModel(
@@ -347,6 +355,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       university: university,
       token:token,
       createdAt:createdAt,
+      day:day,
       allRateNumber: 0,
       allRateValue: 0.00001,
       rate: 0.00001,

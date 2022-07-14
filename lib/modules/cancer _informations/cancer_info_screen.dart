@@ -19,7 +19,7 @@ class _CancerInfoScreenState extends State<CancerInfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title:const Text(
-          'Information page'
+          'Lung cancer Info...'
         ),
       ),
       body:Container(
@@ -66,7 +66,7 @@ class _CancerInfoScreenState extends State<CancerInfoScreen> {
                     child:const Padding(
                       padding:  EdgeInsets.all(8.0),
                       child:  Text(
-                        '-     Lung cancer is cancer that forms in tissues of the lung, usually in the cells that line the air passages. It is the leading cause of cancer death in both men and women.',
+                        '- Lung cancer is cancer that forms in tissues of the lung, usually in the cells that line the air passages. It is the leading cause of cancer death in both men and women.',
 
                       ),
                     ),
@@ -176,39 +176,6 @@ class _CancerInfoScreenState extends State<CancerInfoScreen> {
                             padding:  EdgeInsets.all(8.0),
                             child: Text(
                                 '- Risk factors......'
-                            ),
-                          ),
-                          const Spacer(),
-                          defaultTextButton(function: ()
-                          {
-                            navigateTo(context,const RiskFactorScreen());
-                          },
-                              text: 'more>>')
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.blue,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child:GestureDetector(
-                      onTap: ()
-                      {
-                        navigateTo(context,const CancerTypesScreen());
-                      },
-                      child: Row(
-                        children: [
-                          const Padding(
-                            padding:  EdgeInsets.all(8.0),
-                            child: Text(
-                                '- You beat cancer by......'
                             ),
                           ),
                           const Spacer(),

@@ -53,7 +53,11 @@ class ShowDoctorReservation extends StatelessWidget {
                         ),
                       ),
                       body: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          left: 10.0,
+                          right: 10.0
+                        ),
                         child: TabBarView(
                           children: <Widget>[
                             BuildCondition(

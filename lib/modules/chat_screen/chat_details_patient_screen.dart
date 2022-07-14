@@ -1,4 +1,3 @@
-
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/foundation.dart';
 
@@ -21,42 +20,46 @@ class ChatDetailsPatientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(CacheHelper.getData(key: 'type'));
-    return FutureBuilder(
-        future:  AppCubit.get(context).getUsers(),
-        builder: (context,_) {
-          return BlocConsumer<AppCubit, AppStates>(
-            listener: (context, state) {
-            },
-            builder: (context, state) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Chat'),
-                ),
-                body:BuildCondition(
-                  condition:AppCubit.get(context).patients.isNotEmpty ,
-                  builder:(context)=> ListView.separated(
-                      itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
-                      separatorBuilder: (context, index) => myDivider(),
-                      itemCount: AppCubit.get(context).patients.length),
-                  fallback:(context)=> Center(child:RichText(
-                    text:const TextSpan(
-                        style: TextStyle(color: Colors.grey),
-                        children: <TextSpan>[
-                          TextSpan(text: '"You don\'t have patients to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
-                          TextSpan(text: 'To communicate with patients :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
-                          TextSpan(text: '1- They must book an appointment first\n',),
-                          TextSpan(text: '2- Wait for their reservation time\n',),
-                        ]
-                    ) ,
-                  )
-                  ) ,
-                ),
-              );
-            },
-          );
-        }
-    );
-  }
+        return FutureBuilder(
+          future:  AppCubit.get(context).getUsers(),
+          builder: (context,_) {
+            return BlocConsumer<AppCubit, AppStates>(
+              listener: (context, state) {
+              },
+              builder: (context, state) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Chat'),
+                  ),
+                  body: BuildCondition(
+                    condition:state is! GetAllPatientsLoadingState ,
+                    builder: (context)=>BuildCondition(
+                      condition:AppCubit.get(context).patients.isNotEmpty,
+                      builder:(context)=> ListView.separated(
+                          itemBuilder: (context, index) => buildChatItem(AppCubit.get(context).patients.elementAt(index),context),
+                          separatorBuilder: (context, index) => myDivider(),
+                          itemCount: AppCubit.get(context).patients.length),
+                      fallback:(context)=> Center(child:RichText(
+                        text:const TextSpan(
+                            style: TextStyle(color: Colors.grey),
+                            children: <TextSpan>[
+                              TextSpan(text: '"You don\'t have patients to text, yet"\n\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:18.0 )),
+                              TextSpan(text: 'To communicate with patients :\n',style:TextStyle(fontWeight: FontWeight.bold,fontSize:15.0 )),
+                              TextSpan(text: '1- They must book an appointment first\n',),
+                              TextSpan(text: '2- Wait for their reservation time\n',),
+                            ]
+                        ) ,
+                      )
+                      ) ,
+                    ),
+                    fallback:(context)=>const Center(child: CircularProgressIndicator()) ,
+                  ),
+                );
+              },
+            );
+          }
+        );
+      }
 }
 
 

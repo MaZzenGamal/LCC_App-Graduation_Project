@@ -103,7 +103,8 @@ class ShowPatientReservation extends StatelessWidget {
                 print("gggggggggggggggggg");
               }
               return const LinearProgressIndicator();
-            } else {
+            }
+            else {
               if(AppCubit.get(context).currentTape==1){
                 isDisable=false;
               }

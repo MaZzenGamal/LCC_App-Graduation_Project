@@ -37,12 +37,7 @@ class RegisterScreen3 extends StatelessWidget {
                     image: AssetImage('assets/images/background2.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-                right: 10.0,
-                bottom: 20.0,
-                top: 20.0
-              ),
+              padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                 child: Form(
                   key: formKey,
@@ -111,12 +106,12 @@ class RegisterScreen3 extends StatelessWidget {
                             fontSize:23.0
                         ),),
                       const SizedBox(
-                        height: 130.0,
+                        height: 50.0,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                         // mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
@@ -421,7 +416,7 @@ class RegisterScreen3 extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 50.0,
+                        height: 30.0,
                       ),
                      BuildCondition(
                        condition: state is! PatientRegisterLoadingState ,
@@ -458,7 +453,7 @@ class RegisterScreen3 extends StatelessWidget {
                                );
                              }
                            },
-                           text: ('Next'),
+                           text: ('Submit'),
                          ),
                        ),
                        fallback: (context) => const Center(child: CircularProgressIndicator()),

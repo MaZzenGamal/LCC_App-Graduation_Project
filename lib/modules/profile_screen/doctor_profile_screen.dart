@@ -37,6 +37,8 @@ class DoctorProfileScreen extends StatelessWidget {
         var certificateController = TextEditingController();
         var startTimeController = TextEditingController();
         var endTimeController = TextEditingController();
+        var priceController = TextEditingController();
+        var bioController = TextEditingController();
 
         nameController.text =docModel.fullName!;
         emailController.text =docModel.email!;
@@ -48,6 +50,12 @@ class DoctorProfileScreen extends StatelessWidget {
         specializeController.text=docModel.specialization!;
         registrationNuController.text=docModel.regisNumber!;
         certificateController.text=docModel.certificates!;
+        if(docModel.price !=null) {
+          priceController.text=docModel.price!;
+        }
+        if(docModel.bio != null) {
+          bioController.text=docModel.bio!;
+        }
         if(docModel.startTime != null)
         {
           startTimeController.text=DateFormat('HH:mm:ss').format(docModel.startTime!);
@@ -73,6 +81,8 @@ class DoctorProfileScreen extends StatelessWidget {
                         regisNumber: registrationNuController.text,
                         specialization: specializeController.text,
                         certificates: certificateController.text,
+                        price: priceController.text,
+                        bio: bioController.text,
                         startTime: DateTime.parse('1990-02-02 ${startTimeController.text}'),
                         endTime:DateTime.parse('1990-02-02 ${endTimeController.text}'),
                       );}
@@ -87,7 +97,9 @@ class DoctorProfileScreen extends StatelessWidget {
                         regisNumber: registrationNuController.text,
                         specialization: specializeController.text,
                         certificates: certificateController.text,
-                        startTime: DateTime.parse('1990-02-02 ${startTimeController.text}'),
+                        price: priceController.text,
+                        bio: bioController.text,
+                        startTime:DateTime.parse('1990-02-02 ${startTimeController.text}'),
                         endTime:DateTime.parse('1990-02-02 ${endTimeController.text}'),
                       );}
                   },
@@ -374,6 +386,38 @@ class DoctorProfileScreen extends StatelessWidget {
                         )
                     ),
                   ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  defaultFormField(
+                      controller: priceController,
+                      type: TextInputType.number,
+                      validate: (value){
+                        if(value.isEmpty){
+                          return'please enter your price';
+                        }
+                        return null;
+                      },
+                      hint: '${docModel.price}',
+                      label:'Price',
+                      prefix: Icons.price_change),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  defaultFormField(
+                      controller: bioController,
+                      type: TextInputType.multiline,
+                      //minLines: 1,
+                     // maxLines: 10,
+                      validate: (value){
+                        if(value.isEmpty){
+                          return'please enter your bio';
+                        }
+                        return null;
+                      },
+                      hint: '${docModel.bio}',
+                      label:'Bio',
+                      prefix: Icons.my_library_books),
                   ExpansionTile(
                     title: const Text('Show more'),
                     childrenPadding: EdgeInsets.symmetric(vertical: 8.0),

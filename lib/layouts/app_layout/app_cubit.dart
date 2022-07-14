@@ -6,13 +6,11 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:graduation_project/models/call_model.dart';
 import 'package:graduation_project/models/docRef_model.dart';
 import 'package:graduation_project/models/reservation_model.dart';
 import 'package:graduation_project/modules/reservation_screen/doctors.dart';
 import 'package:graduation_project/modules/reservation_screen/show_reservation.dart';
-import 'package:graduation_project/notification_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -75,39 +73,30 @@ class AppCubit extends Cubit<AppStates> {
       "AAAArNo_QCM:APA91bHCNJ0QspqY1jOrmltOrhHJ50n1I4jB5cb0v_W1V8bnI9V02Nfv_yKR7AxRVi945BcfNtybVDb9XTApqSqCgINz3NtDfu2Y6-OfFkEbrZglup5-O-iA6g8Je0fMQhDKVRl1jPsT";
   sendNotfiy(String title, String body, String token,String option) async {
     print('dddddddddddddddddddddddddddddddddddddddddddddddddddddd');
-
-   try{
-      await http.post(
-          Uri.parse('https://fcm.googleapis.com/fcm/send'),
-    // await http.post(
-    //   Uri.parse('https://fcm.googleapis.com/v1/projects/graduation-project-a1c89/messages:send'),
-       headers: <String, String>{
-         'Content-Type': 'application/json',
-         'Authorization': 'key=$serverToken',
-       },
-       body: jsonEncode(
-         <String, dynamic>{
-           'notification': <String, dynamic>{
-             'body': body,
-             'title': title,
-             "sound": "default",
-           },
-           'priority': 'high',
-           'data': <String, dynamic>{
-             'status': 'done',
-             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-             'uidsender': FirebaseAuth.instance.currentUser!.uid,
-             'option':option,
-           },
-           'to': token,
-           "direct_boot_ok" : true,
-         },
-       ),
-     );
-   }catch(c){
-     print("the error is ${c.toString()}");
-   };
-
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': body,
+            'title': title,
+            "sound": "default",
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'status': 'done',
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'uidsender': FirebaseAuth.instance.currentUser!.uid,
+            'option':option,
+          },
+          'to': token,
+        },
+      ),
+    );
   }
   UserModel usermodel=UserModel();
   Future<void>?changeUserModel() async {
@@ -460,17 +449,7 @@ class AppCubit extends Cubit<AppStates> {
       }).catchError((error) {
         emit(SendMessagesErrorState(error));
       });
-      firebase
-          .collection('doctor')
-          .doc(receiverId)
-          .collection('lastMessage')
-          .doc( FirebaseAuth.instance.currentUser!.uid)
-          .set(model.toMap())
-          .then((value) {
-        emit(SendMessagesSuccessState());
-      }).catchError((error) {
-        emit(SendMessagesErrorState(error));
-      });
+
       firebase
           .collection('doctor')
           .doc(receiverId)
@@ -482,10 +461,21 @@ class AppCubit extends Cubit<AppStates> {
         String? title = patModel.fullName;
         String body = text;
         sendNotfiy(title!, body, token,'chat');
+        firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        print("the error is ${error}");
-        emit(SendMessagesErrorState('error'));
+        emit(SendMessagesErrorState(error));
+      });
+      firebase
+          .collection('doctor')
+          .doc(receiverId)
+          .collection('lastMessage')
+          .doc( FirebaseAuth.instance.currentUser!.uid)
+          .set(model.toMap())
+          .then((value) {
+        emit(SendMessagesSuccessState());
+      }).catchError((error) {
+        emit(SendMessagesErrorState(error));
       });
     }
     else if (usermodel.type == "doctor") {
@@ -534,16 +524,16 @@ class AppCubit extends Cubit<AppStates> {
         String? title = docModel.fullName;
         String body = text;
         sendNotfiy(title!, body, token,'chat');
+        firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        print("the error is ${error.toString()}");
-        emit(SendMessagesErrorState('error'));
+        emit(SendMessagesErrorState(error));
       });
     }
   }
 
   List<MessagesModel> messages = [];
-  Future<void> sendChatImage({
+  Future<void> getChatImage({
     required String receiverId,
     required DateTime dateTime,
     required String token,
@@ -623,7 +613,7 @@ class AppCubit extends Cubit<AppStates> {
                 .add(model.toMap())
                 .then((value) {
               String? title = patModel.fullName;
-              String body = 'you have a new image';
+              String body = model.text!;
               sendNotfiy(title!, body, token,'chat');
               firebase.collection('doctor').doc(receiverId).update({'read': false});
               emit(SendMessagesSuccessState());
@@ -665,7 +655,7 @@ class AppCubit extends Cubit<AppStates> {
                 .add(model.toMap())
                 .then((value) {
               String? title = docModel.fullName;
-              String body ='you have a new image' ;
+              String body =model.text! ;
               sendNotfiy(title!, body, token,'chat');
               firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
               emit(SendMessagesSuccessState());
@@ -709,7 +699,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getMessage({
     required String receiverId,
-  })  {
+  }) {
     if (usermodel.type == "patient") {
       firebase
           .collection('patient')
@@ -1482,11 +1472,12 @@ class AppCubit extends Cubit<AppStates> {
     required String uid
   }) async {
     DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
-    docModel=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+    DoctorModel Model=DoctorModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+    docModel=Model;
     if (kDebugMode) {
       print("the data is ${patModel.fullName}");
     }
-    return docModel;
+    return Model;
   }
   Future<PatientModel> getPatientData(String uid) async {
     DocumentSnapshot documentSnapshot=await FirebaseFirestore.instance.collection('patient').doc(uid).get();
@@ -1496,12 +1487,6 @@ class AppCubit extends Cubit<AppStates> {
     }
     return patModel;
   }
-   UserModel user=UserModel();
-  Future<void> getStatus(String uid) async {
-    DocumentSnapshot documentSnapshot=await firebase.collection('user').doc(uid).get();
-    user=UserModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
-  }
-
 }
 
 

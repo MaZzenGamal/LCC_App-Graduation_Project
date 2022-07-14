@@ -34,12 +34,7 @@ class RegisterScreen1 extends StatelessWidget {
                     image: AssetImage('assets/images/background2.jpg'),
                     fit: BoxFit.cover)),
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-                right: 10.0,
-                bottom: 20.0,
-                top: 20.0
-              ),
+              padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                 child: Form(
                   key: formKey,

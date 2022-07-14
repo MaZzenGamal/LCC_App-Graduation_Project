@@ -16,9 +16,11 @@ class DoctorModel
   String? price;
   DateTime? startTime;
   DateTime? endTime;
+  String? daysOfWork;
   String?token;
   DateTime?createdAt;
   double?rate;
+  int?experience;
   double?allRateValue;
   int?allRateNumber;
   bool?inCall;
@@ -38,9 +40,11 @@ class DoctorModel
     this.price,
     this.startTime,
     this.endTime,
+    this.daysOfWork,
     this.token,
     this.createdAt,
     this.rate,
+    this.experience,
     this.allRateNumber,
     this.allRateValue,
     this.inCall,
@@ -62,9 +66,11 @@ class DoctorModel
     price = json['price'];
     startTime = DateTime.parse(json['startTime']);
     endTime = DateTime.parse(json['endTime']);
+    daysOfWork = json['daysOfWork'];
     token=json['token'];
     createdAt= DateTime.parse(json['createdAt']);
     rate=json['rate'];
+    experience=json['experience'];
     allRateNumber=json['allRateNumber'];
     allRateValue=json['allRateValue'];
     inCall=json['inCall'];
@@ -88,9 +94,11 @@ class DoctorModel
       'price':price,
       'startTime':startTime?.toString(),
       'endTime':endTime?.toString(),
+      'daysOfWork':daysOfWork,
       'token':token,
       'createdAt':createdAt?.toString(),
       'rate':rate,
+      'experience':experience,
       'allRateValue':allRateValue,
       'allRateNumber':allRateNumber,
       'inCall':inCall,
@@ -114,9 +122,11 @@ class DoctorModel
       'price':price,
       'startTime':startTime,
       'endTime':endTime,
+      'daysOfWork':daysOfWork,
       'token':token,
       'createdAt':createdAt ,
       'rate':rate,
+      'experience':experience,
       'allRateValue':allRateValue,
       'allRateNumber':allRateNumber,
       'inCall':inCall,

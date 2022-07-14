@@ -26,12 +26,8 @@ class _ConnectionState extends State<Connection> {
       length:  _kTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          leading:const Icon(
-            Icons.search,
-            color: Colors.grey,
-          ),
           title: const Text(
-            'swipe for edit or cancel',
+            'Upload the CT-guided image',
             style: TextStyle(
               fontSize: 15.0,
               color: Colors.grey,
