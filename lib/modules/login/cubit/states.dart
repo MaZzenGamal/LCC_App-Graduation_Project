@@ -42,3 +42,4 @@ class GetDoctorErrorState extends LoginStates
   final String error;
   GetDoctorErrorState(this.error);
 }
+class ChangeStatus extends LoginStates{}
