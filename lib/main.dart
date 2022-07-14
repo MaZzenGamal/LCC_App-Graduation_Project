@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navkey= GlobalKey<NavigatorState>();
     return  MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=>MainCubit(),),
@@ -65,9 +66,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context)=>RegisterCubit(),),
         ],
         child: FutureBuilder(
-            future: fireInit(context),
+            future: fireInit(context,navkey),
             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-              final navkey= GlobalKey<NavigatorState>();
               return BlocConsumer<MainCubit, MainStates>(
                 listener: (context, state) {},
                 builder: (context, state) =>
