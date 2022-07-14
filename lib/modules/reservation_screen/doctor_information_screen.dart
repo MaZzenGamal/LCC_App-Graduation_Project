@@ -99,12 +99,11 @@ class DoctorsInformation extends StatelessWidget {
                                                       .circular(30),
                                                   color: HexColor('ffe9ce'),
                                                 ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(
                                                       15.0),
-                                                  child: Column(
-                                                    children: [
-                                                      const Text(
+                                                  child:
+                                                      Text(
                                                         'Patients',
                                                         style: TextStyle(
                                                             fontSize: 20.0,
@@ -113,17 +112,7 @@ class DoctorsInformation extends StatelessWidget {
                                                             fontWeight: FontWeight
                                                                 .bold),
                                                       ),
-                                                      Text(
-                                                        '${AppCubit.get(context).patients.length}+',
-                                                        style: const TextStyle(
-                                                            fontSize: 25.0,
-                                                            height: 1.3,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight
-                                                                .bold),
-                                                      ),
-                                                    ],
-                                                  ),
+
                                                 ),
                                               ),
                                             ),
@@ -138,28 +127,14 @@ class DoctorsInformation extends StatelessWidget {
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       15.0),
-                                                  child: Column(
-                                                    children: [
-                                                      const Text(
-                                                        'Experience',
-                                                        style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            height: 1.3,
-                                                            color: Colors.black,
-                                                            fontWeight: FontWeight
-                                                                .bold),
-                                                      ),
-                                                      Text(
-                                                        '${docModel!
-                                                            .experience} year+',
-                                                        style: const TextStyle(
-                                                            fontSize: 25.0,
-                                                            height: 1.3,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight
-                                                                .bold),
-                                                      ),
-                                                    ],
+                                                  child: Text(
+                                                    '${AppCubit.get(context).patients.length}+',
+                                                    style: const TextStyle(
+                                                        fontSize: 25.0,
+                                                        height: 1.3,
+                                                        color: Colors.grey,
+                                                        fontWeight: FontWeight
+                                                            .bold),
                                                   ),
                                                 ),
                                               ),
