@@ -109,4 +109,16 @@ class LoginCubit extends Cubit<LoginStates> {
       return e.toString();
     }
   }
+  Future<void> changeOfflineStatus()async {
+    FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).update(
+        {'status':'offline'});
+    emit(ChangeStatus());
+
+  }
+  Future<void> changeOnlineStatus()async {
+    FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).update(
+        {'status':'online'});
+    emit(ChangeStatus());
+
+  }
 }
