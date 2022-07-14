@@ -408,7 +408,7 @@ class DoctorProfileScreen extends StatelessWidget {
                       controller: bioController,
                       type: TextInputType.multiline,
                       //minLines: 1,
-                     // maxLines: 10,
+                      // maxLines: 10,
                       validate: (value){
                         if(value.isEmpty){
                           return'please enter your bio';
