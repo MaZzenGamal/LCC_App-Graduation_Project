@@ -126,6 +126,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     onTap: () async {
                       try{
+                        await context.read<LoginCubit>().changeOfflineStatus();
                         await context.read<LoginCubit>().signOut();
                         AppCubit.get(context).currentIndex=2;
 
@@ -198,6 +199,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     onTap: () async {
                       try{
+                        await context.read<LoginCubit>().changeOfflineStatus();
                         await context.read<LoginCubit>().signOut();
                         AppCubit.get(context).currentIndex=2;
 
