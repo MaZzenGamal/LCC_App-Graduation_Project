@@ -43,3 +43,4 @@ class GetDoctorErrorState extends LoginStates
   GetDoctorErrorState(this.error);
 }
 class ChangeStatus extends LoginStates{}
+class TokenUpdated extends LoginStates{}

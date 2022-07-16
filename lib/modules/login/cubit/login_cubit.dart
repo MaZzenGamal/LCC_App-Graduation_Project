@@ -84,6 +84,8 @@ class LoginCubit extends Cubit<LoginStates> {
 
   Future<String> updateToken({required String userId}) async {
     String?currentToken=await FirebaseMessaging.instance.getToken();
+    print("the current token is ${currentToken}");
+    print("the user uid is ${userId}");
    UserModel model=UserModel();
     try {
       await firebase.collection("user").doc(
@@ -95,14 +97,15 @@ class LoginCubit extends Cubit<LoginStates> {
       print("eeeeeeeeeeeeeeeeeeeeeee");
     }
     try {
-      if(model=="doctor")
+      if(model.type=="doctor")
       {
         firebase.collection('doctor').doc(userId).update({'token':currentToken});
       }
-      else if(model=="patient")
+      else if(model.type=="patient")
       {
         firebase.collection('patient').doc(userId).update({'token':currentToken});
       }
+      emit(TokenUpdated());
 
       return "Token Updated Successfully...";
     } on Exception catch (e) {

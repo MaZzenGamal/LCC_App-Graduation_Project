@@ -40,14 +40,14 @@ class LoginScreen extends StatelessWidget {
                    // print(CacheHelper.getData(key: 'type'));
                   }
                   //CacheHelper.saveData(key: 'uId', value: state.uId);
-                  LoginCubit.get(context).updateToken(
-                      userId:  FirebaseAuth.instance.currentUser!.uid);
                   // navigateTo(context,const ShowReservation());
                   try {
                    await context.read<AppCubit>()
                         .changeUserModel();
                    await context.read<AppCubit>().getUserData();
                    await LoginCubit.get(context).changeOnlineStatus();
+                  await LoginCubit.get(context).updateToken(
+                       userId:  FirebaseAuth.instance.currentUser!.uid);
                   }
                   catch(c){
                     print("errror");
