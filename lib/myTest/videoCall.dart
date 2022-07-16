@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
@@ -6,6 +7,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:graduation_project/shared/components/components.dart';
 import 'package:graduation_project/shared/network/local/cash_helper.dart';
 
+import '../layouts/app_layout/app_layout.dart';
 import '../models/call_model.dart';
 import '../models/user_model.dart';
 //Agora stuff
@@ -35,20 +37,17 @@ class VideoCallScreenState extends State<VideoCallScreen>{
 
   @override
   Future<void> dispose() async {
-    firebase.collection('calls').doc(groupId).delete();
-    // destroy sdk
-    _engine.leaveChannel();
-    _engine.destroy();
-    super.dispose();
-    try{
+   /* try{
       await  getCallData();
       await getType();
 
     }catch(c){
-      print("the error is ${c}");
-    }
-    showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
-    if(userModel.type=='patient')
+      print("the error in disose is ${c}");
+      print("the sender is ${callModel.senderId}");
+      print("the reciver is ${callModel.receiverId}");
+    }*/
+
+   /* if(userModel.type=='patient')
     {
       firebase.collection('patient').doc(callModel.senderId).update({'inCall':false});
       firebase.collection('doctor').doc(callModel.receiverId).update({'inCall':false});
@@ -58,6 +57,11 @@ class VideoCallScreenState extends State<VideoCallScreen>{
       firebase.collection('doctor').doc(callModel.senderId).update({'inCall':false});
       firebase.collection('patient').doc(callModel.receiverId).update({'inCall':false});
     }
+   await firebase.collection('calls').doc(groupId).delete();*/
+    super.dispose();
+    _engine.leaveChannel();
+    _engine.destroy();
+    // destroy sdk
   }
 
   @override
@@ -97,16 +101,15 @@ class VideoCallScreenState extends State<VideoCallScreen>{
                 children: [
                   IconButton(
                       onPressed: () async {
-                        firebase.collection('calls').doc(groupId).delete();
-                        Navigator.of(context).pop(true);
                         try{
                           await  getCallData();
                           await getType();
 
                         }catch(c){
-                          print("the error is ${c}");
+                          print("the error in button is ${c}");
+                          print("the sender is ${callModel.senderId}");
+                          print("the reciver is ${callModel.receiverId}");
                         }
-                        showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
                         if(userModel.type=='patient')
                         {
                           firebase.collection('patient').doc(callModel.senderId).update({'inCall':false});
@@ -117,8 +120,18 @@ class VideoCallScreenState extends State<VideoCallScreen>{
                           firebase.collection('doctor').doc(callModel.senderId).update({'inCall':false});
                           firebase.collection('patient').doc(callModel.receiverId).update({'inCall':false});
                         }
-                        showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
+                        await firebase.collection('calls').doc(groupId).delete();
+                        try{
+                          await _engine.leaveChannel();
+                          await _engine.destroy();
+                        }
+                        catch(error){
+                          if (kDebugMode) {
+                            print("the error is ${error.toString()}");
+                          }
+                        }
 
+                        navigateTo(context,const AppLayout());
                       },
                       icon: const Icon(
                         Icons.call_end,
@@ -158,9 +171,8 @@ class VideoCallScreenState extends State<VideoCallScreen>{
               await getType();
 
             }catch(c){
-              print("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+              print("the error in Rtc engine is ${c.toString()}");
             }
-            showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
             if(userModel.type=='patient') {
               firebase.collection('patient').doc(callModel.senderId).update({'inCall':true});
             }
@@ -176,9 +188,8 @@ class VideoCallScreenState extends State<VideoCallScreen>{
               await getType();
 
             }catch(c){
-              print("the error is ${c}");
+              print("the error in remote join is ${c}");
             }
-            showToast(text:'the type of sender is ${userModel.type}', state: ToastStates.ERROR);
             if(userModel.type=='patient')
             {
               firebase.collection('doctor').doc(callModel.receiverId).update({'inCall':true});
@@ -197,7 +208,7 @@ class VideoCallScreenState extends State<VideoCallScreen>{
             Navigator.of(context).pop(true);
           },
           error:(code){
-            print("error error $code");
+            print("the error in leave is $code");
           }
       ),
     );
@@ -226,11 +237,13 @@ class VideoCallScreenState extends State<VideoCallScreen>{
   async {
     DocumentSnapshot documentSnapshot= await FirebaseFirestore.instance.collection('calls').doc(groupId).get();
     callModel=CallsModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+    print("the data of user is${callModel.senderId}");
   }
   Future<void> getType()
   async{
     DocumentSnapshot documentSnapshot= await FirebaseFirestore.instance.collection('user').doc(callModel.senderId).get();
     userModel=UserModel.fromJson(documentSnapshot.data()! as Map<String,dynamic>);
+    print("the data of user is${userModel.name}");
 
   }
 }

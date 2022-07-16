@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:graduation_project/models/call_model.dart';
+import '../layouts/app_layout/app_layout.dart';
 import '../models/user_model.dart';
+import '../shared/components/components.dart';
 
 const APP_ID = "549a436c46ac4ceb8648789358634b61";
 final firebase = FirebaseFirestore.instance;
@@ -23,12 +26,14 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
 
   @override
   Future<void> dispose() async {
-    firebase.collection('calls').doc(groupId).delete();
-    // destroy sdk
+   // firebase.collection('calls').doc(groupId).delete();
+
+    super.dispose();
     _engine.leaveChannel();
     _engine.destroy();
-    super.dispose();
-    try {
+    // destroy sdk
+
+  /*  try {
       await getCallData();
       await getType();
     } catch (c) {
@@ -52,7 +57,7 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
           .collection('patient')
           .doc(callModel.receiverId)
           .update({'inCall': false});
-    }
+    }*/
   }
 
   @override
@@ -96,8 +101,38 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
+                        onPressed: () async {
+                          try{
+                            await  getCallData();
+                            await getType();
+
+                          }catch(c){
+                            print("the error in button is ${c}");
+                            print("the sender is ${callModel.senderId}");
+                            print("the reciver is ${callModel.receiverId}");
+                          }
+                          if(userModel.type=='patient')
+                          {
+                            firebase.collection('patient').doc(callModel.senderId).update({'inCall':false});
+                            firebase.collection('doctor').doc(callModel.receiverId).update({'inCall':false});
+                          }
+                          else
+                          {
+                            firebase.collection('doctor').doc(callModel.senderId).update({'inCall':false});
+                            firebase.collection('patient').doc(callModel.receiverId).update({'inCall':false});
+                          }
+                          await firebase.collection('calls').doc(groupId).delete();
+                         try{
+                          await _engine.leaveChannel();
+                          await _engine.destroy();
+                         }
+                         catch(error){
+                           if (kDebugMode) {
+                             print("the error is ${error.toString()}");
+                           }
+                         }
+
+                          navigateTo(context,const AppLayout());
                         },
                         icon: const Icon(
                           Icons.call_end,
