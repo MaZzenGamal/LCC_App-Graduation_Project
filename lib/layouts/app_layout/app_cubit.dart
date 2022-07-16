@@ -463,7 +463,6 @@ class AppCubit extends Cubit<AppStates> {
         String? title = patModel.fullName;
         String body = text;
         sendNotfiy(title!, body, token,'chat');
-        firebase.collection('doctor').doc(receiverId).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
         emit(SendMessagesErrorState(error));
@@ -491,7 +490,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState(error));
+        emit(SendMessagesErrorState(error.toString()));
       });
       firebase
           .collection('doctor')
@@ -502,7 +501,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState(error));
+        emit(SendMessagesErrorState(error.toString()));
       });
       firebase
           .collection('patient')
@@ -513,7 +512,7 @@ class AppCubit extends Cubit<AppStates> {
           .then((value) {
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState(error));
+        emit(SendMessagesErrorState(error.toString()));
       });
       firebase
           .collection('patient')
@@ -526,10 +525,9 @@ class AppCubit extends Cubit<AppStates> {
         String? title = docModel.fullName;
         String body = text;
         sendNotfiy(title!, body, token,'chat');
-        firebase.collection('patient').doc(FirebaseAuth.instance.currentUser!.uid).update({'read': false});
         emit(SendMessagesSuccessState());
       }).catchError((error) {
-        emit(SendMessagesErrorState(error));
+        emit(SendMessagesErrorState(error.toString()));
       });
     }
   }
