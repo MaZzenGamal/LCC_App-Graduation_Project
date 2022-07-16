@@ -99,12 +99,11 @@ class DoctorsInformation extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius
                                                       .circular(30),
-                                                  color: HexColor('ffe9ce'),
-                                                ),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(
-                                                      15.0),
-                                                  child:
+                                                  color: HexColor('ffe9ce')),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(15.0),
+                                                  child: Column(
+                                                    children: [
                                                       Text(
                                                         'Patients',
                                                         style: TextStyle(
@@ -114,7 +113,18 @@ class DoctorsInformation extends StatelessWidget {
                                                             fontWeight: FontWeight
                                                                 .bold),
                                                       ),
+                                                      Text(
+                                                        '${AppCubit.get(context).patients.length}+',
+                                                        style: const TextStyle(
+                                                            fontSize: 25.0,
+                                                            height: 1.3,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight
+                                                                .bold),
+                                                      ),
+                                                    ],
 
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -122,21 +132,33 @@ class DoctorsInformation extends StatelessWidget {
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius
-                                                      .circular(30),
-                                                  color: HexColor('ffdd83'),
-                                                ),
+                                                    borderRadius: BorderRadius
+                                                        .circular(30),
+                                                    color: HexColor('ffe9ce')),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      15.0),
-                                                  child: Text(
-                                                    '${AppCubit.get(context).patients.length}+',
-                                                    style: const TextStyle(
-                                                        fontSize: 25.0,
-                                                        height: 1.3,
-                                                        color: Colors.grey,
-                                                        fontWeight: FontWeight
-                                                            .bold),
+                                                  padding: const EdgeInsets.all(15.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        'Price',
+                                                        style: TextStyle(
+                                                            fontSize: 20.0,
+                                                            height: 1.3,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight
+                                                                .bold),
+                                                      ),
+                                                      Text(
+                                                        '${docModel!.price}+',
+                                                        style: const TextStyle(
+                                                            fontSize: 25.0,
+                                                            height: 1.3,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight
+                                                                .bold),
+                                                      ),
+                                                    ],
+
                                                   ),
                                                 ),
                                               ),
