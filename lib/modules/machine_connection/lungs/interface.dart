@@ -96,7 +96,7 @@ class _LungInterfaceState extends State<LungInterface> {
           ),
           Text(
             category != null
-                ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
+                ? category!.score.toStringAsFixed(3)
                 : '',
             style: const TextStyle(fontSize: 16),
           ),

@@ -97,7 +97,7 @@ class _ColonInterfaceState extends State<ColonInterface> {
           ),
           Text(
             category != null
-                ? 'Confidence: ${category!.score.toStringAsFixed(3)}'
+                ? category!.score.toStringAsFixed(3)
                 : '',
             style: const TextStyle(fontSize: 16),
           ),
